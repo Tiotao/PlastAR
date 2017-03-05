@@ -31,9 +31,7 @@ public class HotSpotClick : MonoBehaviour {
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             //Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-            //hit用来存储碰撞物体的信息
             RaycastHit hit;
-            //ray表示射线，hit存储物体的信息,1000为设定射线发射的距离
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.collider.gameObject == this.gameObject)

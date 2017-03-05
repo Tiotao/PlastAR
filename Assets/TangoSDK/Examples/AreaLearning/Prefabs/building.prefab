@@ -34,7 +34,7 @@ GameObject:
   - 114: {fileID: 114000014038211480}
   - 114: {fileID: 114000011809841146}
   m_Layer: 0
-  m_Name: MarkerRed
+  m_Name: building
   m_TagString: marker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
