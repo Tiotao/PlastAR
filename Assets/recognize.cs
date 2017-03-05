@@ -16,15 +16,15 @@ public class recognize : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (seen)
-        {
-            seen = false;
-            //plan.GetComponent<MeshRenderer>().material.color = Color.red;
-            plan.SetActive(true);
-        }
-        else
-            plan.SetActive(false);
-            //plan.GetComponent<MeshRenderer>().material.color = Color.white;
+        //if (seen)
+        //{
+        //    seen = false;
+        //    //plan.GetComponent<MeshRenderer>().material.color = Color.red;
+        //    plan.SetActive(true);
+        //}
+        //else
+        //    plan.SetActive(true);
+        //    //plan.GetComponent<MeshRenderer>().material.color = Color.white;
     }
 
     void OnWillRenderObject()
