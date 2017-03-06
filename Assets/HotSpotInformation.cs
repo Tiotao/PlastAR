@@ -7,6 +7,13 @@ public class HotSpotInformation : MonoBehaviour {
 	public Camera _cam;
 	public string _hotSpotName = "DefaultName";
 	public string _hotSpotDescription = "Lorem ipsum";
+	public int _castID = 0;
+	public int _hotspotID = 0;
+
+	public int _spriteCount;
+	
+
+	public Sprite[] _sprites;
 
 	// Use this for initialization
 	void Start () {
@@ -16,6 +23,7 @@ public class HotSpotInformation : MonoBehaviour {
 	void Update () {
 		
 	}
+
 
 	// check the visibility of the hotspot in current cast orientation
 	public bool CheckVisibility() {

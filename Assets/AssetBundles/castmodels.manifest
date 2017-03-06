@@ -1,0 +1,96 @@
+ManifestFileVersion: 0
+CRC: 2435762607
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9da3eb7b0a1d61155bc8cecfd0674e43
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 55761555d22903af889d4e3811062953
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 92
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: cc6da1f8f3539c0428091f51fb6b8316, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d1ef1b8c1242ace4d97d2db6095a86c0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0d880adcb7e04194586b54feb944a7c1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 124
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_011.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_011.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_016.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_001.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_002.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_009.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_008.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_001.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_004.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_016.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_007.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_018.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_006.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_010.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_005.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_015.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_004.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_018.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_000.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_017.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_005.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_014.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_003.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_012.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_009.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_012.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_007.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_013.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_017.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_002.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_010.png
+- Assets/Prefabs/CastModels.prefab
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_003.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_000.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_008.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_006.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_014.png
+- Assets/Resources/Cast0/HotSpot0/cast_0_0_013.png
+- Assets/Resources/Cast0/HotSpot1/cast_0_1_015.png
+Dependencies: []

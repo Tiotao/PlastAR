@@ -6,9 +6,9 @@ public class RotatableSprites : MonoBehaviour {
 
     public GameObject _ControlSlider;                           // rotation slider
     
-    public GameObject _CastModels;                              // container that stores models of the casts
+    private GameObject _CastModels;                              // container that stores models of the casts
     
-    public Camera _cam;                                         // fake camera that handles hotspot placement projection on 2D canvas from 3D space
+    private Camera _cam;                                         // fake camera that handles hotspot placement projection on 2D canvas from 3D space
 
     public GameObject _HotSpotsSprites;                         // container that stores current hotspots sprites on UI
 
@@ -39,11 +39,19 @@ public class RotatableSprites : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        // _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
+        // EnableCast(0);
+    }
+
+    // enable cast model and hotspots
+
+    public void InitializeContent() {
+        _CastModels = GameObject.Find("CastModels(Clone)");
+        _cam = GameObject.FindGameObjectWithTag("HotSpotCamera").GetComponent<Camera>();
         _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
         EnableCast(0);
     }
 
-    // enable cast model and hotspots
     void EnableCast(int castID) {
         if (castID < _CastInfos.Length) {
             _currentCast = castID;
@@ -77,8 +85,9 @@ public class RotatableSprites : MonoBehaviour {
         for (int i = 0; i < _HotSpotsInfo.Length; i++) { 
             GameObject fragment = Instantiate(_FragmentPrefab, gameObject.transform.position, Quaternion.identity) as GameObject;
             fragment.transform.parent = gameObject.transform;
-            string spriteFolderName = currentCast._spriteFolderName + "/HotSpot" + i.ToString();
-            Sprite[] fragmentSprites = Resources.LoadAll<Sprite>(spriteFolderName);
+            // string spriteFolderName = currentCast._spriteFolderName + "/HotSpot" + i.ToString();
+            // Sprite[] fragmentSprites = Resources.LoadAll<Sprite>(spriteFolderName);
+            Sprite[] fragmentSprites = _HotSpotsInfo[i]._sprites;
             fragment.GetComponent<Image>().sprite = fragmentSprites[0];
             _frameAmount = fragmentSprites.Length;
             BG[i] = fragmentSprites;
