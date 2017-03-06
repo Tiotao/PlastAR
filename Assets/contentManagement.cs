@@ -20,4 +20,10 @@ public class contentManagement : MonoBehaviour {
     void Update () {
 	
 	}
+
+    public void ExitContent() {
+        if (GlobalManagement.content && GlobalManagement.content.activeSelf) {
+            GlobalManagement.content.SetActive(false);
+        }
+    }
 }

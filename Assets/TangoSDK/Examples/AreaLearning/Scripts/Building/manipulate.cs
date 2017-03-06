@@ -42,7 +42,7 @@ public class manipulate : MonoBehaviour {
 
         float offset = newDistance - oldDistance;
 
-        float scaleFactor = offset / 1000f;
+        float scaleFactor = offset / 2000f;
         Vector3 localScale = transform.localScale;
         Vector3 scale = new Vector3(localScale.x + scaleFactor,
                                     localScale.y + scaleFactor,
