@@ -158,7 +158,7 @@ public class RotatableSprites : MonoBehaviour {
 
     // rotate model
     void RotateModel(int factor) {
-        float rotation = factor * 10f;
+        float rotation = factor * 20f;
         _CastInfos[_currentCast].gameObject.transform.rotation = Quaternion.Euler(0, rotation, 0);
     }
 

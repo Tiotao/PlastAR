@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using Assets.SimpleAndroidNotifications;
 
 public class contentManagement : MonoBehaviour {
 
@@ -8,6 +10,9 @@ public class contentManagement : MonoBehaviour {
     GameObject RotateView;
     // Use this for initialization
     void Start () {
+
+        CallExampleNotification();
+
         plan = GameObject.FindGameObjectWithTag("Content");
         if (plan != null) {
             plan.SetActive(false);
@@ -41,6 +46,26 @@ public class contentManagement : MonoBehaviour {
     void Update () {
 	
 	}
+
+    
+    void CallExampleNotification() {
+        var notificationParams = new NotificationParams
+                {
+                    Id = UnityEngine.Random.Range(0, int.MaxValue),
+                    Delay = TimeSpan.FromSeconds(5),
+                    Title = "Custom notification",
+                    Message = "Message",
+                    Ticker = "Ticker",
+                    Sound = true,
+                    Vibrate = true,
+                    Light = true,
+                    SmallIcon = NotificationIcon.Heart,
+                    SmallIconColor = new Color(0, 0.5f, 0),
+                    LargeIcon = "app_icon"
+                };
+
+                NotificationManager.SendCustom(notificationParams);
+    }
 
     public void ExitContent() {
         if (GlobalManagement.RotateView && GlobalManagement.RotateView.activeSelf) {
