@@ -6,6 +6,7 @@ public class contentManagement : MonoBehaviour {
     GameObject plan;
     GameObject ScreenShotImage;
     GameObject RotateView;
+    GameObject HotSpotDes;
     // Use this for initialization
     void Start () {
         plan = GameObject.FindGameObjectWithTag("Content");
@@ -35,6 +36,17 @@ public class contentManagement : MonoBehaviour {
             GlobalManagement.RotateView = null;
         }
 
+        HotSpotDes = GameObject.FindGameObjectWithTag("HotSpotDes");
+        if (HotSpotDes != null)
+        {
+            HotSpotDes.SetActive(false);
+            GlobalManagement.HotSpotDes = HotSpotDes;
+        }
+        else
+        {
+            GlobalManagement.HotSpotDes = null;
+        }
+
     }
 
     // Update is called once per frame
@@ -52,6 +64,7 @@ public class contentManagement : MonoBehaviour {
         {
             Destroy(GlobalManagement.Building);
             GlobalManagement.Marker.SetActive(true);
+            GlobalManagement.HotSpotDes.SetActive(false);
         }
 
         GlobalManagement.SceneIndex = 0;
