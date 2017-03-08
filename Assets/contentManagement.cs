@@ -10,12 +10,16 @@ public class contentManagement : MonoBehaviour {
         plan = GameObject.FindGameObjectWithTag("Content");
         if (plan != null) {
             plan.SetActive(false);
+            GlobalManagement.content = plan;
+        } else {
             GlobalManagement.content = null;
         }
 
         ScreenShotImage = GameObject.FindGameObjectWithTag("ScreenShot");
         if (ScreenShotImage != null) {
             ScreenShotImage.SetActive(false);
+            GlobalManagement.ScreenShotImage = ScreenShotImage;
+        } else {
             GlobalManagement.ScreenShotImage = null;
         }
 
