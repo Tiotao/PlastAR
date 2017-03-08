@@ -655,6 +655,15 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         // Instantiate marker object.
+        if (GlobalManagement.SceneIndex == 0)
+        {
+            SetCurrentMarkType(1);
+        }
+        else
+        {
+            SetCurrentMarkType(0);
+        }
+
         newMarkObject = Instantiate(m_markPrefabs[m_currentMarkType],
                                     planeCenter,
                                     Quaternion.LookRotation(forward, up)) as GameObject;
