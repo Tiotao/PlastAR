@@ -668,6 +668,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                                     planeCenter,
                                     Quaternion.LookRotation(forward, up)) as GameObject;
 
+        // store the marker
+        if (m_currentMarkType == 2)
+            GlobalManagement.Marker = newMarkObject;
+
         ARMarker markerScript = newMarkObject.GetComponent<ARMarker>();
 
         markerScript.m_type = m_currentMarkType;
