@@ -34,5 +34,8 @@ public class contentManagement : MonoBehaviour {
         if (GlobalManagement.content && GlobalManagement.content.activeSelf) {
             GlobalManagement.content.SetActive(false);
         }
+
+        
     }
+    
 }
