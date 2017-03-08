@@ -22,7 +22,7 @@ public class AssetsLoader : MonoBehaviour {
 		// create cast model gameObject
 		GameObject CastModels = request.asset as GameObject;
 		Instantiate(CastModels);
-		casts.InitializeContent();
+		casts.InitializeContent(true);
 		// clear cache
 		bundle.Unload(false);
 		www.Dispose();

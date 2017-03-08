@@ -41,15 +41,24 @@ public class RotatableSprites : MonoBehaviour {
     {
         // _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
         // EnableCast(0);
+        if (GameObject.Find("AssetsLoader") == null) {
+            InitializeContent(false);
+        }
     }
 
     // enable cast model and hotspots
 
-    public void InitializeContent() {
-        _CastModels = GameObject.Find("CastModels(Clone)");
+    public void InitializeContent(bool isRemote) {
+        string objectName;
+        if (isRemote) {
+            objectName = "CastModels(Clone)";
+        } else {
+            objectName = "CastModels";
+        }
+        _CastModels = GameObject.Find(objectName);
         _cam = GameObject.FindGameObjectWithTag("HotSpotCamera").GetComponent<Camera>();
         _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
-        EnableCast(0);
+        EnableCast(1);
     }
 
     void EnableCast(int castID) {
