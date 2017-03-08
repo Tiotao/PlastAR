@@ -5,6 +5,7 @@ public class contentManagement : MonoBehaviour {
 
     GameObject plan;
     GameObject ScreenShotImage;
+    GameObject RotateView;
     // Use this for initialization
     void Start () {
         plan = GameObject.FindGameObjectWithTag("Content");
@@ -23,6 +24,17 @@ public class contentManagement : MonoBehaviour {
             GlobalManagement.ScreenShotImage = null;
         }
 
+        RotateView = GameObject.FindGameObjectWithTag("RotateView");
+        if (RotateView != null)
+        {
+            RotateView.SetActive(false);
+            GlobalManagement.RotateView = RotateView;
+        }
+        else
+        {
+            GlobalManagement.RotateView = null;
+        }
+
     }
 
     // Update is called once per frame
@@ -31,8 +43,8 @@ public class contentManagement : MonoBehaviour {
 	}
 
     public void ExitContent() {
-        if (GlobalManagement.content && GlobalManagement.content.activeSelf) {
-            GlobalManagement.content.SetActive(false);
+        if (GlobalManagement.RotateView && GlobalManagement.RotateView.activeSelf) {
+            GlobalManagement.RotateView.SetActive(false);
         }
 
         

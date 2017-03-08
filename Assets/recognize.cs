@@ -23,7 +23,7 @@ public class recognize : MonoBehaviour {
             plan.SetActive(true);
         }
         else
-            plan.SetActive(true);
+            plan.SetActive(false);
         //plan.GetComponent<MeshRenderer>().material.color = Color.white;
     }
 
