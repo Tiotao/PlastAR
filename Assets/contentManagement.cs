@@ -47,7 +47,14 @@ public class contentManagement : MonoBehaviour {
             GlobalManagement.RotateView.SetActive(false);
         }
 
-        
+        // currently in building scene
+        if (GlobalManagement.SceneIndex == 2)
+        {
+            Destroy(GlobalManagement.Building);
+            GlobalManagement.Marker.SetActive(true);
+        }
+
+        GlobalManagement.SceneIndex = 0;
     }
     
 }

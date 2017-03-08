@@ -672,6 +672,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         if (m_currentMarkType == 2)
             GlobalManagement.Marker = newMarkObject;
 
+        // store the building
+        if (m_currentMarkType == 0)
+            GlobalManagement.Building = newMarkObject;
+
         ARMarker markerScript = newMarkObject.GetComponent<ARMarker>();
 
         markerScript.m_type = m_currentMarkType;
