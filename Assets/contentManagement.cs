@@ -8,12 +8,17 @@ public class contentManagement : MonoBehaviour {
     // Use this for initialization
     void Start () {
         plan = GameObject.FindGameObjectWithTag("Content");
-        plan.SetActive(false);
-        GlobalManagement.content = plan;
+        if (plan != null) {
+            plan.SetActive(false);
+            GlobalManagement.content = null;
+        }
 
         ScreenShotImage = GameObject.FindGameObjectWithTag("ScreenShot");
-        ScreenShotImage.SetActive(false);
-        GlobalManagement.ScreenShotImage = ScreenShotImage;
+        if (ScreenShotImage != null) {
+            ScreenShotImage.SetActive(false);
+            GlobalManagement.ScreenShotImage = null;
+        }
+
     }
 
     // Update is called once per frame
