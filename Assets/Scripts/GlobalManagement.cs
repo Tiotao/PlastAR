@@ -5,4 +5,5 @@ public class GlobalManagement
 {
     public static GameObject content;
     public static GameObject ScreenShotImage;
+    public static int SceneIndex = 0;
 }
