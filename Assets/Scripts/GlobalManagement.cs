@@ -8,5 +8,6 @@ public class GlobalManagement
     public static GameObject RotateView;
     public static GameObject Marker;
     public static GameObject Building;
+    public static GameObject HotSpotDes;
     public static int SceneIndex = 0;
 }

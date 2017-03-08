@@ -12,6 +12,7 @@ TagManager:
   - ScreenShot
   - HotSpotCamera
   - RotateView
+  - HotSpotDes
   layers:
   - Default
   - TransparentFX

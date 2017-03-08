@@ -6,7 +6,7 @@ using System.IO;
 public class HotSpotClick : MonoBehaviour {
 
 
-    GameObject plan;
+    GameObject HotSpotDes;
     private bool flag = false;
     private bool looseFinger = true;
 
@@ -19,7 +19,7 @@ public class HotSpotClick : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        plan = GlobalManagement.content;
+        HotSpotDes = GlobalManagement.HotSpotDes;
         ScreenShotImage = GlobalManagement.ScreenShotImage;
     }
 
@@ -36,7 +36,7 @@ public class HotSpotClick : MonoBehaviour {
             {
                 if (hit.collider.gameObject == this.gameObject)
                 {
-                    plan.SetActive(!flag);
+                    HotSpotDes.SetActive(!flag);
                     flag = !flag;
                     looseFinger = false;
                 }
