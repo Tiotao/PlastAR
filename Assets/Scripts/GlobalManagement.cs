@@ -10,6 +10,6 @@ public class GlobalManagement
     public static GameObject Building;
     public static GameObject HotSpotDes;
 
-    public static int SceneIndex = 0;
+    public static int SceneIndex = (int) Configs.SceneIndex.Landing;
 
 }

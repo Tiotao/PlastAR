@@ -54,20 +54,20 @@ public class contentManagement : MonoBehaviour {
                 NotificationManager.SendCustom(notificationParams);
     }
 
-    public void ExitContent() {
-        if (GlobalManagement.RotateView && GlobalManagement.RotateView.activeSelf) {
-            GlobalManagement.RotateView.SetActive(false);
-        }
+    // public void ExitContent() {
+    //     if (GlobalManagement.RotateView && GlobalManagement.RotateView.activeSelf) {
+    //         GlobalManagement.RotateView.SetActive(false);
+    //     }
 
-        // currently in building scene
-        if (GlobalManagement.SceneIndex == 2)
-        {
-            Destroy(GlobalManagement.Building);
-            GlobalManagement.Marker.SetActive(true);
-            GlobalManagement.HotSpotDes.SetActive(false);
-        }
+    //     // currently in building scene
+    //     if (GlobalManagement.SceneIndex == 2)
+    //     {
+    //         Destroy(GlobalManagement.Building);
+    //         GlobalManagement.Marker.SetActive(true);
+    //         GlobalManagement.HotSpotDes.SetActive(false);
+    //     }
 
-        GlobalManagement.SceneIndex = 0;
-    }
+    //     GlobalManagement.SceneIndex = 0;
+    // }
     
 }

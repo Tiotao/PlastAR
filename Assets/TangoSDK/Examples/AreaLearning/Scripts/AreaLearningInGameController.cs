@@ -655,10 +655,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         // Instantiate marker object.
-        if (GlobalManagement.SceneIndex == 0)
+        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing)
         {
             SetCurrentMarkType(2);
-        }
+        } 
         else
         {
             SetCurrentMarkType(0);

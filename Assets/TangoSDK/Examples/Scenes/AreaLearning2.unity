@@ -1523,7 +1523,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 624659614}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1175616285}
+        m_MethodName: ToStory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &624659614
@@ -1570,7 +1581,6 @@ GameObject:
   - component: {fileID: 668874578}
   - component: {fileID: 668874577}
   - component: {fileID: 668874576}
-  - component: {fileID: 668874579}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1635,7 +1645,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 668874577}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1175616285}
+        m_MethodName: ToBuiding
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &668874577
@@ -1671,17 +1692,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 668874574}
---- !u!114 &668874579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 668874574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 848924129deb04343911858711ae1138, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &688822523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,7 +1778,7 @@ GameObject:
   - component: {fileID: 766126792}
   - component: {fileID: 766126791}
   m_Layer: 5
-  m_Name: HotSpotsPanel
+  m_Name: BuildingView
   m_TagString: HotSpotDes
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1904,7 +1914,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 771508763}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1175616285}
+        m_MethodName: ToCast
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &771508763
@@ -2934,7 +2955,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1175616282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54eb1ac9846fcf14385c47fa94905e7a, type: 3}
+  m_Script: {fileID: 11500000, guid: a471b201f9e9d0a4c8d14f41c0752e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1344260616
@@ -3434,8 +3455,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 358972278}
-        m_MethodName: ExitContent
+      - m_Target: {fileID: 1175616285}
+        m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3740,7 +3761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1593132445
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3953,7 +3974,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Building hot spot description
+  m_Text: 'This is building view
+
+'
 --- !u!222 &1662134215
 CanvasRenderer:
   m_ObjectHideFlags: 0
