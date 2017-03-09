@@ -11,7 +11,7 @@ public class BuildingClick : MonoBehaviour, IPointerClickHandler
     GameObject plan;
     // Use this for initialization
     void Start () {
-        plan = GlobalManagement.content;
+        plan = GlobalManagement.Content;
     }
 	
 	// Update is called once per frame

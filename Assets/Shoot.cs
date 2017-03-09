@@ -25,7 +25,7 @@ public class Shoot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ScreenShotImage = GlobalManagement.ScreenShotImage;
+        ScreenShotImage = GlobalManagement.ScreenShot;
         StartCoroutine("CaptureScreen");
     }
 

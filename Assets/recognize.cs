@@ -8,7 +8,7 @@ public class recognize : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        plan = GlobalManagement.content;
+        plan = GlobalManagement.Content;
         //plan = GameObject.FindGameObjectWithTag("Content");
         //plan.SetActive(false);
     }

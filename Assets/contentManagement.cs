@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Reflection;
 using System;
 using Assets.SimpleAndroidNotifications;
 
@@ -11,47 +12,21 @@ public class contentManagement : MonoBehaviour {
     GameObject HotSpotDes;
     // Use this for initialization
     void Start () {
-
         CallExampleNotification();
+        InitializeScreen("Content");
+        InitializeScreen("ScreenShot");
+        InitializeScreen("RotateView");
+        InitializeScreen("HotSpotDes");
+    }
 
-        plan = GameObject.FindGameObjectWithTag("Content");
-        if (plan != null) {
-            plan.SetActive(false);
-            GlobalManagement.content = plan;
-        } else {
-            GlobalManagement.content = null;
+    
+    GameObject InitializeScreen(string screenTag) {
+        GameObject returnObject = GameObject.FindGameObjectWithTag(screenTag);
+        if (returnObject != null) {
+            returnObject.SetActive(false);
+            typeof(GlobalManagement).GetField(screenTag).SetValue(null, returnObject);
         }
-
-        ScreenShotImage = GameObject.FindGameObjectWithTag("ScreenShot");
-        if (ScreenShotImage != null) {
-            ScreenShotImage.SetActive(false);
-            GlobalManagement.ScreenShotImage = ScreenShotImage;
-        } else {
-            GlobalManagement.ScreenShotImage = null;
-        }
-
-        RotateView = GameObject.FindGameObjectWithTag("RotateView");
-        if (RotateView != null)
-        {
-            RotateView.SetActive(false);
-            GlobalManagement.RotateView = RotateView;
-        }
-        else
-        {
-            GlobalManagement.RotateView = null;
-        }
-
-        HotSpotDes = GameObject.FindGameObjectWithTag("HotSpotDes");
-        if (HotSpotDes != null)
-        {
-            HotSpotDes.SetActive(false);
-            GlobalManagement.HotSpotDes = HotSpotDes;
-        }
-        else
-        {
-            GlobalManagement.HotSpotDes = null;
-        }
-
+        return null;
     }
 
     // Update is called once per frame

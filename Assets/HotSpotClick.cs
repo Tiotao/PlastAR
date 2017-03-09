@@ -20,7 +20,7 @@ public class HotSpotClick : MonoBehaviour {
     void Start()
     {
         HotSpotDes = GlobalManagement.HotSpotDes;
-        ScreenShotImage = GlobalManagement.ScreenShotImage;
+        ScreenShotImage = GlobalManagement.ScreenShot;
     }
 
     // Update is called once per frame
