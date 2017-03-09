@@ -16,6 +16,8 @@ public class MenuClick : MonoBehaviour
 
     public GameObject FunctionView;
 
+    public GameObject Building;
+
     public void Start() {
         RefreshView();
     }
@@ -26,6 +28,7 @@ public class MenuClick : MonoBehaviour
         CastView = GlobalManagement.RotateView;
         BuildingView = GlobalManagement.HotSpotDes;
         FunctionView = GlobalManagement.FunctionView;
+        Building = GlobalManagement.Building;
     }
 
     public void ToBuiding()
@@ -44,6 +47,7 @@ public class MenuClick : MonoBehaviour
         MenuView.SetActive(false);
         CastView.SetActive(false);
         FunctionView.SetActive(true);
+        Building.SetActive(true);
         
 
     }
@@ -65,6 +69,7 @@ public class MenuClick : MonoBehaviour
         }
         BuildingView.SetActive(false);
         FunctionView.SetActive(true);
+        Building.SetActive(false);
 
     }
 
@@ -95,6 +100,7 @@ public class MenuClick : MonoBehaviour
         CastView.SetActive(false);
         BuildingView.SetActive(false);
         FunctionView.SetActive(false);
+        Building.SetActive(false);
     }
 
     public void Exit() {
