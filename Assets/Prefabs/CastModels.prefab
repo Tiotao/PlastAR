@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4521998905742266}
   - component: {fileID: 33459262647097454}
   - component: {fileID: 23354363382900042}
+  - component: {fileID: 64889625442021312}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -167,7 +168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1970709697223750
 GameObject:
   m_ObjectHideFlags: 1
@@ -364,7 +365,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1553529933075234}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -396,7 +397,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1010177285580266}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -502,6 +503,20 @@ MeshCollider:
   m_InflateMesh: 0
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300004, guid: 4151464fad1d3cf479143a3d8342e970, type: 3}
+--- !u!64 &64889625442021312
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1010177285580266}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: ac6742dec892b394f966839306a5d253, type: 3}
 --- !u!81 &81685986237509814
 AudioListener:
   m_ObjectHideFlags: 1

@@ -65,7 +65,7 @@ public class contentManagement : MonoBehaviour {
                 {
                     Id = UnityEngine.Random.Range(0, int.MaxValue),
                     Delay = TimeSpan.FromSeconds(5),
-                    Title = "Custom notification",
+                    Title = "Hello World",
                     Message = "Message",
                     Ticker = "Ticker",
                     Sound = true,
