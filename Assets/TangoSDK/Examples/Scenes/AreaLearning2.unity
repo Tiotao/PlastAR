@@ -2475,7 +2475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1010757368
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2958,6 +2958,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a471b201f9e9d0a4c8d14f41c0752e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LandingView: {fileID: 0}
+  MenuView: {fileID: 0}
+  CastView: {fileID: 0}
+  BuildingView: {fileID: 0}
+  FunctionView: {fileID: 0}
 --- !u!1 &1344260616
 GameObject:
   m_ObjectHideFlags: 0
@@ -3044,11 +3049,11 @@ GameObject:
   - component: {fileID: 1357841075}
   m_Layer: 5
   m_Name: GameControlPanel
-  m_TagString: Untagged
+  m_TagString: FunctionView
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1357841074
 RectTransform:
   m_ObjectHideFlags: 0

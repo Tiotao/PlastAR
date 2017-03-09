@@ -8,21 +8,42 @@ public class MenuClick : MonoBehaviour
 {
 
     // Use this for initialization
-    GameObject LandingView = GlobalManagement.Marker;
-    GameObject MenuView = GlobalManagement.Content;
-    GameObject CastView = GlobalManagement.RotateView;
+    public GameObject LandingView;
+    public GameObject MenuView;
+    public GameObject CastView;
 
-    GameObject BuildingView = GlobalManagement.HotSpotDes;
+    public GameObject BuildingView;
+
+    public GameObject FunctionView;
+
+    public void Start() {
+        RefreshView();
+    }
+
+    void RefreshView(){
+        LandingView = GlobalManagement.Marker;
+        MenuView = GlobalManagement.Content;
+        CastView = GlobalManagement.RotateView;
+        BuildingView = GlobalManagement.HotSpotDes;
+        FunctionView = GlobalManagement.FunctionView;
+    }
 
     public void ToBuiding()
     {
         // switch scene index
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
         
+        RefreshView();
+        
         // disable active screen overlay
-        LandingView.SetActive(false);
+        try {
+            LandingView.SetActive(false);
+        } catch {
+            Debug.Log("No Marker Present");
+        }
         MenuView.SetActive(false);
         CastView.SetActive(false);
+        FunctionView.SetActive(true);
         
 
     }
@@ -31,12 +52,19 @@ public class MenuClick : MonoBehaviour
     {
         // switch scene index
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Cast;
+
+        RefreshView();
         
         // disable active screen overlay
         CastView.SetActive(true);
         MenuView.SetActive(false);
-        LandingView.SetActive(false);
+        try {
+            LandingView.SetActive(false);
+        } catch {
+            Debug.Log("No Marker Present");
+        }
         BuildingView.SetActive(false);
+        FunctionView.SetActive(true);
 
     }
 
@@ -55,10 +83,18 @@ public class MenuClick : MonoBehaviour
 
     public void ToLanding(){
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Landing;
-        LandingView.SetActive(true);
+
+        RefreshView();
+
+        try {
+            LandingView.SetActive(true);
+        } catch {
+            Debug.Log("No Marker Present");
+        }
         MenuView.SetActive(false);
         CastView.SetActive(false);
         BuildingView.SetActive(false);
+        FunctionView.SetActive(false);
     }
 
     public void Exit() {

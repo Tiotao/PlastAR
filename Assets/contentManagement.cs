@@ -10,6 +10,8 @@ public class contentManagement : MonoBehaviour {
     GameObject ScreenShotImage;
     GameObject RotateView;
     GameObject HotSpotDes;
+
+    GameObject FunctionView;
     // Use this for initialization
     void Start () {
         CallExampleNotification();
@@ -17,6 +19,7 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("ScreenShot");
         InitializeScreen("RotateView");
         InitializeScreen("HotSpotDes");
+        InitializeScreen("FunctionView");
     }
 
     

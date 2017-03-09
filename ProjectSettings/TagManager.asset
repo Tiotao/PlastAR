@@ -13,6 +13,7 @@ TagManager:
   - HotSpotCamera
   - RotateView
   - HotSpotDes
+  - FunctionView
   layers:
   - Default
   - TransparentFX
