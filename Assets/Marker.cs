@@ -38,6 +38,8 @@ public class Marker : MonoBehaviour {
 		return _building.transform.GetChild(0).gameObject;
 	}
 
+	
+
 	public GameObject GetCast() {
 		return _cast;
 	}

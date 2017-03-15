@@ -10,8 +10,8 @@ public class contentManagement : MonoBehaviour {
     GameObject ScreenShotImage;
     GameObject RotateView;
     GameObject HotSpotDes;
-
     GameObject FunctionView;
+    
     // Use this for initialization
     void Start () {
         CallExampleNotification();
@@ -20,6 +20,12 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("RotateView");
         InitializeScreen("HotSpotDes");
         InitializeScreen("FunctionView");
+        LoadData();
+    }
+
+    void LoadData() {
+        AssetsLoader assetsLoader = GameObject.Find("AssetsLoader").GetComponent<AssetsLoader>();
+        assetsLoader.Load();
     }
 
     
@@ -57,20 +63,5 @@ public class contentManagement : MonoBehaviour {
                 NotificationManager.SendCustom(notificationParams);
     }
 
-    // public void ExitContent() {
-    //     if (GlobalManagement.RotateView && GlobalManagement.RotateView.activeSelf) {
-    //         GlobalManagement.RotateView.SetActive(false);
-    //     }
-
-    //     // currently in building scene
-    //     if (GlobalManagement.SceneIndex == 2)
-    //     {
-    //         Destroy(GlobalManagement.Building);
-    //         GlobalManagement.Marker.SetActive(true);
-    //         GlobalManagement.HotSpotDes.SetActive(false);
-    //     }
-
-    //     GlobalManagement.SceneIndex = 0;
-    // }
     
 }

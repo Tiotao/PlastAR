@@ -14,6 +14,8 @@ public class MarkerManager : MonoBehaviour {
 	GameObject _castBuffer;
 	GameObject _castRotateView;
 
+
+
 	public GameObject _HotspotSpritePrefab;
 	public GameObject _FragmentPrefab;
 
@@ -21,26 +23,49 @@ public class MarkerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
+	}
+
+	public void Init() {
 		_markers = GetComponentsInChildren<Marker>();
-		_currentMarkerID = 0;
+		SetCurrentMarker(0);
 		_castBuffer = GameObject.Find("CastModels");
-		_castRotateView = GameObject.Find("CastRotateView");
-		// ClearPastData();
+		_castRotateView = GlobalManagement.RotateView;
+		Refresh(_currentMarkerID);
+	}
+
+	public void Refresh(int markerID) {
+		SetCurrentMarker(markerID);
+		ClearPastData();
 		ActiveCastView();
 	}
 
-	void ClearPastData() {
+	public GameObject[] GetMarkerModels() {
+		GameObject[] markerModels = new GameObject[_markers.Length];
+		for (int i = 0; i < _markers.Length; i++) {
+			markerModels[i] = GetMarkerModel(i);
+		}
+		return markerModels;
+	}
+
+	public GameObject GetBuildingModel() {
+		return GetMarker().GetBuildingModel();
+	}
+
+
+	private void ClearPastData() {
 		Transform hotspotsView = _castRotateView.transform.FindChild("HotSpotSprites");
+		Transform fragmentsContainer = _castRotateView.transform.FindChild("RotatableCast");
 		foreach (Transform child in hotspotsView) {
 			GameObject.Destroy(child.gameObject);
 		}
 
-		foreach (Transform child in _castRotateView.transform) {
+		foreach (Transform child in fragmentsContainer) {
 			GameObject.Destroy(child.gameObject);
 		}
 	}
 
-	void ActiveCastView() {
+	private void ActiveCastView() {
 		Transform fragmentsContainer = _castRotateView.transform.FindChild("RotatableCast");
 		RotatableSprites rotator = fragmentsContainer.GetComponent<RotatableSprites>();
 
@@ -49,7 +74,7 @@ public class MarkerManager : MonoBehaviour {
 		castModel.transform.localPosition = new Vector3(0, 0, 0);
 		// update canvas UI
 		Text castNameView = _castRotateView.transform.FindChild("CastNamePanel/CastName").GetComponent<Text>();
-		castNameView.text = GetMarker()._castName;
+		castNameView.text = GetCastName();
 		// TODO update description
 		
 		rotator._currentCastModel = castModel;
@@ -93,61 +118,59 @@ public class MarkerManager : MonoBehaviour {
 		}
 		rotator.BG = BG;
 		rotator._frameAmount = minFrameAoumt;
-		
 		rotator.InitializeContent(false);
-		
-
 	}
 
 
-	
 
 	// marker getter
+
 	
-	public Marker GetMarker(int markerID) {
+	private Marker GetMarker(int markerID) {
 		return _markers[markerID];
 	}
 
-	public Marker GetMarker() {
+	private Marker GetMarker() {
 		return _markers[_currentMarkerID];
 	}
 
-	public GameObject GetMarkerModel() {
+	private GameObject GetMarkerModel() {
 		return GetMarker().GetMarkerModel();
 	}
 
-	public void SetCurrentMarker(int markerID) {
+	private GameObject GetMarkerModel(int markerID) {
+		return GetMarker(markerID).GetMarkerModel();
+	}
+
+	private void SetCurrentMarker(int markerID) {
 		_currentMarkerID = markerID;
 	}
 
 	// building information getter
-
-	public GameObject GetBuildingModel() {
-		return GetMarker().GetBuildingModel();
-	}
-
-	public string GetBuildingHotspotName(int hotspotID) {
+	private string GetBuildingHotspotName(int hotspotID) {
 		Hotspot3D hotspot = GetMarker().GetBuilding().GetComponentsInChildren<Hotspot3D>()[hotspotID];
 		return hotspot._name;
 	}
 
-	public string GetBuildingHotspotDescription(int hotspotID) {
+	private string GetBuildingHotspotDescription(int hotspotID) {
 		Hotspot3D hotspot = GetMarker().GetBuilding().GetComponentsInChildren<Hotspot3D>()[hotspotID];
 		return hotspot._description;
 	}
+
+	
 	
 
 	// cast information getter
 
-	public GameObject GetCast() {
+	private GameObject GetCast() {
 		return GetMarker().GetCast();
 	}
 
-	public string GetCastName() {
+	private string GetCastName() {
 		return GetMarker()._castName;
 	}
 
-	public string GetCastDescription() {
+	private string GetCastDescription() {
 		return GetMarker()._castDescription;
 	}
 

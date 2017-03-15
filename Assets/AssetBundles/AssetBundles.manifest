@@ -1,7 +1,10 @@
 ManifestFileVersion: 0
-CRC: 3481826143
+CRC: 563889845
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
       Name: castmodels
+      Dependencies: {}
+    Info_1:
+      Name: markers
       Dependencies: {}

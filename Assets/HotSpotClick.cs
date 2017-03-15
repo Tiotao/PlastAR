@@ -36,6 +36,7 @@ public class HotSpotClick : MonoBehaviour {
             {
                 if (hit.collider.gameObject == this.gameObject)
                 {
+                    
                     HotSpotDes.SetActive(!flag);
                     flag = !flag;
                     looseFinger = false;
