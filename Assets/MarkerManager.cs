@@ -32,6 +32,8 @@ public class MarkerManager : MonoBehaviour {
 		_castBuffer = GameObject.Find("CastModels");
 		_castRotateView = GlobalManagement.RotateView;
 		Refresh(_currentMarkerID);
+		// TEMP: replace building model  
+		// GlobalManagement.Building = GetBuildingModel();
 	}
 
 	public void Refresh(int markerID) {

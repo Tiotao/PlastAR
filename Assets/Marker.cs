@@ -35,7 +35,7 @@ public class Marker : MonoBehaviour {
 	}
 
 	public GameObject GetBuildingModel() {
-		return _building.transform.GetChild(0).gameObject;
+		return _building;
 	}
 
 	
