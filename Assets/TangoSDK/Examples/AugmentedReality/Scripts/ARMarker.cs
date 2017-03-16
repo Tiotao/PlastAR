@@ -52,7 +52,12 @@ public class ARMarker : MonoBehaviour
     /// </summary>
     private Animation m_anim;
 
-    private int MarkerID;
+    private int MarkerID = 0;
+
+    public int GetID()
+    {
+        return MarkerID;
+    }
 
     public void SetID(int id)
     {

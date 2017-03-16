@@ -5,10 +5,11 @@ public class recognize : MonoBehaviour {
 
     GameObject plan;
     private bool seen = false;
-    public GameObject MarkerManager;
+    GameObject MarkerManager;
     // Use this for initialization
     void Start()
     {
+        MarkerManager = GameObject.FindGameObjectWithTag("MarkerManager");
         plan = GlobalManagement.Content;
         //plan = GameObject.FindGameObjectWithTag("Content");
         //plan.SetActive(false);
@@ -20,7 +21,7 @@ public class recognize : MonoBehaviour {
         if (CouldBeSeen())
         {
             plan.SetActive(true);
-
+            MarkerManager.GetComponent<MarkerManager>().SetCurrentMarker(this.GetComponent<ARMarker>().GetID());
         }
         else
         {

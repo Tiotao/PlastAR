@@ -14,6 +14,7 @@ TagManager:
   - RotateView
   - HotSpotDes
   - FunctionView
+  - MarkerManager
   layers:
   - Default
   - TransparentFX
