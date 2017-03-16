@@ -5069,6 +5069,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114520595173318836, guid: b93817ddafe384d2dacef38f55680bf0,
+        type: 2}
+      propertyPath: MarkerManager
+      value: 
+      objectReference: {fileID: 963647809}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b93817ddafe384d2dacef38f55680bf0, type: 2}
   m_IsPrefabParent: 0
