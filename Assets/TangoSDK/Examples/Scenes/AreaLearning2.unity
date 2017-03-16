@@ -3136,6 +3136,7 @@ MonoBehaviour:
   m_prefabTouchEffect: {fileID: 22497430, guid: 5a77b678bf7604d5fb4f0b5399e89224,
     type: 2}
   m_savingText: {fileID: 98283539}
+  MarkerManager: {fileID: 963647809}
 --- !u!114 &1175616285
 MonoBehaviour:
   m_ObjectHideFlags: 0
