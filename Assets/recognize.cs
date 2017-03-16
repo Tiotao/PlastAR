@@ -5,6 +5,7 @@ public class recognize : MonoBehaviour {
 
     GameObject plan;
     private bool seen = false;
+    public GameObject MarkerManager;
     // Use this for initialization
     void Start()
     {
@@ -17,7 +18,10 @@ public class recognize : MonoBehaviour {
     void Update()
     {
         if (CouldBeSeen())
+        {
             plan.SetActive(true);
+
+        }
         else
         {
             plan.SetActive(false);
