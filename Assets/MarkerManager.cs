@@ -142,7 +142,7 @@ public class MarkerManager : MonoBehaviour {
 		return GetMarker(markerID).GetMarkerModel();
 	}
 
-	private void SetCurrentMarker(int markerID) {
+	public void SetCurrentMarker(int markerID) {
 		_currentMarkerID = markerID;
 	}
 

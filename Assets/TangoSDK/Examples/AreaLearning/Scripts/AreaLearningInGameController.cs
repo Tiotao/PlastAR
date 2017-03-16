@@ -578,14 +578,26 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         m_markerList.Clear();
-        foreach (MarkerData mark in xmlDataList)
+
+        for (int i = 0; i < xmlDataList.Count; i++)
         {
+            MarkerData mark = xmlDataList[i];
             // Instantiate all markers' gameobject.
             GameObject temp = Instantiate(m_markPrefabs[mark.m_type],
                                           mark.m_position,
                                           mark.m_orientation) as GameObject;
+            // Set marker ID
+            temp.GetComponent<ARMarker>().SetID(i);
             m_markerList.Add(temp);
         }
+        //foreach (MarkerData mark in xmlDataList)
+        //{
+        //    // Instantiate all markers' gameobject.
+        //    GameObject temp = Instantiate(m_markPrefabs[mark.m_type],
+        //                                  mark.m_position,
+        //                                  mark.m_orientation) as GameObject;
+        //    m_markerList.Add(temp);
+        //}
     }
 
     /// <summary>

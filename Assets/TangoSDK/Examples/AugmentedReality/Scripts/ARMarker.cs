@@ -52,6 +52,13 @@ public class ARMarker : MonoBehaviour
     /// </summary>
     private Animation m_anim;
 
+    private int MarkerID;
+
+    public void SetID(int id)
+    {
+        this.MarkerID = id;
+    }
+
     /// <summary>
     /// Awake this instance.
     /// </summary>
