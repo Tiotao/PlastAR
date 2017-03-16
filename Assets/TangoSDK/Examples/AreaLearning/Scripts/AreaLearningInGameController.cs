@@ -66,6 +66,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     [HideInInspector]
     public AreaDescription m_curAreaDescription;
 
+    public GameObject MarkerManager;
+
 #if UNITY_EDITOR
     /// <summary>
     /// Handles GUI text input in Editor where there is no device keyboard.
@@ -667,20 +669,31 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         // Instantiate marker object.
+
+        GameObject ObjectToInstant;
+
         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing)
         {
+            // main scene
             SetCurrentMarkType(2);
+            ObjectToInstant = m_markPrefabs[m_currentMarkType];
         } 
         else
         {
+            // building scene
             SetCurrentMarkType(0);
+            ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
         }
 
-        newMarkObject = Instantiate(m_markPrefabs[m_currentMarkType],
+        newMarkObject = Instantiate(ObjectToInstant,
                                     planeCenter,
                                     Quaternion.LookRotation(forward, up)) as GameObject;
 
-        // store the marker
+        // Set marker ID
+        if (m_currentMarkType == 2)
+            newMarkObject.GetComponent<ARMarker>().SetID(m_markerList.Count);
+
+            // store the marker
         if (m_currentMarkType == 2)
             GlobalManagement.Marker = newMarkObject;
 
@@ -700,8 +713,11 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                                             newMarkObject.transform.rotation,
                                             Vector3.one);
         markerScript.m_deviceTMarker = Matrix4x4.Inverse(uwTDevice) * uwTMarker;
-        
-        m_markerList.Add(newMarkObject);
+
+
+        // if it is marker, add to list
+        if (m_currentMarkType == 2)
+            m_markerList.Add(newMarkObject);
 
         m_selectedMarker = null;
     }
