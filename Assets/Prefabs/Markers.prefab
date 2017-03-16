@@ -894,7 +894,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1137341130817064}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 294006fcd29eafa4580ddffdbf1a160e, type: 3}
   m_Name: 
@@ -982,8 +982,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ed777dd9fe5904dbe3cd8470f9a79d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _castName: Random
-  _castDescription: Banaa
+  _castName: Tower of the Winds
+  _castDescription: "100 - 37 BC\nAthens, Greece\n\nHorologion of Andronikos. \nA
+    mysterious water clock."
 --- !u!114 &114838790545427854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1133,7 +1134,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -2021789671
+  randomSeed: -361476237
   InitialModule:
     serializedVersion: 3
     enabled: 1

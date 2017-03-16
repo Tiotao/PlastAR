@@ -10,6 +10,8 @@ public class Marker : MonoBehaviour {
 	GameObject _marker;
 
 	public string _castName;
+	
+	[TextArea(3,10)]
 	public string _castDescription;
 
 

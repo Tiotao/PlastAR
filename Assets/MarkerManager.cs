@@ -14,6 +14,8 @@ public class MarkerManager : MonoBehaviour {
 	GameObject _castBuffer;
 	GameObject _castRotateView;
 
+	GameObject _menuView;
+
 
 
 	public GameObject _HotspotSpritePrefab;
@@ -31,6 +33,7 @@ public class MarkerManager : MonoBehaviour {
 		SetCurrentMarker(0);
 		_castBuffer = GameObject.Find("CastModels");
 		_castRotateView = GlobalManagement.RotateView;
+		_menuView = GlobalManagement.Content;
 		Refresh(_currentMarkerID);
 		// TEMP: replace building model  
 		// GlobalManagement.Building = GetBuildingModel();
@@ -40,6 +43,8 @@ public class MarkerManager : MonoBehaviour {
 		SetCurrentMarker(markerID);
 		ClearPastData();
 		ActiveCastView();
+		ActiveMenuView();
+		
 	}
 
 	public GameObject[] GetMarkerModels() {
@@ -65,6 +70,13 @@ public class MarkerManager : MonoBehaviour {
 		foreach (Transform child in fragmentsContainer) {
 			GameObject.Destroy(child.gameObject);
 		}
+	}
+
+	private void ActiveMenuView() {
+		Text name = _menuView.transform.FindChild("MarkerName").GetComponent<Text>();
+		Text description = _menuView.transform.FindChild("MarkerDescription").GetComponent<Text>();
+		name.text = GetMarker()._castName;
+		description.text = GetMarker()._castDescription;
 	}
 
 	private void ActiveCastView() {
@@ -173,7 +185,7 @@ public class MarkerManager : MonoBehaviour {
 	}
 
 	private string GetCastDescription() {
-		return GetMarker()._castDescription;
+		return GetMarker()._castDescription.ToString();
 	}
 
 
