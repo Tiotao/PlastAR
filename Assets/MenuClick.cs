@@ -47,7 +47,11 @@ public class MenuClick : MonoBehaviour
         MenuView.SetActive(false);
         CastView.SetActive(false);
         FunctionView.SetActive(true);
-        Building.SetActive(true);
+        try {
+            Building.SetActive(true);
+        } catch {
+            Debug.Log("No Building Present");
+        }
         
 
     }
@@ -69,7 +73,11 @@ public class MenuClick : MonoBehaviour
         }
         BuildingView.SetActive(false);
         FunctionView.SetActive(true);
-        Building.SetActive(false);
+        try {
+            Building.SetActive(false);
+        } catch {
+            Debug.Log("No Building Present");
+        }
 
     }
 
@@ -100,7 +108,11 @@ public class MenuClick : MonoBehaviour
         CastView.SetActive(false);
         BuildingView.SetActive(false);
         FunctionView.SetActive(false);
-        Building.SetActive(false);
+        try {
+            Building.SetActive(false);
+        } catch {
+            Debug.Log("No Building Present");
+        }
     }
 
     public void Exit() {

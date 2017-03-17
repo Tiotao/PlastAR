@@ -218,23 +218,17 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             }
             else
             {
-                GameObject[] markers = GameObject.FindGameObjectsWithTag("marker");
-                if (markers.Length == 0)
-                {
+                m_selectedMarker = null;
+                StartCoroutine(_WaitForDepthAndFindPlane(t.position));
 
-                    // Place a new point at that location, clear selection
-                    m_selectedMarker = null;
-                    StartCoroutine(_WaitForDepthAndFindPlane(t.position));
-
-                    // Because we may wait a small amount of time, this is a good place to play a small
-                    // animation so the user knows that their input was received.
-                    RectTransform touchEffectRectTransform = Instantiate(m_prefabTouchEffect) as RectTransform;
-                    touchEffectRectTransform.transform.SetParent(m_canvas.transform, false);
-                    Vector2 normalizedPosition = t.position;
-                    normalizedPosition.x /= Screen.width;
-                    normalizedPosition.y /= Screen.height;
-                    touchEffectRectTransform.anchorMin = touchEffectRectTransform.anchorMax = normalizedPosition;
-                }
+                // Because we may wait a small amount of time, this is a good place to play a small
+                // animation so the user knows that their input was received.
+                RectTransform touchEffectRectTransform = Instantiate(m_prefabTouchEffect) as RectTransform;
+                touchEffectRectTransform.transform.SetParent(m_canvas.transform, false);
+                Vector2 normalizedPosition = t.position;
+                normalizedPosition.x /= Screen.width;
+                normalizedPosition.y /= Screen.height;
+                touchEffectRectTransform.anchorMin = touchEffectRectTransform.anchorMax = normalizedPosition;
             }
         }
     }

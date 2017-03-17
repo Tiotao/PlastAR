@@ -18,7 +18,7 @@ public class recognize : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (CouldBeSeen())
+        if (CouldBeSeen() && GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing)
         {
             plan.SetActive(true);
             MarkerManager.GetComponent<MarkerManager>().SetCurrentMarker(this.GetComponent<ARMarker>().GetID());

@@ -10,7 +10,7 @@ public class Marker : MonoBehaviour {
 	GameObject _marker;
 
 	public string _castName;
-	
+
 	[TextArea(3,10)]
 	public string _castDescription;
 
@@ -21,7 +21,7 @@ public class Marker : MonoBehaviour {
 		Cast
 	}
 
-	void Start() {
+	void Awake() {
 		_building = transform.GetChild((int) DataType.Building).gameObject;
 		_cast = transform.GetChild((int) DataType.Cast).gameObject;
 		_marker = transform.GetChild((int) DataType.Marker).gameObject;

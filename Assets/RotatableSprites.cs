@@ -20,7 +20,7 @@ public class RotatableSprites : MonoBehaviour {
 
     public Transform[] _HotSpotsSpritesTransform;              // Transform of the list of HotSpotsSprites that are displayed on UI
 
-    private int _heightOffset = 0;                            // height offset due to the placement of the cast
+    private int _heightOffset = 150;                            // height offset due to the placement of the cast
 
     public Sprite[][] BG;                                         // container that stores frames of rotation of the current cast model
 
@@ -46,6 +46,7 @@ public class RotatableSprites : MonoBehaviour {
         _cam = GameObject.FindGameObjectWithTag("HotSpotCamera").GetComponent<Camera>();
         // _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
         SetFrame();
+        ToggleHotSpotInfo(0);
     }
 
 
@@ -66,7 +67,7 @@ public class RotatableSprites : MonoBehaviour {
 
     // update hotspot inforamtion when a new cast is enabled
     void UpdateHotSpot() {
-        for (int i=0; i < _hotspotsInfo.Length; i++) {
+        for (int i=1; i < _hotspotsInfo.Length; i++) {
             Vector3 screenPos = _cam.WorldToScreenPoint(_hotspotsInfo[i].gameObject.transform.position);
             screenPos.y = screenPos.y + _heightOffset;
             _HotSpotsSpritesTransform[i].position = screenPos;
@@ -87,23 +88,31 @@ public class RotatableSprites : MonoBehaviour {
         
         if (hotspotID < _hotspotsInfo.Length) {
             if (_HotSpotsPanel.activeSelf && hotspotID == _currentHotspot) {
-                _HotSpotsPanel.SetActive(false);
-                _currentHotspot = -1;
+                // _HotSpotsPanel.SetActive(false);
+                _HotSpotDescription.text = _hotspotsInfo[0]._description;
+                _currentHotspot = 0;
                 Image[] fragmentSprites = transform.GetComponentsInChildren<Image>();
                 foreach (Image sprites in fragmentSprites) {
-                    float targetAlpha = 1f;
+                    float targetAlpha = 0f;
+                    if (sprites.transform.GetSiblingIndex() == 0) {
+                        targetAlpha = 1f;
+                    }
                     Color color = sprites.color;
                     color.a = targetAlpha;
                     sprites.color = color;
                 }
+                
             } else {
                 _HotSpotDescription.text = _hotspotsInfo[hotspotID]._description;
                 // highlight fragments
 
                 Image[] fragmentSprites = transform.GetComponentsInChildren<Image>();
                 foreach (Image sprites in fragmentSprites) {
-                    float targetAlpha = 0.2f;
+                    float targetAlpha = 0f;
                     if (sprites.transform.GetSiblingIndex() == hotspotID) {
+                        targetAlpha = 0.8f;
+                    }
+                    if (sprites.transform.GetSiblingIndex() == 0) {
                         targetAlpha = 1f;
                     }
                     Color color = sprites.color;

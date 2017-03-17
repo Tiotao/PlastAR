@@ -99,7 +99,7 @@ public class MarkerManager : MonoBehaviour {
 		Hotspot2D[] hotspotsInfo = castModel.GetComponentsInChildren<Hotspot2D>();
 		Transform[] hotspotsTransform = new Transform[hotspotsInfo.Length];
 
-		for (int i = 0; i < hotspotsInfo.Length; i++) {
+		for (int i = 1; i < hotspotsInfo.Length; i++) {
 			GameObject sprite = Instantiate(_HotspotSpritePrefab, hotspotsView.position, Quaternion.identity) as GameObject;
 			sprite.transform.parent = hotspotsView;
 			int hotspotID = i;
