@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 using Tango;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Assets.SimpleAndroidNotifications;
 
 /// <summary>
 /// AreaLearningGUIController is responsible for the main game interaction.
@@ -582,6 +583,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         m_markerList.Clear();
 
+       
+
         for (int i = 0; i < xmlDataList.Count; i++)
         {
             MarkerData mark = xmlDataList[i];
@@ -592,8 +595,27 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             // Set marker ID
             temp.GetComponent<ARMarker>().SetID(i);
             temp.GetComponent<recognize>().enabled = true;
+            
+            
             m_markerList.Add(temp);
         }
+
+         var notificationParams = new NotificationParams
+                {
+                    Id = UnityEngine.Random.Range(0, int.MaxValue),
+                    Delay = TimeSpan.FromSeconds(5),
+                    Title = m_markPrefabs.Length.ToString(),
+                    Message = m_markerList.Count.ToString(),
+                    Ticker = "Ticker",
+                    Sound = true,
+                    Vibrate = true,
+                    Light = true,
+                    SmallIcon = NotificationIcon.Heart,
+                    SmallIconColor = new Color(0, 0.5f, 0),
+                    LargeIcon = "app_icon"
+                };
+
+        NotificationManager.SendCustom(notificationParams);
         //foreach (MarkerData mark in xmlDataList)
         //{
         //    // Instantiate all markers' gameobject.
@@ -626,6 +648,58 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         screenBounds.Encapsulate(cam.WorldToScreenPoint(center + new Vector3(-extents.x, -extents.y, +extents.z)));
         screenBounds.Encapsulate(cam.WorldToScreenPoint(center + new Vector3(-extents.x, -extents.y, -extents.z)));
         return Rect.MinMaxRect(screenBounds.min.x, screenBounds.min.y, screenBounds.max.x, screenBounds.max.y);
+    }
+
+    private void _PlaceMarker(GameObject ObjectToInstant, Vector3 planeCenter, Vector3 forward, Vector3 up) {
+        newMarkObject = Instantiate(ObjectToInstant,
+                                    planeCenter,
+                                    Quaternion.LookRotation(forward, up)) as GameObject;
+
+        // Set marker ID
+        if (m_currentMarkType == (int) Configs.MarkerType.Marker)  {
+            newMarkObject.GetComponent<ARMarker>().SetID(m_markerList.Count);
+            newMarkObject.GetComponent<recognize>().enabled = true;
+        }
+            
+
+            // store the marker
+        // if (m_currentMarkType == 2)
+        //     GlobalManagement.Marker = newMarkObject;
+
+        // store the building
+        
+            
+
+        ARMarker markerScript = newMarkObject.GetComponent<ARMarker>();
+
+        markerScript.m_type = m_currentMarkType;
+        markerScript.m_timestamp = (float)m_poseController.m_poseTimestamp;
+        
+        Matrix4x4 uwTDevice = Matrix4x4.TRS(m_poseController.m_tangoPosition,
+                                            m_poseController.m_tangoRotation,
+                                            Vector3.one);
+        Matrix4x4 uwTMarker = Matrix4x4.TRS(newMarkObject.transform.position,
+                                            newMarkObject.transform.rotation,
+                                            Vector3.one);
+        markerScript.m_deviceTMarker = Matrix4x4.Inverse(uwTDevice) * uwTMarker;
+
+
+        if (m_currentMarkType == (int) Configs.MarkerType.Building) {
+            MeshRenderer[] allComponents = newMarkObject.GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer m  in allComponents) {
+                m.enabled = true;
+            }
+            newMarkObject.GetComponent<manipulate>().enabled = true;
+            GlobalManagement.Building = newMarkObject;
+        }
+
+        // if it is marker, add to list
+        if (m_currentMarkType == (int) Configs.MarkerType.Marker) {
+            m_markerList.Add(newMarkObject);
+            GlobalManagement.Markers = m_markerList;
+        }
+            
+        m_selectedMarker = null;
     }
 
     /// <summary>
@@ -672,6 +746,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         // Instantiate marker object.
 
+        
+
         GameObject ObjectToInstant;
 
         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing && m_markerList.Count < m_markPrefabs.Length)
@@ -679,63 +755,17 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             // main scene
             SetCurrentMarkType((int) Configs.MarkerType.Marker);
             ObjectToInstant = m_markPrefabs[m_markerList.Count-1];
+            _PlaceMarker(ObjectToInstant, planeCenter, forward, up);
         } 
-        else
-        {
+        
+        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building ) {
             // building scene
             SetCurrentMarkType((int) Configs.MarkerType.Building);
             ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
+            _PlaceMarker(ObjectToInstant, planeCenter, forward, up);
         }
 
-        newMarkObject = Instantiate(ObjectToInstant,
-                                    planeCenter,
-                                    Quaternion.LookRotation(forward, up)) as GameObject;
-
-        // Set marker ID
-        if (m_currentMarkType == (int) Configs.MarkerType.Marker)  {
-            newMarkObject.GetComponent<ARMarker>().SetID(m_markerList.Count);
-            // newMarkObject.GetComponent<recognize>().enabled = true;
-        }
-            
-
-            // store the marker
-        // if (m_currentMarkType == 2)
-        //     GlobalManagement.Marker = newMarkObject;
-
-        // store the building
-        if (m_currentMarkType == (int) Configs.MarkerType.Building) {
-            MeshRenderer[] allComponents = newMarkObject.GetComponentsInChildren<MeshRenderer>();
-            ParticleSystem[] allHotspots = newMarkObject.GetComponentsInChildren<ParticleSystem>();
-            foreach (MeshRenderer m  in allComponents) {
-                m.enabled = true;
-            }
-            foreach (ParticleSystem p in allHotspots) {
-                p.Play();
-            }
-            GlobalManagement.Building = newMarkObject;
-        }
-            
-
-        ARMarker markerScript = newMarkObject.GetComponent<ARMarker>();
-
-        markerScript.m_type = m_currentMarkType;
-        markerScript.m_timestamp = (float)m_poseController.m_poseTimestamp;
         
-        Matrix4x4 uwTDevice = Matrix4x4.TRS(m_poseController.m_tangoPosition,
-                                            m_poseController.m_tangoRotation,
-                                            Vector3.one);
-        Matrix4x4 uwTMarker = Matrix4x4.TRS(newMarkObject.transform.position,
-                                            newMarkObject.transform.rotation,
-                                            Vector3.one);
-        markerScript.m_deviceTMarker = Matrix4x4.Inverse(uwTDevice) * uwTMarker;
-
-
-        // if it is marker, add to list
-        if (m_currentMarkType == (int) Configs.MarkerType.Marker)
-            m_markerList.Add(newMarkObject);
-            GlobalManagement.Markers = m_markerList;
-
-        m_selectedMarker = null;
     }
 
     /// <summary>

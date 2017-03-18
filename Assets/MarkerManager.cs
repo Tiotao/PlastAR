@@ -35,9 +35,11 @@ public class MarkerManager : MonoBehaviour {
 		_castRotateView = GlobalManagement.RotateView;
 		_menuView = GlobalManagement.Content;
 		Refresh(_currentMarkerID);
+		PauseAllParticles();
 		// TEMP: replace building model  
 		// GlobalManagement.Building = GetBuildingModel();
 	}
+	
 
 	public void Refresh(int markerID) {
 		SetCurrentMarker(markerID);
@@ -57,6 +59,12 @@ public class MarkerManager : MonoBehaviour {
 
 	public GameObject GetBuildingModel() {
 		return GetMarker().GetBuildingModel();
+	}
+
+	private void PauseAllParticles() {
+		foreach(ParticleSystem p in GetComponentsInChildren<ParticleSystem>()){
+			// p.Stop();
+		}
 	}
 
 

@@ -6,13 +6,20 @@ public class manipulate : MonoBehaviour {
     private Touch oldTouch1;
     private Touch oldTouch2;
 
+    ParticleSystem[] hotspots;
+
 	// Use this for initialization
 	void Start () {
-	
+        hotspots = GetComponentsInChildren<ParticleSystem>();
 	}
 
     void Update()
     {
+        foreach (ParticleSystem p in hotspots) {
+            if(p.isStopped) {
+                p.Play();
+            }
+        }
 
         if (Input.touchCount <= 0)
         {
