@@ -68,6 +68,7 @@ public class MenuClick : MonoBehaviour
         
         // disable active screen overlay
         CastView.SetActive(true);
+        CastView.GetComponentInChildren<RotatableSprites>().InitializeContent(false);
         MenuView.SetActive(false);
         try {
             foreach(GameObject m in LandingView) {

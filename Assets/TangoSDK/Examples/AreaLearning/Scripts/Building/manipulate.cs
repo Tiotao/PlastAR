@@ -11,15 +11,14 @@ public class manipulate : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         hotspots = GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem p in hotspots) {
+            ParticleSystem.EmissionModule em = p.GetComponentInChildren<ParticleSystem>().emission;
+            em.enabled = true;
+        }
 	}
 
     void Update()
     {
-        foreach (ParticleSystem p in hotspots) {
-            if(p.isStopped) {
-                p.Play();
-            }
-        }
 
         if (Input.touchCount <= 0)
         {

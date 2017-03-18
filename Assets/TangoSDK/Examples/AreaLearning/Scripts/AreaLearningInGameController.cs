@@ -149,9 +149,11 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     /// </summary>
     public void Start()
     {
+        Debug.Log("In Game Controller Online");
         m_poseController = FindObjectOfType<TangoARPoseController>();
         m_tangoApplication = FindObjectOfType<TangoApplication>();
         m_markPrefabs = MarkerManager.GetComponent<MarkerManager>().GetMarkerModels();
+        Debug.Log("Marker Prefabs: " + m_markPrefabs.Length);
         
         if (m_tangoApplication != null)
         {
@@ -183,6 +185,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             #pragma warning restore 618
         }
 
+
+
+        
+
         if (!m_initialized)
         {
             return;
@@ -193,8 +199,12 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             return;
         }
 
+
+        
+
         if (Input.touchCount == 1)
         {
+            Debug.Log("HasTouch");
             Touch t = Input.GetTouch(0);
             Vector2 guiPosition = new Vector2(t.position.x, Screen.height - t.position.y);
             Camera cam = Camera.main;
@@ -213,10 +223,15 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             {
                 // Found a marker, select it (so long as it isn't disappearing)!
                 GameObject tapped = hitInfo.collider.gameObject;
-                if (!tapped.GetComponent<Animation>().isPlaying)
-                {
-                    m_selectedMarker = tapped.GetComponent<ARMarker>();
+                try {
+                    if (!tapped.GetComponent<Animation>().isPlaying)
+                    {
+                        m_selectedMarker = tapped.GetComponent<ARMarker>();
+                    }
+                } catch {
+                    m_selectedMarker = null;
                 }
+                
             }
             else
             {
@@ -238,6 +253,17 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 normalizedPosition.y /= Screen.height;
                 touchEffectRectTransform.anchorMin = touchEffectRectTransform.anchorMax = normalizedPosition;
             }
+        }
+
+        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing) {
+            foreach (GameObject m in m_markerList) {
+                if(m.GetComponent<recognize>().seen ) {
+                    MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
+                    GlobalManagement.Content.SetActive(true);
+                    return;
+                }
+            }
+            GlobalManagement.Content.SetActive(false);
         }
     }
 
@@ -339,6 +365,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         if (type != m_currentMarkType)
         {
             m_currentMarkType = type;
+            Debug.Log("Set current marker to " + type.ToString());
         }
     }
 
@@ -655,12 +682,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                                     planeCenter,
                                     Quaternion.LookRotation(forward, up)) as GameObject;
 
-        // Set marker ID
-        if (m_currentMarkType == (int) Configs.MarkerType.Marker)  {
-            newMarkObject.GetComponent<ARMarker>().SetID(m_markerList.Count);
-            newMarkObject.GetComponent<recognize>().enabled = true;
-        }
-            
 
             // store the marker
         // if (m_currentMarkType == 2)
@@ -683,6 +704,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                                             Vector3.one);
         markerScript.m_deviceTMarker = Matrix4x4.Inverse(uwTDevice) * uwTMarker;
 
+        
+
 
         if (m_currentMarkType == (int) Configs.MarkerType.Building) {
             MeshRenderer[] allComponents = newMarkObject.GetComponentsInChildren<MeshRenderer>();
@@ -695,9 +718,15 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         // if it is marker, add to list
         if (m_currentMarkType == (int) Configs.MarkerType.Marker) {
+            newMarkObject.GetComponent<ARMarker>().SetID(m_markerList.Count);
+            newMarkObject.GetComponent<recognize>().enabled = true;
             m_markerList.Add(newMarkObject);
             GlobalManagement.Markers = m_markerList;
+            foreach (GameObject g in m_markerList) {
+                Debug.Log(g.GetComponent<ARMarker>().GetID() + " : " + g.GetComponent<recognize>().enabled);
+            }
         }
+
             
         m_selectedMarker = null;
     }
@@ -754,7 +783,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         {
             // main scene
             SetCurrentMarkType((int) Configs.MarkerType.Marker);
-            ObjectToInstant = m_markPrefabs[m_markerList.Count-1];
+            ObjectToInstant = m_markPrefabs[m_markerList.Count];
             _PlaceMarker(ObjectToInstant, planeCenter, forward, up);
         } 
         

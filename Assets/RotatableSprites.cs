@@ -47,6 +47,11 @@ public class RotatableSprites : MonoBehaviour {
         // _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
         SetFrame();
         ToggleHotSpotInfo(0);
+        
+        Image defaultSprite = GetComponentsInChildren<Image>()[0];
+        Color color = defaultSprite.color;
+        color.a = 1;
+        defaultSprite.color = color;
     }
 
 

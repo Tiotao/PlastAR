@@ -4,7 +4,8 @@ using System.Collections;
 public class recognize : MonoBehaviour {
 
     GameObject plan;
-    private bool seen = false;
+    public bool seen = false;
+    
     GameObject MarkerManager;
 
     ParticleSystem[] hotspots;
@@ -14,6 +15,12 @@ public class recognize : MonoBehaviour {
         MarkerManager = GameObject.FindGameObjectWithTag("MarkerManager");
         plan = GlobalManagement.Content;
         hotspots = GetComponentsInChildren<ParticleSystem>();
+        Debug.Log(hotspots.Length);
+        foreach (ParticleSystem p in hotspots) {
+            ParticleSystem.EmissionModule em = p.emission;
+            em.enabled = true;
+        }
+
         //plan = GameObject.FindGameObjectWithTag("Content");
         //plan.SetActive(false);
     }
@@ -21,22 +28,18 @@ public class recognize : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        foreach (ParticleSystem p in hotspots) {
-            if(p.isStopped) {
-                p.Play();
-            }
-        }
-        
-        if (CouldBeSeen() && GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing)
-        {
-            plan.SetActive(true);
-            // MarkerManager.GetComponent<MarkerManager>().SetCurrentMarker(this.GetComponent<ARMarker>().GetID());
-            MarkerManager.GetComponent<MarkerManager>().Refresh(this.GetComponent<ARMarker>().GetID());
-        }
-        else
-        {
-            plan.SetActive(false);
-        }
+        seen = CouldBeSeen();
+        // if (CouldBeSeen() && GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing)
+        // {
+        //     plan.SetActive(true);
+        //     // MarkerManager.GetComponent<MarkerManager>().SetCurrentMarker(this.GetComponent<ARMarker>().GetID());
+        //     MarkerManager.GetComponent<MarkerManager>().Refresh(this.GetComponent<ARMarker>().GetID());
+        //     Debug.Log(GetComponent<ARMarker>().GetID() + " : could be seen.");
+        // }
+        // else
+        // {
+        //     plan.SetActive(false);
+        // }
 
         //if (seen)
         //{

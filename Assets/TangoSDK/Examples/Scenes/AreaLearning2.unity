@@ -508,7 +508,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 141855356}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceead371c308d4f4eb5e7f402e0e8342, type: 3}
   m_Name: 
@@ -3646,8 +3646,8 @@ ParticleSystem:
   lengthInSec: 2
   simulationSpeed: 1
   looping: 1
-  prewarm: 0
-  playOnAwake: 0
+  prewarm: 1
+  playOnAwake: 1
   autoRandomSeed: 1
   startDelay:
     scalar: 0
@@ -3691,7 +3691,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1898174128
+  randomSeed: 116220240
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4167,7 +4167,7 @@ ParticleSystem:
     randomDirectionAmount: 0
     sphericalDirectionAmount: 0
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 3
     rateOverTime:
       scalar: 1
@@ -6491,7 +6491,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 0
+  playOnAwake: 1
   autoRandomSeed: 1
   startDelay:
     scalar: 0
@@ -6535,7 +6535,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 333529216
+  randomSeed: 1470235799
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -7011,7 +7011,7 @@ ParticleSystem:
     randomDirectionAmount: 0
     sphericalDirectionAmount: 0
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 3
     rateOverTime:
       scalar: 0.4
@@ -11007,8 +11007,8 @@ ParticleSystem:
   lengthInSec: 2
   simulationSpeed: 1
   looping: 1
-  prewarm: 0
-  playOnAwake: 0
+  prewarm: 1
+  playOnAwake: 1
   autoRandomSeed: 1
   startDelay:
     scalar: 0
@@ -11052,7 +11052,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -448893914
+  randomSeed: -1153864885
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -11528,7 +11528,7 @@ ParticleSystem:
     randomDirectionAmount: 0
     sphericalDirectionAmount: 0
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 3
     rateOverTime:
       scalar: 1
@@ -14698,7 +14698,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 0
+  playOnAwake: 1
   autoRandomSeed: 1
   startDelay:
     scalar: 0
@@ -14742,7 +14742,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -19209407
+  randomSeed: -1831841093
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -15218,7 +15218,7 @@ ParticleSystem:
     randomDirectionAmount: 0
     sphericalDirectionAmount: 0
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 3
     rateOverTime:
       scalar: 0.4
@@ -18913,6 +18913,47 @@ MonoBehaviour:
   _castName: Tower of the Winds
   _castDescription: "100 - 37 BC\nAthens, Greece\n\nHorologion of Andronikos. \nA
     mysterious water clock."
+--- !u!1 &1845947432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1845947434}
+  - component: {fileID: 1845947433}
+  m_Layer: 0
+  m_Name: DebugConsole
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1845947433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1845947432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3379b3962ebc0c54c9cf36039392952c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 96
+--- !u!4 &1845947434
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1845947432}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.3735875, y: 0.04819482, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857423083
 GameObject:
   m_ObjectHideFlags: 0

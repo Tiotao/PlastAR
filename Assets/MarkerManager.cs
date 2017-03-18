@@ -35,7 +35,6 @@ public class MarkerManager : MonoBehaviour {
 		_castRotateView = GlobalManagement.RotateView;
 		_menuView = GlobalManagement.Content;
 		Refresh(_currentMarkerID);
-		PauseAllParticles();
 		// TEMP: replace building model  
 		// GlobalManagement.Building = GetBuildingModel();
 	}
@@ -61,11 +60,7 @@ public class MarkerManager : MonoBehaviour {
 		return GetMarker().GetBuildingModel();
 	}
 
-	private void PauseAllParticles() {
-		foreach(ParticleSystem p in GetComponentsInChildren<ParticleSystem>()){
-			// p.Stop();
-		}
-	}
+	
 
 
 	private void ClearPastData() {
@@ -141,7 +136,7 @@ public class MarkerManager : MonoBehaviour {
 		}
 		rotator.BG = BG;
 		rotator._frameAmount = minFrameAoumt;
-		rotator.InitializeContent(false);
+		// rotator.InitializeContent(false);
 	}
 
 
