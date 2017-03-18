@@ -11,5 +11,12 @@ public class Configs {
 		Story
 	}
 
+	public enum MarkerType {
+		Building,
+		Other,
+		Marker
+
+	}
+
 
 }

@@ -63,6 +63,7 @@ public class MarkerManager : MonoBehaviour {
 	private void ClearPastData() {
 		Transform hotspotsView = _castRotateView.transform.FindChild("HotSpotSprites");
 		Transform fragmentsContainer = _castRotateView.transform.FindChild("RotatableCast");
+		GlobalManagement.Building = null;
 		foreach (Transform child in hotspotsView) {
 			GameObject.Destroy(child.gameObject);
 		}

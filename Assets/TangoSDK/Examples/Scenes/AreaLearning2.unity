@@ -243,6 +243,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 29189728}
+  - component: {fileID: 29189732}
+  - component: {fileID: 29189731}
+  - component: {fileID: 29189730}
+  - component: {fileID: 29189729}
   m_Layer: 0
   m_Name: MarkerModel
   m_TagString: Untagged
@@ -265,6 +269,73 @@ Transform:
   m_Father: {fileID: 1818639085}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!111 &29189729
+Animation:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 29189727}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!114 &29189730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 29189727}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c90dd47dcd801b4e8838753498e8eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &29189731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 29189727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f9f42e3ed5b417f97d7297e8ea7582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_type: 2
+  m_timestamp: -1
+  m_deviceTMarker:
+    e00: 0
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 0
+    e12: 0
+    e13: 0
+    e20: 0
+    e21: 0
+    e22: 0
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 0
+--- !u!135 &29189732
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 29189727}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.045157865
+  m_Center: {x: 0.008, y: 0, z: 0}
 --- !u!1 &98283537
 GameObject:
   m_ObjectHideFlags: 0
@@ -2637,7 +2708,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 677740598}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -2926,7 +2997,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     scalar: 0
@@ -2970,7 +3041,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1898020243
+  randomSeed: -448893914
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5686,7 +5757,6 @@ GameObject:
   - component: {fileID: 809002494}
   - component: {fileID: 809002497}
   - component: {fileID: 809002496}
-  - component: {fileID: 809002495}
   m_Layer: 0
   m_Name: model
   m_TagString: Untagged
@@ -5708,19 +5778,6 @@ Transform:
   m_Father: {fileID: 29189728}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &809002495
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 135676971467435230, guid: 9d8df48c315442a40974f162b5d29a14,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 809002493}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.05
-  m_Center: {x: 0.008, y: 0, z: 0}
 --- !u!199 &809002496
 ParticleSystemRenderer:
   serializedVersion: 2
@@ -5784,7 +5841,7 @@ ParticleSystem:
   simulationSpeed: 1
   looping: 1
   prewarm: 1
-  playOnAwake: 1
+  playOnAwake: 0
   autoRandomSeed: 1
   startDelay:
     scalar: 0
@@ -5828,7 +5885,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1271841594
+  randomSeed: 1574737093
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9864,7 +9921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a471b201f9e9d0a4c8d14f41c0752e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LandingView: {fileID: 0}
+  LandingView: []
   MenuView: {fileID: 0}
   CastView: {fileID: 0}
   BuildingView: {fileID: 0}
@@ -10289,7 +10346,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1384210606}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -10361,7 +10418,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1391218741}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -11346,7 +11403,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1700926799}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -12056,7 +12113,7 @@ MeshRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1899495812}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -12211,6 +12268,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 188320, guid: bb3ba25bb7f2d422dbf25c1079b02c8a, type: 2}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2344510, guid: bb3ba25bb7f2d422dbf25c1079b02c8a, type: 2}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

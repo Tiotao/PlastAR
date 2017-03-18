@@ -114,7 +114,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     /// <summary>
     /// Current marker type.
     /// </summary>
-    private int m_currentMarkType = 0;
+    private int m_currentMarkType = (int) Configs.MarkerType.Marker;
 
     /// <summary>
     /// If set, this is the selected marker.
@@ -150,6 +150,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     {
         m_poseController = FindObjectOfType<TangoARPoseController>();
         m_tangoApplication = FindObjectOfType<TangoApplication>();
+        m_markPrefabs = MarkerManager.GetComponent<MarkerManager>().GetMarkerModels();
         
         if (m_tangoApplication != null)
         {
@@ -219,7 +220,13 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             else
             {
                 m_selectedMarker = null;
-                StartCoroutine(_WaitForDepthAndFindPlane(t.position));
+                
+                if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && GlobalManagement.Building == null) {
+                    StartCoroutine(_WaitForDepthAndFindPlane(t.position));
+                } else if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing) {
+                    // TODO: Marker specific actions
+                    StartCoroutine(_WaitForDepthAndFindPlane(t.position));
+                }
 
                 // Because we may wait a small amount of time, this is a good place to play a small
                 // animation so the user knows that their input was received.
@@ -579,11 +586,12 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         {
             MarkerData mark = xmlDataList[i];
             // Instantiate all markers' gameobject.
-            GameObject temp = Instantiate(m_markPrefabs[mark.m_type],
+            GameObject temp = Instantiate(m_markPrefabs[i],
                                           mark.m_position,
                                           mark.m_orientation) as GameObject;
             // Set marker ID
             temp.GetComponent<ARMarker>().SetID(i);
+            temp.GetComponent<recognize>().enabled = true;
             m_markerList.Add(temp);
         }
         //foreach (MarkerData mark in xmlDataList)
@@ -666,16 +674,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         GameObject ObjectToInstant;
 
-        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing)
+        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing && m_markerList.Count < m_markPrefabs.Length)
         {
             // main scene
-            SetCurrentMarkType(2);
-            ObjectToInstant = m_markPrefabs[m_currentMarkType];
+            SetCurrentMarkType((int) Configs.MarkerType.Marker);
+            ObjectToInstant = m_markPrefabs[m_markerList.Count-1];
         } 
         else
         {
             // building scene
-            SetCurrentMarkType(0);
+            SetCurrentMarkType((int) Configs.MarkerType.Building);
             ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
         }
 
@@ -684,16 +692,29 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                                     Quaternion.LookRotation(forward, up)) as GameObject;
 
         // Set marker ID
-        if (m_currentMarkType == 2)
+        if (m_currentMarkType == (int) Configs.MarkerType.Marker)  {
             newMarkObject.GetComponent<ARMarker>().SetID(m_markerList.Count);
+            // newMarkObject.GetComponent<recognize>().enabled = true;
+        }
+            
 
             // store the marker
-        if (m_currentMarkType == 2)
-            GlobalManagement.Marker = newMarkObject;
+        // if (m_currentMarkType == 2)
+        //     GlobalManagement.Marker = newMarkObject;
 
         // store the building
-        if (m_currentMarkType == 0)
+        if (m_currentMarkType == (int) Configs.MarkerType.Building) {
+            MeshRenderer[] allComponents = newMarkObject.GetComponentsInChildren<MeshRenderer>();
+            ParticleSystem[] allHotspots = newMarkObject.GetComponentsInChildren<ParticleSystem>();
+            foreach (MeshRenderer m  in allComponents) {
+                m.enabled = true;
+            }
+            foreach (ParticleSystem p in allHotspots) {
+                p.Play();
+            }
             GlobalManagement.Building = newMarkObject;
+        }
+            
 
         ARMarker markerScript = newMarkObject.GetComponent<ARMarker>();
 
@@ -710,8 +731,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
 
         // if it is marker, add to list
-        if (m_currentMarkType == 2)
+        if (m_currentMarkType == (int) Configs.MarkerType.Marker)
             m_markerList.Add(newMarkObject);
+            GlobalManagement.Markers = m_markerList;
 
         m_selectedMarker = null;
     }

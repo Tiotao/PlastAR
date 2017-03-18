@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using System.IO;
 using UnityEngine.EventSystems;
@@ -8,7 +9,7 @@ public class MenuClick : MonoBehaviour
 {
 
     // Use this for initialization
-    public GameObject LandingView;
+    public List<GameObject> LandingView;
     public GameObject MenuView;
     public GameObject CastView;
 
@@ -23,7 +24,7 @@ public class MenuClick : MonoBehaviour
     }
 
     void RefreshView(){
-        LandingView = GlobalManagement.Marker;
+        LandingView = GlobalManagement.Markers;
         MenuView = GlobalManagement.Content;
         CastView = GlobalManagement.RotateView;
         BuildingView = GlobalManagement.HotSpotDes;
@@ -40,7 +41,9 @@ public class MenuClick : MonoBehaviour
         
         // disable active screen overlay
         try {
-            LandingView.SetActive(false);
+            foreach(GameObject m in LandingView) {
+                m.SetActive(false);
+            }
         } catch {
             Debug.Log("No Marker Present");
         }
@@ -67,7 +70,9 @@ public class MenuClick : MonoBehaviour
         CastView.SetActive(true);
         MenuView.SetActive(false);
         try {
-            LandingView.SetActive(false);
+            foreach(GameObject m in LandingView) {
+                m.SetActive(false);
+            }
         } catch {
             Debug.Log("No Marker Present");
         }
@@ -100,7 +105,9 @@ public class MenuClick : MonoBehaviour
         RefreshView();
 
         try {
-            LandingView.SetActive(true);
+            foreach(GameObject m in LandingView) {
+                m.SetActive(true);
+            }
         } catch {
             Debug.Log("No Marker Present");
         }
