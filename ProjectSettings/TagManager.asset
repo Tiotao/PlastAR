@@ -16,6 +16,7 @@ TagManager:
   - FunctionView
   - MarkerManager
   - ShootButton
+  - MessageBox
   layers:
   - Default
   - TransparentFX

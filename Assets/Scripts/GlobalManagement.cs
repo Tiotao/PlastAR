@@ -13,6 +13,7 @@ public class GlobalManagement
 
     public static GameObject FunctionView;
     public static GameObject ShootButton;
+    public static GameObject MessageBox;
 
     public static int SceneIndex = (int) Configs.SceneIndex.Landing;
 

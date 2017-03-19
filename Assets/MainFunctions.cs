@@ -47,6 +47,8 @@ public class MainFunctions : MonoBehaviour {
 
         ScreenShotImage.SetActive(true);
         LoadImage();
+
+        GlobalManagement.MessageBox.SetActive(true);
     }
 
     private void LoadImage()

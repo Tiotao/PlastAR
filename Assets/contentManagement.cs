@@ -22,6 +22,7 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("HotSpotDes");
         InitializeScreen("FunctionView");
         InitializeScreen("ShootButton");
+        InitializeScreen("MessageBox");
         LoadData();
     }
 
