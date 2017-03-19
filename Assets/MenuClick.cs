@@ -117,6 +117,7 @@ public class MenuClick : MonoBehaviour
         CastView.SetActive(false);
         BuildingView.SetActive(false);
         FunctionView.SetActive(false);
+        GlobalManagement.ShootButton.SetActive(false);
 
         try {
             Building.SetActive(false);

@@ -33,22 +33,38 @@ public class MainFunctions : MonoBehaviour {
         ShootButton = GlobalManagement.ShootButton;
 
         FunctionView.SetActive(false);
-
         GlobalManagement.ShootButton.SetActive(false);
+
         StartCoroutine("CaptureScreen");
     }
 
     IEnumerator CaptureScreen()
     {
         print("save");
-        Application.CaptureScreenshot("Screenshot.png", 0);
+        //Application.CaptureScreenshot("Screenshot.png", 0);
+        yield return new WaitForSeconds(0.1f);
+        CaptureScreenshot2(new Rect(0, 0, Screen.width, Screen.height));
 
-        yield return new WaitForSeconds(1);
+        //yield return new WaitForSeconds(1);
 
         ScreenShotImage.SetActive(true);
         LoadImage();
 
         GlobalManagement.MessageBox.SetActive(true);
+    }
+
+    void CaptureScreenshot2(Rect rect)
+    {
+        Texture2D screenShot = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGB24, false);
+
+        screenShot.ReadPixels(rect, 0, 0);
+        screenShot.Apply();
+
+        byte[] bytes = screenShot.EncodeToPNG();
+        string filename = Application.persistentDataPath + "/Screenshot.png";
+        System.IO.File.WriteAllBytes(filename, bytes);
+
+        //return screenShot;
     }
 
     private void LoadImage()
@@ -81,7 +97,7 @@ public class MainFunctions : MonoBehaviour {
 
         fileStream.Seek(0, SeekOrigin.Begin);
 
-        byte[] binary = new byte[fileStream.Length]; //创建文件长度的buffer   
+        byte[] binary = new byte[fileStream.Length];
         fileStream.Read(binary, 0, (int)fileStream.Length);
 
         fileStream.Close();
