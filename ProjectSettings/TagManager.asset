@@ -15,6 +15,7 @@ TagManager:
   - HotSpotDes
   - FunctionView
   - MarkerManager
+  - ShootButton
   layers:
   - Default
   - TransparentFX
