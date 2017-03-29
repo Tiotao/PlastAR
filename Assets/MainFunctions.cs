@@ -2,7 +2,10 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.IO;
-using UnityEngine.EventSystems;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 public class MainFunctions : MonoBehaviour {
 
@@ -107,5 +110,27 @@ public class MainFunctions : MonoBehaviour {
         fileStream = null;
 
         return binary;
+    }
+
+    // Send email
+    public void SendEmail()
+    {
+        print("hehe");
+        MailMessage mail = new MailMessage();
+
+        mail.From = new MailAddress("etcplastar@gmail.com");
+        mail.To.Add("ktboyyyv@gmail.com");
+        mail.Subject = "Test Mail";
+        mail.Body = "This is for testing SMTP mail from GMAIL";
+
+        SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+        smtpServer.Port = 587;
+        smtpServer.Credentials = new System.Net.NetworkCredential("etcplastar@gmail.com", "husiyuan") as ICredentialsByHost;
+        smtpServer.EnableSsl = true;
+        ServicePointManager.ServerCertificateValidationCallback =
+            delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+            { return true; };
+        smtpServer.Send(mail);
+        Debug.Log("success");
     }
 }
