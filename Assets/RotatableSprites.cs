@@ -8,7 +8,7 @@ public class RotatableSprites : MonoBehaviour {
     
     private GameObject _CastModels;                              // container that stores models of the casts
     
-    private Camera _cam;                                         // fake camera that handles hotspot placement projection on 2D canvas from 3D space
+    public Camera _cam;                                         // fake camera that handles hotspot placement projection on 2D canvas from 3D space
 
     public Text _HotSpotDescription;                            // Text field that displays the description of the hotspot
 
@@ -38,9 +38,9 @@ public class RotatableSprites : MonoBehaviour {
     private Vector2 startPos;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        
+        _cam = GameObject.FindGameObjectWithTag("HotSpotCamera").GetComponent<Camera>();
     }
 
     // enable cast model and hotspots
@@ -76,7 +76,7 @@ public class RotatableSprites : MonoBehaviour {
             objectName = "CastModels";
         }
         _CastModels = GameObject.Find(objectName);
-        _cam = GameObject.FindGameObjectWithTag("HotSpotCamera").GetComponent<Camera>();
+        
         // _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
         SetFrame();
         ToggleHotSpotInfo(0);
@@ -104,7 +104,7 @@ public class RotatableSprites : MonoBehaviour {
 	}
 
     public void SetFrame() {
-        int frame = (int) (_ControlSlider.GetComponent<Slider>().value);
+        int frame = 18 - (int) (_ControlSlider.GetComponent<Slider>().value);
         _currentFrame = frame;
 		if (frame < _frameAmount && frame >= 0) {
             for (int i = 0; i < _hotspotsInfo.Length; i++) {
