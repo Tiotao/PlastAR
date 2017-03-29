@@ -50,6 +50,7 @@ public class MenuClick : MonoBehaviour
         MenuView.SetActive(false);
         CastView.SetActive(false);
         FunctionView.SetActive(true);
+        GlobalManagement.ShootButton.SetActive(true);
         try {
             Building.SetActive(true);
         } catch {
@@ -116,6 +117,8 @@ public class MenuClick : MonoBehaviour
         CastView.SetActive(false);
         BuildingView.SetActive(false);
         FunctionView.SetActive(false);
+        GlobalManagement.ShootButton.SetActive(false);
+
         try {
             Building.SetActive(false);
         } catch {

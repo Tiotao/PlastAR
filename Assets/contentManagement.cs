@@ -11,6 +11,7 @@ public class contentManagement : MonoBehaviour {
     GameObject RotateView;
     GameObject HotSpotDes;
     GameObject FunctionView;
+    GameObject ShootButton;
     
     // Use this for initialization
     void Start () {
@@ -20,6 +21,8 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("RotateView");
         InitializeScreen("HotSpotDes");
         InitializeScreen("FunctionView");
+        InitializeScreen("ShootButton");
+        InitializeScreen("MessageBox");
         LoadData();
     }
 
