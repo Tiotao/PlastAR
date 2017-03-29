@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: lambert1
+  m_Name: towerOfTheWinds
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
@@ -84,10 +84,10 @@ Material:
       second: 0
     - first:
         name: _GlossMapScale
-      second: 0
+      second: 1
     - first:
         name: _Glossiness
-      second: 0
+      second: 0.5
     - first:
         name: _GlossyReflections
       second: 1
@@ -101,14 +101,8 @@ Material:
         name: _OcclusionStrength
       second: 1
     - first:
-        name: _Outline
-      second: 0.0017
-    - first:
         name: _Parallax
       second: 0.02
-    - first:
-        name: _Shininess
-      second: 0.527
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -127,10 +121,7 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.86764705, g: 0.80129755, b: 0.70177335, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
-      second: {r: 0.31617647, g: 0.31617647, b: 0.31617647, a: 1}
-    - first:
-        name: _RimColor
-      second: {r: 0.8620689, g: 1, b: 0, a: 1}
+      second: {r: 0, g: 0, b: 0, a: 1}
