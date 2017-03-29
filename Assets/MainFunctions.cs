@@ -122,6 +122,8 @@ public class MainFunctions : MonoBehaviour {
         mail.To.Add("ktboyyyv@gmail.com");
         mail.Subject = "Test Mail";
         mail.Body = "This is for testing SMTP mail from GMAIL";
+        System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(@Application.persistentDataPath + "/Screenshot.png");
+        mail.Attachments.Add(attachment);
 
         SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
         smtpServer.Port = 587;
