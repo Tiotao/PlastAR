@@ -19,10 +19,8 @@ public class MessageBoxButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GlobalManagement.FunctionView.SetActive(true);
-        GlobalManagement.ShootButton.SetActive(true);
+        GlobalManagement.EmailBox.SetActive(true);
 
-        GlobalManagement.ScreenShot.SetActive(false);
         GlobalManagement.MessageBox.SetActive(false);
     }
 }

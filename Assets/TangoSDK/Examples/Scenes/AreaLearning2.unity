@@ -285,9 +285,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 133601928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b334aecbeacc545a7becaa80a64fe4, type: 3}
+  m_Script: {fileID: 11500000, guid: a9febd99caf1cb9478d03e5e0fb4e412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainFunction: {fileID: 968226519}
+  InputBox: {fileID: 486280255}
 --- !u!114 &133601931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -654,7 +656,7 @@ GameObject:
   - component: {fileID: 239584019}
   m_Layer: 5
   m_Name: EmailBox
-  m_TagString: MessageBox
+  m_TagString: EmailBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -678,7 +680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5.0000305, y: 112.9}
+  m_AnchoredPosition: {x: -5.0000305, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &239584019
@@ -2608,7 +2610,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 637584746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b334aecbeacc545a7becaa80a64fe4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bc3b36087f4a034eaf4862b7da3144d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &668874574
@@ -4303,7 +4305,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1082654048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b334aecbeacc545a7becaa80a64fe4, type: 3}
+  m_Script: {fileID: 11500000, guid: d7b63a00ce657534b8dd6509d5ff6f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1082654051
@@ -7134,7 +7136,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 968226520}
         m_MethodName: SendEmail
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

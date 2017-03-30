@@ -113,15 +113,14 @@ public class MainFunctions : MonoBehaviour {
     }
 
     // Send email
-    public void SendEmail()
+    public void SendEmail(string emailAddress)
     {
-        print("hehe");
         MailMessage mail = new MailMessage();
 
         mail.From = new MailAddress("etcplastar@gmail.com");
-        mail.To.Add("ktboyyyv@gmail.com");
-        mail.Subject = "Test Mail";
-        mail.Body = "This is for testing SMTP mail from GMAIL";
+        mail.To.Add(emailAddress);
+        mail.Subject = "Plastar Photo";
+        mail.Body = "This is a gift from Plastar";
         System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(@Application.persistentDataPath + "/Screenshot.png");
         mail.Attachments.Add(attachment);
 
