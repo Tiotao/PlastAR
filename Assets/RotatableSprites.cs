@@ -37,6 +37,9 @@ public class RotatableSprites : MonoBehaviour {
          
     private Vector2 startPos;
 
+    private Touch oldTouch1;
+    private Touch oldTouch2;
+
     // Use this for initialization
     void Awake()
     {
@@ -46,26 +49,52 @@ public class RotatableSprites : MonoBehaviour {
     // enable cast model and hotspots
 
     void Update() {
-        // if (Input.touchCount > 0) {
-        //     Touch touch = Input.touches[0];
-        //     switch (touch.phase) {
-        //         case TouchPhase.Began:
-        //             startPos = touch.position;
-        //             break;
-        //         case TouchPhase.Ended:
-        //             float swipeDistVertical = (new Vector3(0, touch.position.y, 0) - new Vector3(0, startPos.y, 0)).magnitude;
-        //             float swipeDistHorizontal = (new Vector3(touch.position.x,0, 0) - new Vector3(startPos.x, 0, 0)).magnitude;
-        //             if (swipeDistHorizontal > minSwipeDistX) {
-        //                 float swipeValue = Mathf.Sign(touch.position.x - startPos.x);    
-        //                 if (swipeValue > 0) {
-        //                     SetFrame((_currentFrame + 1) % _frameAmount);
-        //                 } else if (swipeValue < 0) {
-        //                     SetFrame((_currentFrame - 1) % _frameAmount);
-        //                 }
-        //             }
-        //             break;
-        //     }
+        if (Input.touchCount <= 0)
+        {
+            return;
+        }
+
+        if (1 == Input.touchCount)
+        {
+            Touch touch = Input.GetTouch(0);
+            Vector2 deltaPos = touch.deltaPosition;
+            Debug.Log(_currentFrame);
+            int frameChange =  (_currentFrame + (int) (-deltaPos.x / 2)  + 18 ) % 18;
+            SetFrame(frameChange);
+            Debug.Log(frameChange);
+            
+            //transform.Rotate(Vector3.right * deltaPos.y, Space.World);
+        }
+
+        // Touch newTouch1 = Input.GetTouch(0);
+        // Touch newTouch2 = Input.GetTouch(1);
+
+        // if (newTouch2.phase == TouchPhase.Began)
+        // {
+        //     oldTouch2 = newTouch2;
+        //     oldTouch1 = newTouch1;
+        //     return;
         // }
+
+        // float oldDistance = Vector2.Distance(oldTouch1.position, oldTouch2.position);
+        // float newDistance = Vector2.Distance(newTouch1.position, newTouch2.position);
+
+        // float offset = newDistance - oldDistance;
+
+        // float scaleFactor = offset / 3000f;
+        // Vector3 localScale = transform.localScale;
+        // Vector3 scale = new Vector3(localScale.x + scaleFactor,
+        //                             localScale.y + scaleFactor,
+        //                             localScale.z + scaleFactor);
+
+        // //if (scale.x > 0.3f && scale.y > 0.3f && scale.z > 0.3f)
+        // if (scale.x > 0f && scale.y > 0f && scale.z > 0f)
+        // {
+        //     transform.localScale = scale;
+        // }
+
+        // oldTouch1 = newTouch1;
+        // oldTouch2 = newTouch2;
     }
 
     public void InitializeContent(bool isRemote) {
