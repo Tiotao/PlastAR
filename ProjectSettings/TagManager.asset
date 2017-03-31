@@ -18,6 +18,7 @@ TagManager:
   - ShootButton
   - MessageBox
   - EmailBox
+  - StoryView
   layers:
   - Default
   - TransparentFX

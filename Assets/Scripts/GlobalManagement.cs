@@ -16,6 +16,8 @@ public class GlobalManagement
     public static GameObject MessageBox;
     public static GameObject EmailBox;
 
+    public static GameObject StoryView;
+
     public static int SceneIndex = (int) Configs.SceneIndex.Landing;
 
 }

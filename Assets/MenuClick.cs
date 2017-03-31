@@ -13,6 +13,8 @@ public class MenuClick : MonoBehaviour
     public GameObject MenuView;
     public GameObject CastView;
 
+    public GameObject StoryView;
+
     public GameObject BuildingView;
 
     public GameObject FunctionView;
@@ -30,6 +32,7 @@ public class MenuClick : MonoBehaviour
         BuildingView = GlobalManagement.HotSpotDes;
         FunctionView = GlobalManagement.FunctionView;
         Building = GlobalManagement.Building;
+        StoryView = GlobalManagement.StoryView;
     }
 
     public void ToBuiding()
@@ -90,14 +93,30 @@ public class MenuClick : MonoBehaviour
 
     public void ToStory()
     {
-        // // switch scene index
-        // GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Cast;
+         // switch scene index
+        GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Story;
+
+        RefreshView();
+
+        StoryView.SetActive(true);
         
-        // // disable active screen overlay
-        // GameObject marker = GlobalManagement.Marker;
-        // GameObject plan = GlobalManagement.Content;
-        // marker.SetActive(false);
-        // plan.SetActive(false);
+        // disable active screen overlay
+        CastView.SetActive(false);
+        MenuView.SetActive(false);
+        try {
+            foreach(GameObject m in LandingView) {
+                m.SetActive(false);
+            }
+        } catch {
+            Debug.Log("No Marker Present");
+        }
+        BuildingView.SetActive(false);
+        FunctionView.SetActive(true);
+        try {
+            Building.SetActive(false);
+        } catch {
+            Debug.Log("No Building Present");
+        }
 
     }
 
