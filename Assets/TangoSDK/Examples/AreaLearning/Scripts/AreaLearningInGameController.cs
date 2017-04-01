@@ -708,12 +708,18 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
 
         if (m_currentMarkType == (int) Configs.MarkerType.Building) {
-            MeshRenderer[] allComponents = newMarkObject.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer m  in allComponents) {
+            MeshRenderer[] allMeshes = newMarkObject.GetComponentsInChildren<MeshRenderer>();
+            SkinnedMeshRenderer[] allSkinMeshes = newMarkObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+            foreach (MeshRenderer m  in allMeshes) {
+                m.enabled = true;
+            }
+            foreach (SkinnedMeshRenderer m  in allSkinMeshes) {
                 m.enabled = true;
             }
             newMarkObject.GetComponent<manipulate>().enabled = true;
             GlobalManagement.Building = newMarkObject;
+            GlobalManagement.ShootButton.transform.GetChild(0).gameObject.SetActive(false);
+            GlobalManagement.ShootButton.transform.GetChild(1).gameObject.SetActive(true);
         }
 
         // if it is marker, add to list

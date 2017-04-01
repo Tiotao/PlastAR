@@ -14,6 +14,10 @@ public class Marker : MonoBehaviour {
 	[TextArea(3,10)]
 	public string _castDescription;
 
+	public int _frameCount = 19;
+
+	public int _startingPoint = 0;
+
 
 	enum DataType {
 		Marker,

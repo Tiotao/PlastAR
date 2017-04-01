@@ -35,6 +35,8 @@ public class MenuClick : MonoBehaviour
         StoryView = GlobalManagement.StoryView;
     }
 
+    
+
     public void ToBuiding()
     {
         // switch scene index
@@ -134,6 +136,7 @@ public class MenuClick : MonoBehaviour
         }
         MenuView.SetActive(false);
         CastView.SetActive(false);
+        StoryView.SetActive(false);
         BuildingView.SetActive(false);
         FunctionView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);

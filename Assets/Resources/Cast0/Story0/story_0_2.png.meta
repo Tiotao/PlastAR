@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 231204d75cdfe324fb47a5358eca1d9a
-timeCreated: 1490995564
+timeCreated: 1491014284
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -89,10 +89,10 @@ TextureImporter:
       name: story_0_2_1
       rect:
         serializedVersion: 2
-        x: 363
-        y: 202
-        width: 662
-        height: 977
+        x: 0
+        y: 355
+        width: 1380
+        height: 762
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -102,75 +102,10 @@ TextureImporter:
       name: story_0_2_2
       rect:
         serializedVersion: 2
-        x: 410
-        y: 541
-        width: 577
-        height: 271
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: story_0_2_3
-      rect:
-        serializedVersion: 2
-        x: 404
-        y: 782
-        width: 555
-        height: 213
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: story_0_2_4
-      rect:
-        serializedVersion: 2
-        x: 411
-        y: 935
-        width: 541
-        height: 265
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: story_0_2_5
-      rect:
-        serializedVersion: 2
         x: 0
-        y: 101
-        width: 647
-        height: 926
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: story_0_2_6
-      rect:
-        serializedVersion: 2
-        x: 606
-        y: 226
-        width: 470
-        height: 458
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: story_0_2_7
-      rect:
-        serializedVersion: 2
-        x: 600
-        y: 267
-        width: 289
-        height: 410
+        y: 0
+        width: 444
+        height: 224
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

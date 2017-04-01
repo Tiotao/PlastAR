@@ -5,6 +5,8 @@ using UnityEngine;
 public class Hotspot2D : MonoBehaviour {
 
 	public string _name;
+	
+	[TextArea(3,10)]
 	public string _description;
 
 	public Sprite[] _sprites;

@@ -16,6 +16,10 @@ public class MarkerManager : MonoBehaviour {
 
 	GameObject _menuView;
 
+	// TEMP
+	public GameObject _post1;
+	public GameObject _post0;
+
 
 
 	public GameObject _HotspotSpritePrefab;
@@ -30,7 +34,7 @@ public class MarkerManager : MonoBehaviour {
 
 	public void Init() {
 		_markers = GetComponentsInChildren<Marker>();
-		SetCurrentMarker(0);
+		SetCurrentMarker(1);
 		_castBuffer = GameObject.Find("CastModels");
 		_castRotateView = GlobalManagement.RotateView;
 		_menuView = GlobalManagement.Content;
@@ -45,6 +49,14 @@ public class MarkerManager : MonoBehaviour {
 		ClearPastData();
 		ActiveCastView();
 		ActiveMenuView();
+		// TEMP
+		if (markerID == 0) {
+			_post1.SetActive(true);
+			_post0.SetActive(false);
+		} else {
+			_post0.SetActive(true);
+			_post1.SetActive(false);
+		}
 		
 	}
 
@@ -96,6 +108,7 @@ public class MarkerManager : MonoBehaviour {
 		// TODO update description
 		
 		rotator._currentCastModel = castModel;
+		rotator._startFrame = GetMarker()._startingPoint;
 
 		// update 2D hotspots
 		// remove hotspots that belongs to previous selected cast

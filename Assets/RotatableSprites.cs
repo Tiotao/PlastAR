@@ -31,6 +31,8 @@ public class RotatableSprites : MonoBehaviour {
     public int _currentFrame = 0;
 
 
+    public int _startFrame = 0;
+
     public float minSwipeDistY;
  
     public float minSwipeDistX;
@@ -59,7 +61,7 @@ public class RotatableSprites : MonoBehaviour {
             Touch touch = Input.GetTouch(0);
             Vector2 deltaPos = touch.deltaPosition;
             Debug.Log(_currentFrame);
-            int frameChange =  (_currentFrame + (int) (-deltaPos.x / 2)  + 18 ) % 18;
+            int frameChange =  (_currentFrame + (int) (-deltaPos.x / 2)  + _frameAmount ) % _frameAmount;
             SetFrame(frameChange);
             Debug.Log(frameChange);
             
@@ -107,9 +109,10 @@ public class RotatableSprites : MonoBehaviour {
         _CastModels = GameObject.Find(objectName);
         
         // _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
-        SetFrame();
+        SetFrame(_startFrame);
         ToggleHotSpotInfo(0);
-        
+        _ControlSlider.GetComponent<Slider>().maxValue = _frameAmount - 1;
+        _ControlSlider.GetComponent<Slider>().value = _startFrame;
         Image defaultSprite = GetComponentsInChildren<Image>()[0];
         Color color = defaultSprite.color;
         color.a = 1;
@@ -133,7 +136,7 @@ public class RotatableSprites : MonoBehaviour {
 	}
 
     public void SetFrame() {
-        int frame = 18 - (int) (_ControlSlider.GetComponent<Slider>().value);
+        int frame = _frameAmount - (int) (_ControlSlider.GetComponent<Slider>().value);
         _currentFrame = frame;
 		if (frame < _frameAmount && frame >= 0) {
             for (int i = 0; i < _hotspotsInfo.Length; i++) {
@@ -154,6 +157,7 @@ public class RotatableSprites : MonoBehaviour {
         for (int i=1; i < _hotspotsInfo.Length; i++) {
             Vector3 screenPos = _cam.WorldToScreenPoint(_hotspotsInfo[i].gameObject.transform.position);
             screenPos.y = screenPos.y + _heightOffset;
+            screenPos.x = screenPos.x + 280f;
             _HotSpotsSpritesTransform[i].position = screenPos;
             // enable the hotspot of it is visiable
             _HotSpotsSpritesTransform[i].gameObject.GetComponent<Image>().enabled = _hotspotsInfo[i].CheckVisibility(_cam);
