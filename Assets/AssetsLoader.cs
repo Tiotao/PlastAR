@@ -59,6 +59,7 @@ public class AssetsLoader : MonoBehaviour {
 	}
 
 
+	
 	public void Load() {
 		// StartCoroutine(LoadAssets());
 		markerManager.Init();
