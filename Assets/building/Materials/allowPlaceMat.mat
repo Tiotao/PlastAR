@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: lambert2
+  m_Name: allowPlaceMat
   m_Shader: {fileID: 4800000, guid: 7bf426638dbb23e40a9595c9ccd5e767, type: 3}
   m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 1
@@ -102,13 +102,13 @@ Material:
       second: 1
     - first:
         name: _Outline
-      second: 0.0017
+      second: 0.0051
     - first:
         name: _Parallax
       second: 0.02
     - first:
         name: _Shininess
-      second: 0.786
+      second: 0.019
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -127,10 +127,10 @@ Material:
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 0.9724138, b: 0, a: 1}
+      second: {r: 0.007352948, g: 1, b: 0.3431013, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0.66435987, g: 0.9411765, b: 0.8953585, a: 1}
     - first:
         name: _RimColor
-      second: {r: 0, g: 0.17241383, b: 1, a: 1}
+      second: {r: 1, g: 1, b: 1, a: 1}

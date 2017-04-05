@@ -447,6 +447,35 @@ public class TangoPointCloud : MonoBehaviour, ITangoPointCloud
         }
     }
 
+    // public bool FindPlane(Camera cam, out Vector3 planeCenter, out Plane plane) {
+    //     if (m_pointsCount == 0)
+    //     {
+    //         // No points to check, maybe not connected to the service yet
+    //         planeCenter = Vector3.zero;
+    //         plane = new Plane();
+    //         return false;
+    //     }
+
+    //     Matrix4x4 colorCameraTUnityWorld = m_colorCameraTUnityCamera * cam.transform.worldToLocalMatrix;
+
+    //     TangoCameraIntrinsics alignedIntrinsics = new TangoCameraIntrinsics();
+    //     VideoOverlayProvider.GetDeviceOrientationAlignedIntrinsics(TangoEnums.TangoCameraId.TANGO_CAMERA_COLOR,
+    //                                                                alignedIntrinsics);
+    //     int returnValue = TangoSupport.FitPlaneModelNearClick(
+    //             m_points, m_pointsCount, m_depthTimestamp, alignedIntrinsics, ref colorCameraTUnityWorld,
+    //             new Vector2(0.5f, 0.5f), out planeCenter, out plane);
+        
+    //     if (returnValue == Common.ErrorType.TANGO_SUCCESS)
+    //     {
+    //         return true;
+    //     }
+    //     else
+    //     {
+    //         return false;
+    //     }
+
+    // }
+
     /// <summary>
     /// Start processing the point cloud depth points to find the position of the floor.
     /// </summary>

@@ -20,4 +20,6 @@ public class GlobalManagement
 
     public static int SceneIndex = (int) Configs.SceneIndex.Landing;
 
+    public static bool developerMode = false;
+
 }

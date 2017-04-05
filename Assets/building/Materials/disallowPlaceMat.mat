@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: CrossSectionTest
-  m_Shader: {fileID: 4800000, guid: 8625ca77102d46b4996b6c6bccca4f74, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_Name: disallowPlaceMat
+  m_Shader: {fileID: 4800000, guid: 7bf426638dbb23e40a9595c9ccd5e767, type: 3}
+  m_ShaderKeywords: _ALPHABLEND_ON _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: cddac1ca29cfc424893ad899c16fe6e6, type: 3}
+        m_Texture: {fileID: 2800000, guid: 01cb89d0bdbbf1c4ca5752f3e4b01929, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -69,18 +69,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - first:
-        name: _SpecGlossMap
-      second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - first:
-        name: color_map
-      second:
-        m_Texture: {fileID: 2800000, guid: b52374f1159b18b41b52202cdccd740c, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
         name: _BumpScale
@@ -93,16 +81,13 @@ Material:
       second: 1
     - first:
         name: _DstBlend
-      second: 0
-    - first:
-        name: _EmissionScaleUI
-      second: 0
+      second: 10
     - first:
         name: _GlossMapScale
-      second: 1
+      second: 0
     - first:
         name: _Glossiness
-      second: 0.5
+      second: 0
     - first:
         name: _GlossyReflections
       second: 1
@@ -111,13 +96,19 @@ Material:
       second: 0
     - first:
         name: _Mode
-      second: 0
+      second: 2
     - first:
         name: _OcclusionStrength
       second: 1
     - first:
+        name: _Outline
+      second: 0.0051
+    - first:
         name: _Parallax
       second: 0.02
+    - first:
+        name: _Shininess
+      second: 0.019
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -126,32 +117,20 @@ Material:
       second: 1
     - first:
         name: _SrcBlend
-      second: 1
+      second: 5
     - first:
         name: _UVSec
       second: 0
     - first:
         name: _ZWrite
-      second: 1
+      second: 0
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.10034606, g: 0.04411763, b: 1, a: 1}
+      second: {r: 1, g: 0, b: 0, a: 1}
     - first:
         name: _EmissionColor
-      second: {r: 0, g: 0, b: 0, a: 1}
+      second: {r: 0.66435987, g: 0.9411765, b: 0.8953585, a: 1}
     - first:
-        name: _EmissionColorUI
-      second: {r: 1, g: 1, b: 1, a: 1}
-    - first:
-        name: _SpecColor
-      second: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - first:
-        name: _section
-      second: {r: 0, g: -7.82, b: 0, a: 0.31}
-    - first:
-        name: section_color
-      second: {r: 0.5, g: 0.1, b: 0.1, a: 1}
-    - first:
-        name: section_depth
-      second: {r: 0, g: 0, b: 0, a: 0.15}
+        name: _RimColor
+      second: {r: 1, g: 0.8866782, b: 0.03676468, a: 1}

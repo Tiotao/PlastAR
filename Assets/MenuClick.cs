@@ -23,7 +23,11 @@ public class MenuClick : MonoBehaviour
 
     public void Start() {
         RefreshView();
+        // toggle save button based on developer option
+        
     }
+
+    
 
     void RefreshView(){
         LandingView = GlobalManagement.Markers;
@@ -124,6 +128,8 @@ public class MenuClick : MonoBehaviour
 
     public void ToLanding(){
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Landing;
+        
+        
 
         RefreshView();
 
@@ -166,5 +172,10 @@ public class MenuClick : MonoBehaviour
                 ToLanding();
                 break;
         }
+    }
+
+    public void ToggleSave() {
+        GlobalManagement.developerMode = !GlobalManagement.developerMode;
+        FunctionView.transform.GetChild(0).gameObject.SetActive(GlobalManagement.developerMode);
     }
 }

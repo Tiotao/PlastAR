@@ -15,7 +15,7 @@ public class contentManagement : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
-        CallExampleNotification();
+        // CallExampleNotification();
         InitializeScreen("Content");
         InitializeScreen("ScreenShot");
         InitializeScreen("RotateView");
@@ -49,24 +49,5 @@ public class contentManagement : MonoBehaviour {
 	}
 
     
-    void CallExampleNotification() {
-        var notificationParams = new NotificationParams
-                {
-                    Id = UnityEngine.Random.Range(0, int.MaxValue),
-                    Delay = TimeSpan.FromSeconds(5),
-                    Title = "Hello World",
-                    Message = "Message",
-                    Ticker = "Ticker",
-                    Sound = true,
-                    Vibrate = true,
-                    Light = true,
-                    SmallIcon = NotificationIcon.Heart,
-                    SmallIconColor = new Color(0, 0.5f, 0),
-                    LargeIcon = "app_icon"
-                };
-
-                NotificationManager.SendCustom(notificationParams);
-    }
-
-    
+   
 }
