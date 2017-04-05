@@ -173,6 +173,24 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
     }
 
+    // set material of a structured gameobject (gameobject with multiple child and renderer)
+    private void SetMaterial<T> (GameObject obj, Material mat) where T: Renderer 
+    {
+        foreach (T m in obj.GetComponentsInChildren<T>()) {
+            Material[] mats = new Material[m.materials.Length];
+            for (int j = 0; j < m.materials.Length; j++) {
+                mats[j] = mat; 
+            }
+            m.materials = mats;
+        }
+    }
+
+    private void SetRendererActive<T> (GameObject obj, bool isActive) where T: Renderer  {
+        foreach (T m in obj.GetComponentsInChildren<T>()) {
+             m.enabled = isActive;
+        }
+    }
+
     /// <summary>
     /// Unity Update function.
     /// 
@@ -198,8 +216,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
 
-
-
         if (!m_initialized)
         {
             return;
@@ -210,22 +226,26 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             return;
         }
 
-        
+        // when no building are placed, show transparent building model
         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && GlobalManagement.Building == null) {
+            // create transparent building symbol
             if(!buildingSymbol){
-                buildingSymbol = Instantiate(buildingSymbolPrefab) as GameObject;
+                buildingSymbol = Instantiate(MarkerManager.GetComponent<MarkerManager>().GetBuildingModel()) as GameObject;
+                SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                SetRendererActive<MeshRenderer>(buildingSymbol, true);
             }
-            
+            // continuously looking for plane
             if (!_isLookingForPlane) {
                 StartCoroutine(_WaitForDepthAndFindPlane());
             }
         }
 
+        // when building are placed, destroy transparent building model
         if ((GlobalManagement.Building != null && buildingSymbol != null) || GlobalManagement.SceneIndex != (int) Configs.SceneIndex.Building) {
             Destroy(buildingSymbol);
+            buildingSymbol = null;
         }
 
-        
 
         if (Input.touchCount == 1)
         {
@@ -658,30 +678,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             m_markerList.Add(temp);
         }
 
-         var notificationParams = new NotificationParams
-                {
-                    Id = UnityEngine.Random.Range(0, int.MaxValue),
-                    Delay = TimeSpan.FromSeconds(5),
-                    Title = m_markPrefabs.Length.ToString(),
-                    Message = m_markerList.Count.ToString(),
-                    Ticker = "Ticker",
-                    Sound = true,
-                    Vibrate = true,
-                    Light = true,
-                    SmallIcon = NotificationIcon.Heart,
-                    SmallIconColor = new Color(0, 0.5f, 0),
-                    LargeIcon = "app_icon"
-                };
-
-        NotificationManager.SendCustom(notificationParams);
-        //foreach (MarkerData mark in xmlDataList)
-        //{
-        //    // Instantiate all markers' gameobject.
-        //    GameObject temp = Instantiate(m_markPrefabs[mark.m_type],
-        //                                  mark.m_position,
-        //                                  mark.m_orientation) as GameObject;
-        //    m_markerList.Add(temp);
-        //}
     }
 
     /// <summary>
@@ -712,15 +708,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         newMarkObject = Instantiate(ObjectToInstant) as GameObject;
         newMarkObject.transform.position = planeCenter;
 
-
-            // store the marker
-        // if (m_currentMarkType == 2)
-        //     GlobalManagement.Marker = newMarkObject;
-
-        // store the building
-        
-        
-
         ARMarker markerScript = newMarkObject.GetComponent<ARMarker>();
 
         markerScript.m_type = m_currentMarkType;
@@ -738,14 +725,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
 
         if (m_currentMarkType == (int) Configs.MarkerType.Building) {
-            MeshRenderer[] allMeshes = newMarkObject.GetComponentsInChildren<MeshRenderer>();
-            SkinnedMeshRenderer[] allSkinMeshes = newMarkObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-            foreach (MeshRenderer m  in allMeshes) {
-                m.enabled = true;
-            }
-            foreach (SkinnedMeshRenderer m  in allSkinMeshes) {
-                m.enabled = true;
-            }
+            SetRendererActive<MeshRenderer>(newMarkObject, true);
+            SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
+
             newMarkObject.GetComponent<manipulate>().enabled = true;
             if (newMarkObject.GetComponentInChildren<BuildingAppearController>() != null) {
                 newMarkObject.GetComponentInChildren<BuildingAppearController>().enabled = true;
@@ -762,9 +744,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             newMarkObject.GetComponent<recognize>().enabled = true;
             m_markerList.Add(newMarkObject);
             GlobalManagement.Markers = m_markerList;
-            // foreach (GameObject g in m_markerList) {
-            //     Debug.Log(g.GetComponent<ARMarker>().GetID() + " : " + g.GetComponent<recognize>().enabled);
-            // }
         }
 
             
@@ -777,13 +756,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                                     Quaternion.LookRotation(forward, up)) as GameObject;
 
 
-            // store the marker
-        // if (m_currentMarkType == 2)
-        //     GlobalManagement.Marker = newMarkObject;
-
-        // store the building
-        
-            
 
         ARMarker markerScript = newMarkObject.GetComponent<ARMarker>();
 
@@ -802,14 +774,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
 
         if (m_currentMarkType == (int) Configs.MarkerType.Building) {
-            MeshRenderer[] allMeshes = newMarkObject.GetComponentsInChildren<MeshRenderer>();
-            SkinnedMeshRenderer[] allSkinMeshes = newMarkObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-            foreach (MeshRenderer m  in allMeshes) {
-                m.enabled = true;
-            }
-            foreach (SkinnedMeshRenderer m  in allSkinMeshes) {
-                m.enabled = true;
-            }
+            
+
+            SetRendererActive<MeshRenderer>(newMarkObject, true);
+            SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
             newMarkObject.GetComponent<manipulate>().enabled = true;
             GlobalManagement.Building = newMarkObject;
             GlobalManagement.ShootButton.transform.GetChild(0).gameObject.SetActive(false);
@@ -822,9 +790,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             newMarkObject.GetComponent<recognize>().enabled = true;
             m_markerList.Add(newMarkObject);
             GlobalManagement.Markers = m_markerList;
-            // foreach (GameObject g in m_markerList) {
-            //     Debug.Log(g.GetComponent<ARMarker>().GetID() + " : " + g.GetComponent<recognize>().enabled);
-            // }
         }
 
             
@@ -832,13 +797,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     }
 
     private IEnumerator _WaitForDepthAndFindPlane() {
-        
-        
-
-        // foreach (MeshRenderer m in buildingSymbol.GetComponentsInChildren<MeshRenderer>()) {
-        //     m.material = disallowPlaceMat;
-        // }
+        // start of the process, only one process at a time
         _isLookingForPlane = true;
+        
         m_findPlaneWaitingForDepth = true;
     
         // Turn on the camera and wait for a single depth update.
@@ -861,23 +822,18 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         {
             buildingSymbol.transform.position = planeCenter;
             
-            foreach (MeshRenderer m in buildingSymbol.GetComponentsInChildren<MeshRenderer>()) {
-                m.material = allowPlaceMat;
-            }
+            SetMaterial<MeshRenderer>(buildingSymbol, allowPlaceMat);
             _planeCenter = planeCenter;
             
         } else {
 
             buildingSymbol.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
 
-            foreach (MeshRenderer m in buildingSymbol.GetComponentsInChildren<MeshRenderer>()) {
-                m.material = disallowPlaceMat;
-            }
+            SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
             _planeCenter = Vector3.zero;
         }
+        // end of the process
         _isLookingForPlane = false;
-        
-        // buildingSymbol.transform.position = cam.transform.position + cam.transform.forward;
     }
 
     /// <summary>
