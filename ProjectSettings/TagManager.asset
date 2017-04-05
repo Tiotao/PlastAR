@@ -21,7 +21,7 @@ TagManager:
   - StoryView
   - VirtualMarker
   - test
-  - GuildingLine
+  - GuidingLine
   layers:
   - Default
   - TransparentFX
