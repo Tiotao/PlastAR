@@ -19,6 +19,7 @@ TagManager:
   - MessageBox
   - EmailBox
   - StoryView
+  - VirtualMarker
   layers:
   - Default
   - TransparentFX
