@@ -18,5 +18,17 @@ public class Configs {
 
 	}
 
+	public enum AdjustMode {
+		Forward,
+		Backward,
+		Left,
+		Right,
+		Up,
+		Down,
+		ScaleUp,
+		ScaleDown
+
+	}
+
 
 }

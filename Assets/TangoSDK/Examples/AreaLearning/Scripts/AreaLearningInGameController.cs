@@ -152,6 +152,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     private bool _isLookingForPlane;
 
     private Vector3 _planeCenter;
+
+    private GameObject _selectedMarker;
     
 
     /// <summary>
@@ -309,10 +311,13 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 {
                 // do nothing, the button will handle it
                 } else if (Physics.Raycast(cam.ScreenPointToRay(t.position), out hitInfo)) {
-                // Found a marker, select it (so long as it isn't disappearing)!
+                    
                     
                 } else {
-                    StartCoroutine(_WaitForDepthAndFindPlane(t.position));
+                    if (GlobalManagement.developerMode) {
+                        Debug.Log("find plane...");
+                        StartCoroutine(_WaitForDepthAndFindPlane(t.position));
+                    }
                 }
 
                 // animation effect
@@ -326,6 +331,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             foreach (GameObject m in m_markerList) {
                 if(m.GetComponent<recognize>().seen ) {
                     MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
+                    _selectedMarker = m;
                     GlobalManagement.Content.SetActive(true);
                     return;
                 }
@@ -516,6 +522,49 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     public void Save()
     {
         StartCoroutine(_DoSaveCurrentAreaDescription());
+    }
+
+    public void AdjustMarker(int mode) {
+
+        float distance = 0.01f;
+        float newScale;
+
+        switch(mode) {
+            case (int) Configs.AdjustMode.Forward:
+                _selectedMarker.transform.Translate(Vector3.forward * distance, Camera.main.transform);
+                _selectedMarker.transform.SetParent(null, true);
+                break;
+            case (int) Configs.AdjustMode.Backward:
+                _selectedMarker.transform.Translate(Vector3.back * distance, Camera.main.transform);
+                _selectedMarker.transform.SetParent(null, true);
+                break;
+            case (int) Configs.AdjustMode.Left:
+                _selectedMarker.transform.Translate(Vector3.left * distance, Camera.main.transform);
+                _selectedMarker.transform.SetParent(null, true);
+                break;
+            case (int) Configs.AdjustMode.Right:
+                _selectedMarker.transform.Translate(Vector3.right * distance, Camera.main.transform);
+                _selectedMarker.transform.SetParent(null, true);
+                break;
+            case (int) Configs.AdjustMode.Up:
+                _selectedMarker.transform.Translate(Vector3.up * distance, Camera.main.transform);
+                _selectedMarker.transform.SetParent(null, true);
+                break;
+            case (int) Configs.AdjustMode.Down:
+                _selectedMarker.transform.Translate(Vector3.down * distance, Camera.main.transform);
+                _selectedMarker.transform.SetParent(null, true);
+                break;
+            case (int) Configs.AdjustMode.ScaleUp:
+                newScale = _selectedMarker.transform.localScale.x + 0.1f;
+                _selectedMarker.transform.localScale = new Vector3(newScale, newScale, newScale);
+                break;
+            case (int) Configs.AdjustMode.ScaleDown:
+                newScale = _selectedMarker.transform.localScale.x - 0.1f;
+                _selectedMarker.transform.localScale = new Vector3(newScale, newScale, newScale);
+                break;
+
+
+        }
     }
 
     /// <summary>
@@ -820,9 +869,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     }
 
     private void _PlaceMarker(GameObject ObjectToInstant, Vector3 planeCenter, Vector3 forward, Vector3 up) {
+        Debug.Log("Placing Marker");
         newMarkObject = Instantiate(ObjectToInstant,
                                     planeCenter,
-                                    Quaternion.LookRotation(forward, up)) as GameObject;
+                                    Quaternion.identity) as GameObject;
 
         _SetUpARScript(newMarkObject);
         
@@ -833,6 +883,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         GlobalManagement.Markers = m_markerList;
             
         m_selectedMarker = null;
+
+       
     }
 
     private IEnumerator _WaitForDepthAndFindPlane() {
@@ -914,29 +966,32 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
         
         // Ensure the location is always facing the camera.  This is like a LookRotation, but for the Y axis.
-        Vector3 up = plane.normal;
-        Vector3 forward;
-        if (Vector3.Angle(plane.normal, cam.transform.forward) < 175)
-        {
-            Vector3 right = Vector3.Cross(up, cam.transform.forward).normalized;
-            forward = Vector3.Cross(right, up).normalized;
-        }
-        else
-        {
-            // Normal is nearly parallel to camera look direction, the cross product would have too much
-            // floating point error in it.
-            forward = Vector3.Cross(up, cam.transform.right);
-        }
+        // Vector3 up = plane.normal;
+        // Vector3 forward;
+        // if (Vector3.Angle(plane.normal, cam.transform.forward) < 175)
+        // {
+        //     Vector3 right = Vector3.Cross(up, cam.transform.forward).normalized;
+        //     forward = Vector3.Cross(right, up).normalized;
+        // }
+        // else
+        // {
+        //     // Normal is nearly parallel to camera look direction, the cross product would have too much
+        //     // floating point error in it.
+        //     forward = Vector3.Cross(up, cam.transform.right);
+        // }
 
         // Instantiate marker object.
 
         
 
         GameObject ObjectToInstant;
+        Vector3 forward = Vector3.zero;
+        Vector3 up = Vector3.zero;
 
         if (m_markerList.Count < m_markPrefabs.Length)
         {
             // main scene
+            
             SetCurrentMarkType((int) Configs.MarkerType.Marker);
             ObjectToInstant = m_markPrefabs[m_markerList.Count];
             _PlaceMarker(ObjectToInstant, planeCenter, forward, up);

@@ -19,6 +19,10 @@ public class recognize : MonoBehaviour {
             ParticleSystem.EmissionModule em = p.emission;
             em.enabled = true;
         }
+        foreach (MeshRenderer m in GetComponentsInChildren<MeshRenderer>()) {
+            m.enabled = true;
+        }
+
 
         //plan = GameObject.FindGameObjectWithTag("Content");
         //plan.SetActive(false);

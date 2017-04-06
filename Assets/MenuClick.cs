@@ -23,7 +23,11 @@ public class MenuClick : MonoBehaviour
 
     public GameObject GuidingLine;
 
+    GameObject DebugConsole;
+
     public void Start() {
+        DebugConsole = GameObject.Find("DebugConsole");
+        DebugConsole.SetActive(false);
         RefreshView();
         // toggle save button based on developer option
         
@@ -40,6 +44,7 @@ public class MenuClick : MonoBehaviour
         Building = GlobalManagement.Building;
         StoryView = GlobalManagement.StoryView;
         GuidingLine = GlobalManagement.GuidingLine;
+        
     }
 
     
@@ -189,6 +194,7 @@ public class MenuClick : MonoBehaviour
 
     public void ToggleSave() {
         GlobalManagement.developerMode = !GlobalManagement.developerMode;
+        DebugConsole.SetActive(GlobalManagement.developerMode);
         FunctionView.transform.GetChild(0).gameObject.SetActive(GlobalManagement.developerMode);
     }
 }
