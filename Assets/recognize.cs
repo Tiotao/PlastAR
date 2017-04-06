@@ -15,7 +15,6 @@ public class recognize : MonoBehaviour {
         MarkerManager = GameObject.FindGameObjectWithTag("MarkerManager");
         plan = GlobalManagement.Content;
         hotspots = GetComponentsInChildren<ParticleSystem>();
-        Debug.Log(hotspots.Length);
         foreach (ParticleSystem p in hotspots) {
             ParticleSystem.EmissionModule em = p.emission;
             em.enabled = true;

@@ -21,6 +21,8 @@ public class MenuClick : MonoBehaviour
 
     public GameObject Building;
 
+    public GameObject GuidingLine;
+
     public void Start() {
         RefreshView();
         // toggle save button based on developer option
@@ -37,6 +39,7 @@ public class MenuClick : MonoBehaviour
         FunctionView = GlobalManagement.FunctionView;
         Building = GlobalManagement.Building;
         StoryView = GlobalManagement.StoryView;
+        GuidingLine = GlobalManagement.GuidingLine;
     }
 
     
@@ -44,7 +47,7 @@ public class MenuClick : MonoBehaviour
     public void ToBuiding()
     {
         // switch scene index
-        GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
+        
         
         RefreshView();
         
@@ -60,11 +63,16 @@ public class MenuClick : MonoBehaviour
         CastView.SetActive(false);
         FunctionView.SetActive(true);
         GlobalManagement.ShootButton.SetActive(true);
-        try {
-            Building.SetActive(true);
-        } catch {
-            Debug.Log("No Building Present");
-        }
+        Destroy(Building);
+        GlobalManagement.Building = null;
+        GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
+        // try {
+        //     Building.SetActive(true);
+        // } catch {
+        //     Debug.Log("No Building Present");
+        // }
+
+        
         
 
     }
@@ -95,6 +103,8 @@ public class MenuClick : MonoBehaviour
             Debug.Log("No Building Present");
         }
 
+        GuidingLine.SetActive(false);
+
     }
 
     public void ToStory()
@@ -124,11 +134,12 @@ public class MenuClick : MonoBehaviour
             Debug.Log("No Building Present");
         }
 
+        GuidingLine.SetActive(false);
+
     }
 
     public void ToLanding(){
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Landing;
-        
         
 
         RefreshView();
@@ -152,6 +163,8 @@ public class MenuClick : MonoBehaviour
         } catch {
             Debug.Log("No Building Present");
         }
+
+        GuidingLine.SetActive(false);
     }
 
     public void Exit() {
