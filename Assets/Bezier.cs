@@ -24,7 +24,7 @@ using System.Collections.Generic;
     }
     void Update() {
         if (t > 0) {
-            t = t - 0.2f * Time.deltaTime;
+            t = t - 1f * Time.deltaTime;
         } else {
             t = 1;
         }
