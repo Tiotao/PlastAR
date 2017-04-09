@@ -75,6 +75,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     public Material allowPlaceMat;
     public Material disallowPlaceMat;
+    public Material appearMat;
 
 #if UNITY_EDITOR
     /// <summary>
@@ -151,6 +152,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private bool _isLookingForPlane;
 
+    private bool _isPlacingBuilding;
+
     private Vector3 _planeCenter;
 
     private GameObject _selectedMarker;
@@ -197,6 +200,29 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     /// 
     /// Mainly handle the touch event and place mark in place.
     /// </summary>
+
+    IEnumerator _BuildingAppearEffect(GameObject buildingSymbol) {
+        Debug.Log("Start placing buildings");
+        _isPlacingBuilding = true;
+        SetMaterial<MeshRenderer>(buildingSymbol, appearMat);
+        float w = 0;
+        while (w < 1) {
+            foreach (MeshRenderer m in buildingSymbol.GetComponentsInChildren<MeshRenderer>()) {
+				m.material.SetFloat("_Offset", w);
+			}
+            w = w + Time.deltaTime * 0.3f;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        Destroy(buildingSymbol);
+        buildingSymbol = null;
+        SetRendererActive<MeshRenderer>(newMarkObject, true);
+        SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
+        _isPlacingBuilding = false;
+        Debug.Log("End placing buildings");
+
+
+    } 
+
     public void Update()
     {
         if (m_saveThread != null && m_saveThread.ThreadState != ThreadState.Running)
@@ -230,8 +256,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building) {
 
+            
             // control input
             if (Input.touchCount == 1) {
+
+                if (_isPlacingBuilding) {
+                    Debug.Log("Placing Building, ignore touch");
+                    return;
+                }
+
+                
                 Touch t = Input.GetTouch(0);
                 Vector2 guiPosition = new Vector2(t.position.x, Screen.height - t.position.y);
                 Camera cam = Camera.main;
@@ -243,25 +277,28 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 if (m_selectedRect.Contains(guiPosition))
                 {
                 // do nothing, the button will handle it
+                    Debug.Log("Touch on gui objects");
                 } else if (Physics.Raycast(cam.ScreenPointToRay(t.position), out hitInfo)) {
                 // Found a marker, select it (so long as it isn't disappearing)!
-                    
+                    Debug.Log("Touch on existing object");
                 } else if (GlobalManagement.Building == null) {
                     GameObject ObjectToInstant;
                     SetCurrentMarkType((int) Configs.MarkerType.Building);
                     ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
                     // _planeCenter will be zero if no plane found
                     if (_planeCenter != Vector3.zero) {
-                        _PlaceBuilding(ObjectToInstant, _planeCenter);
+                        Debug.Log("Plane is good and placing buildings");
+                        _InstantiateBuilding(ObjectToInstant, _planeCenter);
                         // add into global management
                         GlobalManagement.Building = newMarkObject;
+                        // destroy guide lines and transparent symbol
+                        GlobalManagement.GuidingLine.SetActive(false);
+                        Debug.Log("Guiding Line Status: " + GlobalManagement.GuidingLine.activeSelf);
                         // show instruction
                         GlobalManagement.ShootButton.transform.GetChild(0).gameObject.SetActive(false);
                         GlobalManagement.ShootButton.transform.GetChild(1).gameObject.SetActive(true);
-                        // destroy guide lines and transparent symbol
-                        GlobalManagement.GuidingLine.SetActive(false);
-                        Destroy(buildingSymbol);
-                        buildingSymbol = null;
+                        StartCoroutine(_BuildingAppearEffect(buildingSymbol));
+
                     }
                     
                 }
@@ -851,19 +888,19 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     }
 
 
-    private void _PlaceBuilding (GameObject ObjectToInstant, Vector3 planeCenter) {
+    private void _InstantiateBuilding (GameObject ObjectToInstant, Vector3 planeCenter) {
         newMarkObject = Instantiate(ObjectToInstant,planeCenter, Quaternion.identity) as GameObject;
         
         _SetUpARScript(newMarkObject);
 
-        SetRendererActive<MeshRenderer>(newMarkObject, true);
-        SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
+        // SetRendererActive<MeshRenderer>(newMarkObject, true);
+        // SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
 
         newMarkObject.GetComponent<manipulate>().enabled = true;
 
-        if (newMarkObject.GetComponentInChildren<BuildingAppearController>() != null) {
-            newMarkObject.GetComponentInChildren<BuildingAppearController>().enabled = true;
-        }
+        // if (newMarkObject.GetComponentInChildren<BuildingAppearController>() != null) {
+        //     newMarkObject.GetComponentInChildren<BuildingAppearController>().enabled = true;
+        // }
   
         m_selectedMarker = null;
     }
@@ -889,6 +926,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private IEnumerator _WaitForDepthAndFindPlane() {
         // start of the process, only one process at a time
+
         _isLookingForPlane = true;
         
         m_findPlaneWaitingForDepth = true;
@@ -909,7 +947,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         bool hasPlane = m_pointCloud.FindPlane(cam, new Vector2(cam.pixelWidth/2, cam.pixelHeight/2), out planeCenter, out plane);
         GameObject GuidingLine = GlobalManagement.GuidingLine;
 
-        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building) {
+        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && !_isPlacingBuilding) {
             if (hasPlane && plane.normal.y < 1.0f && plane.normal.y > 0.95f)
             {
                 buildingSymbol.transform.position = planeCenter;
