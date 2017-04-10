@@ -1,53 +1,39 @@
-﻿Shader "IppokratisBournellis/SectionPlane"
-{
-    Properties
-    {
+﻿Shader "Example/Slices" {
+    Properties {
       _MainTex ("Texture", 2D) = "white" {}
-      _section ("Section plane (x angle, y angle, z angle, w displacement)", vector) = (0,0,0,0.15)
-      _Color ("Section Color", Color) = (1,1,1,0)
+      _BumpMap ("Bumpmap", 2D) = "bump" {}
+      _Frequency ("Clip Frequency", Range(0,10)) = 5.0
+      _Offset ("Clip Offset", Range(0,1)) = 0
     }
-   
-    SubShader
-    {
+    SubShader {
       Tags { "RenderType" = "Opaque" }
       Cull Off
-   
       CGPROGRAM
-      #pragma surface surf Lambert
- 
-      struct Input
-      {
+      #pragma surface surf Lambert vertex:vert
+      struct Input {
           float2 uv_MainTex;
+          float2 uv_BumpMap;
           float3 worldPos;
-          float3 viewDir;
-          float3 worldNormal;
+          float3 objPos;
       };
-     
       sampler2D _MainTex;
       sampler2D _BumpMap;
-      float4 _section;
-      fixed4 _Color;
-     
-      void surf (Input IN, inout SurfaceOutput o)
-      {
-        float toClip = _section.x * 0.1 * IN.worldPos.x +
-                       _section.y * 0.1 * IN.worldPos.y +
-                       _section.z * 0.1 * IN.worldPos.z +
-                       _section.w;
-                       
-        clip( toClip);
-         
-        float fd = dot( IN.viewDir, IN.worldNormal);
- 
-        if (fd.x > 0)
-        {
-            o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
-            return;
-        }
-       
-        o.Emission = _Color;
+      float _Frequency;
+      float _Offset;
+      
+      void vert (inout appdata_full v, out Input o) {
+            UNITY_INITIALIZE_OUTPUT(Input,o);
+            o.objPos = v.vertex;
+      }
+      
+      void surf (Input IN, inout SurfaceOutput o) {
+      
+
+          clip ( - frac((IN.objPos.y) * _Frequency) + _Offset);
+          o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
+          o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap));
       }
       ENDCG
-    }
+    } 
     Fallback "Diffuse"
- }
+  }

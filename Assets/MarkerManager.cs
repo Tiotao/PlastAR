@@ -49,6 +49,9 @@ public class MarkerManager : MonoBehaviour {
 		ClearPastData();
 		ActiveCastView();
 		ActiveMenuView();
+		if (GlobalManagement.developerMode) {
+			ActiveAdjustmentView();
+		}
 		// TEMP
 		if (markerID == 0) {
 			_post1.SetActive(true);
@@ -93,6 +96,10 @@ public class MarkerManager : MonoBehaviour {
 		Text description = _menuView.transform.FindChild("MarkerDescription").GetComponent<Text>();
 		name.text = GetMarker()._castName;
 		description.text = GetMarker()._castDescription;
+	}
+
+	private void ActiveAdjustmentView() {
+
 	}
 
 	private void ActiveCastView() {

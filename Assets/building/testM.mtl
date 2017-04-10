@@ -1,0 +1,100 @@
+newmtl initialShadingGroup
+illum 4
+Kd 0.27 0.23 0.17
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl new:Tower_of_the_WindsSG
+illum 4
+Kd 0.21 0.19 0.14
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl new:new:new:phong1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 7.jpg
+bump 7_NRM.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 7_SPEC.jpg
+Ns 18.00
+newmtl new:new:phong1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 1.jpg
+bump 1_NRM.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 1_SPEC.jpg
+Ns 18.00
+newmtl new:new:phong2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 2.jpg
+bump 2_NRM.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 2_SPEC.jpg
+Ns 18.00
+newmtl new:new:phong3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 3.jpg
+bump 2_NRM.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 3_SPEC.jpg
+Ns 18.00
+newmtl new:new:phong4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 4.jpg
+bump 4_NRM.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 4_SPEC.jpg
+Ns 18.00
+newmtl new:new:phong5SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 5.jpg
+bump 5_NRM.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 5_SPEC.jpg
+Ns 18.00
+newmtl new:new:phong6SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 6.jpg
+bump 6_SPEC.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 6_SPEC.jpg
+Ns 18.00
+newmtl new:new:phong7SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd 8.jpg
+bump 8_NRM.jpg -bm 1
+Ni 1.00
+Ks 0.00 0.00 0.00
+map_Ks 8_SPEC.jpg
+Ns 18.00

@@ -25,6 +25,7 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("MessageBox");
         InitializeScreen("EmailBox");
         InitializeScreen("StoryView");
+        InitializeScreen("GuidingLine");
         LoadData();
     }
 
