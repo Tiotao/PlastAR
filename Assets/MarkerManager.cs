@@ -12,6 +12,8 @@ public class MarkerManager : MonoBehaviour {
 
 	// stores virtual camera and virtual cast model
 	GameObject _castBuffer;
+
+	GameObject _storyView;
 	GameObject _castRotateView;
 
 	GameObject _menuView;
@@ -34,9 +36,10 @@ public class MarkerManager : MonoBehaviour {
 
 	public void Init() {
 		_markers = GetComponentsInChildren<Marker>();
-		SetCurrentMarker(1);
+		SetCurrentMarker(0);
 		_castBuffer = GameObject.Find("CastModels");
 		_castRotateView = GlobalManagement.RotateView;
+		_storyView = GlobalManagement.StoryView;
 		_menuView = GlobalManagement.Content;
 		Refresh(_currentMarkerID);
 		// TEMP: replace building model  
@@ -52,15 +55,20 @@ public class MarkerManager : MonoBehaviour {
 		if (GlobalManagement.developerMode) {
 			ActiveAdjustmentView();
 		}
+		ActiveStoryView();
 		// TEMP
-		if (markerID == 0) {
-			_post1.SetActive(true);
-			_post0.SetActive(false);
-		} else {
-			_post0.SetActive(true);
-			_post1.SetActive(false);
-		}
 		
+		
+	}
+
+	public void ActiveStoryView() {
+
+		GameObject storyContent = GetMarker().GetStory();
+
+		GameObject story = Instantiate(storyContent, Vector3.zero, Quaternion.identity) as GameObject;
+		story.transform.parent = GlobalManagement.StoryView.transform;
+		story.transform.localPosition = Vector3.zero;
+		story.transform.localScale = new Vector3(1, 1, 1);
 	}
 
 	public GameObject[] GetMarkerModels() {
@@ -84,6 +92,12 @@ public class MarkerManager : MonoBehaviour {
 		GlobalManagement.Building = null;
 		foreach (Transform child in hotspotsView) {
 			GameObject.Destroy(child.gameObject);
+		}
+
+		try {
+			Destroy(GlobalManagement.StoryView.transform.GetChild(1));
+		} catch {
+
 		}
 
 		foreach (Transform child in fragmentsContainer) {

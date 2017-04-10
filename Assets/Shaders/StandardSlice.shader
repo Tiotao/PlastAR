@@ -1,11 +1,9 @@
-// Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
-
-Shader "Custom/Standard-Slice"
+Shader "Custom/Slice"
 {
 	Properties
 	{
-		// _Frequency ("Clip Frequency", Float) = 5.0
-      	// _Offset ("Clip Offset", Float) = 0
+		_Frequency("Frequency", Float) = 0
+		_Offset("Offset", Float) = 0
 		
 		_Color("Color", Color) = (1,1,1,1)
 		_MainTex("Albedo", 2D) = "white" {}
@@ -40,8 +38,6 @@ Shader "Custom/Standard-Slice"
 		_DetailNormalMapScale("Scale", Float) = 1.0
 		_DetailNormalMap("Normal Map", 2D) = "bump" {}
 
-		
-
 		[Enum(UV0,0,UV1,1)] _UVSec ("UV Set for secondary textures", Float) = 0
 
 
@@ -58,41 +54,9 @@ Shader "Custom/Standard-Slice"
 
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
+		Tags { "RenderType" = "Opaque" "PerformanceChecks"="False" }
 		LOD 300
-		Cull Off
-		
-		
-		// CGPROGRAM
-		
-		// 	#pragma surface surf Lambert vertex:vert
-		// 	struct Input {
-		// 		float2 uv_MainTex;
-		// 		float2 uv_BumpMap;
-		// 		float3 worldPos;
-		// 		float3 objPos;
-		// 	};
-
-		// 	sampler2D _MainTex;
-		// 	sampler2D _BumpMap;
-		// 	float _Frequency;
-		// 	float _Offset;
-
-			
-		// 	void vert (inout appdata_full v, out Input o) {
-		// 		UNITY_INITIALIZE_OUTPUT(Input,o);
-		// 		o.objPos = v.vertex;
-		// 	}
-			
-		// 	void surf (Input IN, inout SurfaceOutput o) {
-			
-
-		// 		clip ( - frac((IN.objPos.y) * _Frequency) + _Offset);
-		// 		o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
-		// 		o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap));
-		// 	}
-		// ENDCG
-		
+	
 
 		// ------------------------------------------------------------------
 		//  Base forward pass (directional light, emission, lightmaps, ...)
@@ -106,7 +70,6 @@ Shader "Custom/Standard-Slice"
 
 			CGPROGRAM
 			#pragma target 3.0
-			
 
 			// -------------------------------------
 
@@ -122,7 +85,6 @@ Shader "Custom/Standard-Slice"
 
 			#pragma multi_compile_fwdbase
 			#pragma multi_compile_fog
-			#pragma multi_compile_instancing
 
 			#pragma vertex vertBase
 			#pragma fragment fragBase
@@ -158,6 +120,7 @@ Shader "Custom/Standard-Slice"
 			#pragma multi_compile_fwdadd_fullshadows
 			#pragma multi_compile_fog
 
+
 			#pragma vertex vertAdd
 			#pragma fragment fragAdd
 			#include "UnityStandardCoreForward.cginc"
@@ -182,7 +145,6 @@ Shader "Custom/Standard-Slice"
 			#pragma shader_feature _METALLICGLOSSMAP
 			#pragma shader_feature _PARALLAXMAP
 			#pragma multi_compile_shadowcaster
-			#pragma multi_compile_instancing
 
 			#pragma vertex vertShadowCaster
 			#pragma fragment fragShadowCaster
@@ -214,8 +176,10 @@ Shader "Custom/Standard-Slice"
 			#pragma shader_feature ___ _DETAIL_MULX2
 			#pragma shader_feature _PARALLAXMAP
 
-			#pragma multi_compile_prepassfinal
-			#pragma multi_compile_instancing
+			#pragma multi_compile ___ UNITY_HDR_ON
+			#pragma multi_compile ___ LIGHTMAP_ON
+			#pragma multi_compile ___ DIRLIGHTMAP_COMBINED DIRLIGHTMAP_SEPARATE
+			#pragma multi_compile ___ DYNAMICLIGHTMAP_ON
 
 			#pragma vertex vertDeferred
 			#pragma fragment fragDeferred
@@ -243,22 +207,73 @@ Shader "Custom/Standard-Slice"
 			#pragma shader_feature _METALLICGLOSSMAP
 			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 			#pragma shader_feature ___ _DETAIL_MULX2
-			#pragma shader_feature EDITOR_VISUALIZATION
 
 			#include "UnityStandardMeta.cginc"
 			ENDCG
 		}
-		
 
-		
+		// Blend One One
+
+		Pass {
+            
+       
+            CGPROGRAM
+
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
+
+            struct v2f {
+                float4 pos : SV_POSITION;
+                fixed3 color : COLOR0;
+            };
+
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.color = v.normal * 0.5 + 0.5;
+                return o;
+            }
+
+            fixed4 frag (v2f i) : SV_Target
+            {
+                // discard;
+				return fixed4 (i.color, 0);
+            }
+            ENDCG
+        }
+
+		// Cull Off
+
+
+		// CGPROGRAM
+		// 	#pragma surface surf Lambert
+		// 	struct Input {
+		// 		float2 uv_MainTex;
+		// 		float2 uv_BumpMap;
+		// 		float3 worldPos;
+
+		// 	};
+		// 	sampler2D _MainTex;
+		// 	sampler2D _BumpMap;
+		// 	float _Frequency;
+		// 	float _Offset;
+		// 	void surf (Input IN, inout SurfaceOutput o) {
+		// 		float3 localPos = IN.worldPos -  mul(unity_ObjectToWorld, float4(0,0,0,1)).xyz;
+		// 		clip (_Offset - sin(localPos.y) - 0.5);
+		// 		// clip ( - frac((IN.objPos.y) * _Frequency) + _Offset);
+		// 		o.Albedo = tex2D (_MainTex, IN.uv_MainTex).rgb;
+		// 		o.Normal = UnpackNormal (tex2D (_BumpMap, IN.uv_BumpMap));
+		// 	}
+		// ENDCG
+
 	}
 
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
 		LOD 150
-
-		
 
 		// ------------------------------------------------------------------
 		//  Base forward pass (directional light, emission, lightmaps, ...)
@@ -283,7 +298,7 @@ Shader "Custom/Standard-Slice"
 			// SM2.0: NOT SUPPORTED shader_feature ___ _DETAIL_MULX2
 			// SM2.0: NOT SUPPORTED shader_feature _PARALLAXMAP
 
-			#pragma skip_variants SHADOWS_SOFT DIRLIGHTMAP_COMBINED
+			#pragma skip_variants SHADOWS_SOFT DIRLIGHTMAP_COMBINED DIRLIGHTMAP_SEPARATE
 
 			#pragma multi_compile_fwdbase
 			#pragma multi_compile_fog
@@ -368,14 +383,17 @@ Shader "Custom/Standard-Slice"
 			#pragma shader_feature _METALLICGLOSSMAP
 			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 			#pragma shader_feature ___ _DETAIL_MULX2
-			#pragma shader_feature EDITOR_VISUALIZATION
 
 			#include "UnityStandardMeta.cginc"
 			ENDCG
 		}
+
+		
+
+		
 	}
 
 
 	FallBack "VertexLit"
-	CustomEditor "StandardShaderGUI"
+	// CustomEditor "StandardShaderGUI"
 }

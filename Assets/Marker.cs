@@ -9,6 +9,8 @@ public class Marker : MonoBehaviour {
 
 	GameObject _marker;
 
+	GameObject _story;
+
 	public string _castName;
 
 	[TextArea(3,10)]
@@ -22,13 +24,15 @@ public class Marker : MonoBehaviour {
 	enum DataType {
 		Marker,
 		Building,
-		Cast
+		Cast,
+		Story
 	}
 
 	void Awake() {
 		_building = transform.GetChild((int) DataType.Building).gameObject;
 		_cast = transform.GetChild((int) DataType.Cast).gameObject;
 		_marker = transform.GetChild((int) DataType.Marker).gameObject;
+		_story = transform.GetChild((int) DataType.Story).gameObject;
 	}
 
 	// Use this for initialization
@@ -38,6 +42,10 @@ public class Marker : MonoBehaviour {
 
 	public GameObject GetBuilding() {
 		return _building;
+	}
+
+	public GameObject GetStory() {
+		return _story;
 	}
 
 	public GameObject GetBuildingModel() {
