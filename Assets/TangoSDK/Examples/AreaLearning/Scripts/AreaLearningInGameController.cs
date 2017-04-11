@@ -77,6 +77,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     public Material disallowPlaceMat;
     public Material appearMat;
 
+    
+
 #if UNITY_EDITOR
     /// <summary>
     /// Handles GUI text input in Editor where there is no device keyboard.
@@ -157,7 +159,11 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     private Vector3 _planeCenter;
 
     private GameObject _selectedMarker;
+
+    // how building appears
+    private int _appearMode;
     
+
 
     /// <summary>
     /// Unity Start function.
@@ -170,6 +176,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         m_poseController = FindObjectOfType<TangoARPoseController>();
         m_tangoApplication = FindObjectOfType<TangoApplication>();
         m_markPrefabs = MarkerManager.GetComponent<MarkerManager>().GetMarkerModels();
+        _appearMode = Configs.appearMode;
         
         if (m_tangoApplication != null)
         {
@@ -202,16 +209,19 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     /// </summary>
 
     IEnumerator _BuildingAppearEffect(GameObject buildingSymbol) {
-        Debug.Log("Start placing buildings");
-        _isPlacingBuilding = true;
-        SetMaterial<MeshRenderer>(buildingSymbol, appearMat);
-        float w = 0;
-        while (w < 1) {
-            foreach (MeshRenderer m in buildingSymbol.GetComponentsInChildren<MeshRenderer>()) {
-				m.material.SetFloat("_Offset", w);
-			}
-            w = w + Time.deltaTime * 0.3f;
-            yield return new WaitForSeconds(Time.deltaTime);
+        
+        if (_appearMode == (int) Configs.AppearMode.Grow) {
+            Debug.Log("Start placing buildings");
+            _isPlacingBuilding = true;
+            SetMaterial<MeshRenderer>(buildingSymbol, appearMat);
+            float w = 0;
+            while (w < 1) {
+                foreach (MeshRenderer m in buildingSymbol.GetComponentsInChildren<MeshRenderer>()) {
+                    m.material.SetFloat("_Offset", w);
+                }
+                w = w + Time.deltaTime * 0.3f;
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
         }
         Destroy(buildingSymbol);
         buildingSymbol = null;
@@ -221,7 +231,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         Debug.Log("End placing buildings");
 
 
-    } 
+    }
+
+    
 
     public void Update()
     {
@@ -311,7 +323,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     Debug.Log("create Building Symbol");
                     Debug.Log(_isLookingForPlane);
                     buildingSymbol = Instantiate(MarkerManager.GetComponent<MarkerManager>().GetBuildingModel()) as GameObject;
-                    SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                    if (_appearMode == (int) Configs.AppearMode.Grow) {
+                        SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                    }
+                    
                     SetRendererActive<MeshRenderer>(buildingSymbol, true);
                     StartCoroutine(_WaitForDepthAndFindPlane());
                 }
@@ -382,64 +397,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             return;
         }
 
-
-        
-
-        // if (Input.touchCount == 1)
-        // {
-        //     Touch t = Input.GetTouch(0);
-        //     Vector2 guiPosition = new Vector2(t.position.x, Screen.height - t.position.y);
-        //     Camera cam = Camera.main;
-        //     RaycastHit hitInfo;
-
-        //     if (t.phase != TouchPhase.Began)
-        //     {
-        //         return;
-        //     }
-
-        //     if (m_selectedRect.Contains(guiPosition))
-        //     {
-        //         // do nothing, the button will handle it
-        //     }
-        //     else if (Physics.Raycast(cam.ScreenPointToRay(t.position), out hitInfo))
-        //     {
-        //         // Found a marker, select it (so long as it isn't disappearing)!
-        //         GameObject tapped = hitInfo.collider.gameObject;
-        //         try {
-        //             if (!tapped.GetComponent<Animation>().isPlaying)
-        //             {
-        //                 m_selectedMarker = tapped.GetComponent<ARMarker>();
-        //             }
-        //         } catch {
-        //             m_selectedMarker = null;
-        //         }
-                
-        //     }
-        //     else
-        //     {
-        //         m_selectedMarker = null;
-                
-        //         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && GlobalManagement.Building == null && _planeCenter != Vector3.zero) {
-        //             GameObject ObjectToInstant;
-
-        //             SetCurrentMarkType((int) Configs.MarkerType.Building);
-        //             ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
-
-        //             _PlaceMarker(ObjectToInstant, _planeCenter);
-                    
-
-        //         } else if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing) {
-        //             // TODO: Marker specific actions
-        //             StartCoroutine(_WaitForDepthAndFindPlane(t.position));
-        //         }
-
-        //         // Because we may wait a small amount of time, this is a good place to play a small
-        //         // animation so the user knows that their input was received.
-                
-        //     }
-        // }
-
-        
 
     }
 
@@ -889,19 +846,21 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
 
     private void _InstantiateBuilding (GameObject ObjectToInstant, Vector3 planeCenter) {
-        newMarkObject = Instantiate(ObjectToInstant,planeCenter, Quaternion.identity) as GameObject;
+
+        Vector3 buildingPos;
+
+        if (_appearMode == (int) Configs.AppearMode.Float) {
+            buildingPos = planeCenter + new Vector3(0, 1.5f, 0);
+        } else {
+            buildingPos = planeCenter;
+        }
+        
+        newMarkObject = Instantiate(ObjectToInstant, buildingPos, Quaternion.identity) as GameObject;
         
         _SetUpARScript(newMarkObject);
 
-        // SetRendererActive<MeshRenderer>(newMarkObject, true);
-        // SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
-
         newMarkObject.GetComponent<manipulate>().enabled = true;
 
-        // if (newMarkObject.GetComponentInChildren<BuildingAppearController>() != null) {
-        //     newMarkObject.GetComponentInChildren<BuildingAppearController>().enabled = true;
-        // }
-  
         m_selectedMarker = null;
     }
 
@@ -950,21 +909,35 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && !_isPlacingBuilding) {
             if (hasPlane && plane.normal.y < 1.0f && plane.normal.y > 0.95f)
             {
-                buildingSymbol.transform.position = planeCenter;
                 
-                SetMaterial<MeshRenderer>(buildingSymbol, allowPlaceMat);
+
+                if (_appearMode == (int) Configs.AppearMode.Float) {
+                    buildingSymbol.transform.position = planeCenter + new Vector3(0, 1.5f, 0);
+                } else {
+                    buildingSymbol.transform.position = planeCenter;
+                }
                 
-                GuidingLine.GetComponent<Bezier>().controlPoints = new Transform[] {cam.transform, buildingSymbol.transform};
-                GuidingLine.SetActive(true);
+                if (_appearMode == (int) Configs.AppearMode.Grow) {
+                    SetMaterial<MeshRenderer>(buildingSymbol, allowPlaceMat);
+                    GuidingLine.GetComponent<Bezier>().controlPoints = new Transform[] {cam.transform, buildingSymbol.transform};
+                    GuidingLine.SetActive(true);
+                }
+
                 _planeCenter = planeCenter;
                 
             } else {
 
                 buildingSymbol.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
 
-                SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                if (_appearMode == (int) Configs.AppearMode.Grow) {
+                    SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                    GuidingLine.SetActive(false);
+                }
 
-                GuidingLine.SetActive(false);
+                if (_appearMode == (int) Configs.AppearMode.Float) {
+
+
+                }
 
                 _planeCenter = Vector3.zero;
             }
@@ -1003,24 +976,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             yield break;
         }
         
-        // Ensure the location is always facing the camera.  This is like a LookRotation, but for the Y axis.
-        // Vector3 up = plane.normal;
-        // Vector3 forward;
-        // if (Vector3.Angle(plane.normal, cam.transform.forward) < 175)
-        // {
-        //     Vector3 right = Vector3.Cross(up, cam.transform.forward).normalized;
-        //     forward = Vector3.Cross(right, up).normalized;
-        // }
-        // else
-        // {
-        //     // Normal is nearly parallel to camera look direction, the cross product would have too much
-        //     // floating point error in it.
-        //     forward = Vector3.Cross(up, cam.transform.right);
-        // }
-
-        // Instantiate marker object.
-
-        
 
         GameObject ObjectToInstant;
         Vector3 forward = Vector3.zero;
@@ -1035,14 +990,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             _PlaceMarker(ObjectToInstant, planeCenter, forward, up);
         } 
         
-        // if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building ) {
-        //     // building scene
-        //     SetCurrentMarkType((int) Configs.MarkerType.Building);
-        //     ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
-        //     _PlaceMarker(ObjectToInstant, planeCenter, forward, up);
-        // }
-
-        
+    
     }
 
     /// <summary>
