@@ -48,7 +48,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 401d44af50684264f979d571d324b6f0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -87,12 +87,15 @@ Material:
       second: 1
     - first:
         name: _Glossiness
-      second: 0
+      second: 0.081
     - first:
         name: _GlossyReflections
       second: 1
     - first:
         name: _Glow
+      second: 1.25
+    - first:
+        name: _InvFade
       second: 1
     - first:
         name: _Metallic
@@ -106,6 +109,9 @@ Material:
     - first:
         name: _Parallax
       second: 0.02
+    - first:
+        name: _Shininess
+      second: 0.078125
     - first:
         name: _SmoothnessTextureChannel
       second: 0
@@ -126,14 +132,14 @@ Material:
       second: -1
     - first:
         name: _maxHeight
-      second: 60
+      second: 0.004
     - first:
         name: _threshold
-      second: 0
+      second: 1
     m_Colors:
     - first:
         name: _Color
-      second: {r: 0.6102941, g: 0.5716804, b: 0.4666955, a: 1}
+      second: {r: 0.62352943, g: 0.58431375, b: 0.49803922, a: 0.7019608}
     - first:
         name: _EmissionColor
       second: {r: 0, g: 0, b: 0, a: 1}

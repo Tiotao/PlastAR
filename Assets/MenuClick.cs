@@ -10,7 +10,7 @@ public class MenuClick : MonoBehaviour
 
     // Use this for initialization
     public List<GameObject> LandingView;
-    public GameObject MenuView;
+    public GameObject HomeView;
     public GameObject CastView;
 
     public GameObject StoryView;
@@ -19,9 +19,13 @@ public class MenuClick : MonoBehaviour
 
     public GameObject FunctionView;
 
+    public GameObject OnBoardingView;
+
     public GameObject Building;
 
     public GameObject GuidingLine;
+
+    public GameObject MapView;
 
     GameObject DebugConsole;
 
@@ -37,14 +41,21 @@ public class MenuClick : MonoBehaviour
 
     void RefreshView(){
         LandingView = GlobalManagement.Markers;
-        MenuView = GlobalManagement.Content;
+        HomeView = GlobalManagement.HomeView;
         CastView = GlobalManagement.RotateView;
         BuildingView = GlobalManagement.HotSpotDes;
         FunctionView = GlobalManagement.FunctionView;
         Building = GlobalManagement.Building;
         StoryView = GlobalManagement.StoryView;
         GuidingLine = GlobalManagement.GuidingLine;
-        
+        OnBoardingView = GlobalManagement.OnBoardingView;
+        // sub buttons
+        MapView = GlobalManagement.MapView;
+
+    }
+
+    public void ToggleMap() {
+        MapView.SetActive(!MapView.activeSelf);
     }
 
     
@@ -64,20 +75,13 @@ public class MenuClick : MonoBehaviour
         } catch {
             Debug.Log("No Marker Present");
         }
-        MenuView.SetActive(false);
+        HomeView.SetActive(false);
         CastView.SetActive(false);
         FunctionView.SetActive(true);
         GlobalManagement.ShootButton.SetActive(true);
         Destroy(Building);
         GlobalManagement.Building = null;
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
-        // try {
-        //     Building.SetActive(true);
-        // } catch {
-        //     Debug.Log("No Building Present");
-        // }
-
-        
         
 
     }
@@ -92,7 +96,7 @@ public class MenuClick : MonoBehaviour
         // disable active screen overlay
         CastView.SetActive(true);
         CastView.GetComponentInChildren<RotatableSprites>().InitializeContent(false);
-        MenuView.SetActive(false);
+        HomeView.SetActive(false);
         try {
             foreach(GameObject m in LandingView) {
                 m.SetActive(false);
@@ -123,7 +127,7 @@ public class MenuClick : MonoBehaviour
         
         // disable active screen overlay
         CastView.SetActive(false);
-        MenuView.SetActive(false);
+        HomeView.SetActive(false);
         try {
             foreach(GameObject m in LandingView) {
                 m.SetActive(false);
@@ -145,7 +149,6 @@ public class MenuClick : MonoBehaviour
 
     public void ToLanding(){
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Landing;
-        
 
         RefreshView();
 
@@ -156,11 +159,12 @@ public class MenuClick : MonoBehaviour
         } catch {
             Debug.Log("No Marker Present");
         }
-        MenuView.SetActive(false);
+        HomeView.SetActive(false);
         CastView.SetActive(false);
         StoryView.SetActive(false);
         BuildingView.SetActive(false);
         FunctionView.SetActive(false);
+        OnBoardingView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
 
         try {

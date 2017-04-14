@@ -406,13 +406,13 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 if(m.GetComponent<recognize>().seen) {
                     MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
                     _selectedMarker = m;
-                    GlobalManagement.Content.SetActive(true);
+                    GlobalManagement.HomeView.SetActive(true);
                     return;
                 }
             }
             // no marker being seen, set menu to inactive
-            if (GlobalManagement.Content.activeSelf) {
-                GlobalManagement.Content.SetActive(false);
+            if (GlobalManagement.HomeView.activeSelf) {
+                GlobalManagement.HomeView.SetActive(false);
             }
 
             

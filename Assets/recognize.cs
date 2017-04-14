@@ -13,7 +13,7 @@ public class recognize : MonoBehaviour {
     void Start()
     {
         MarkerManager = GameObject.FindGameObjectWithTag("MarkerManager");
-        plan = GlobalManagement.Content;
+        plan = GlobalManagement.HomeView;
         hotspots = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem p in hotspots) {
             ParticleSystem.EmissionModule em = p.emission;

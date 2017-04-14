@@ -19,7 +19,9 @@ public class MarkerManager : MonoBehaviour {
 	GameObject _storyView;
 	GameObject _castRotateView;
 
-	GameObject _menuView;
+	GameObject _homeView;
+
+	GameObject _mapView;
 
 	// TEMP
 	public GameObject _post1;
@@ -35,7 +37,7 @@ public class MarkerManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		#if UNITY_EDITOR
-		Init();
+		// Init();
 		#endif
 	}
 
@@ -44,21 +46,26 @@ public class MarkerManager : MonoBehaviour {
 		_castBuffer = GameObject.Find("CastModels");
 		_castRotateView = GlobalManagement.RotateView;
 		_storyView = GlobalManagement.StoryView;
-		_menuView = GlobalManagement.Content;
-		Refresh(0);
+		_homeView = GlobalManagement.HomeView;
+		_mapView = GlobalManagement.MapView;
 		SetCurrentMarker(-1);
+		Refresh(1);
+		SetCurrentMarker(-1);
+		
 		// TEMP: replace building model  
 		// GlobalManagement.Building = GetBuildingModel();
 	}
 	
 
 	public void Refresh(int markerID) {
+		Debug.Log("REFRESH: " + markerID);
 		if (markerID != _currentMarkerID) {
 			SetCurrentMarker(markerID);
 			ClearPastData();
 			ActiveStoryView();
 			ActiveCastView();
-			ActiveMenuView();
+			ActiveHomeView();
+			ActiveMapView();
 		}
 	}
 
@@ -91,12 +98,15 @@ public class MarkerManager : MonoBehaviour {
 		Transform hotspotsView = _castRotateView.transform.FindChild("HotSpotSprites");
 		Transform fragmentsContainer = _castRotateView.transform.FindChild("RotatableCast");
 		GlobalManagement.Building = null;
+
+		// Destroy(_castBuffer.transform.GetChild(1).gameObject);
+
 		foreach (Transform child in hotspotsView) {
 			GameObject.Destroy(child.gameObject);
 		}
 
 		try {
-			Destroy(GlobalManagement.StoryView.transform.GetChild(1));
+			Destroy(GlobalManagement.StoryView.transform.GetChild(1).gameObject);
 		} catch {
 
 		}
@@ -106,27 +116,33 @@ public class MarkerManager : MonoBehaviour {
 		}
 	}
 
-	private void ActiveMenuView() {
-		Text name = _menuView.transform.FindChild("MarkerName").GetComponent<Text>();
-		Text description = _menuView.transform.FindChild("MarkerDescription").GetComponent<Text>();
+	private void ActiveHomeView() {
+		Text name = _homeView.transform.FindChild("MarkerName").GetComponent<Text>();
+		Text description = _homeView.transform.FindChild("MarkerDescription").GetComponent<Text>();
+		Text location = _homeView.transform.FindChild("MarkerLocationTime").GetComponentInChildren<Text>();
+		
 		name.text = GetMarker()._castName;
 		description.text = GetMarker()._castDescription;
+		location.text = GetMarker()._castLocationTime;
 	}
 
-	private void ActiveAdjustmentView() {
-
+	private void ActiveMapView() {
+		_mapView.transform.Find("Map").GetComponent<Image>().sprite = GetMarker()._buildingMap;
 	}
+
 
 	private void ActiveCastView() {
 		Transform fragmentsContainer = _castRotateView.transform.FindChild("RotatableCast");
 		RotatableSprites rotator = fragmentsContainer.GetComponent<RotatableSprites>();
-
 		// copy cast model information
 		GameObject castModel = Instantiate(GetCast(), Vector3.zero, Quaternion.identity, _castBuffer.transform) as GameObject;
 		castModel.transform.localPosition = new Vector3(0, 0, 0);
 		// update canvas UI
-		Text castNameView = _castRotateView.transform.FindChild("CastNamePanel/CastName").GetComponent<Text>();
+		Text castNameView = _castRotateView.transform.FindChild("CastName").GetComponent<Text>();
 		castNameView.text = GetCastName();
+		Text location = _castRotateView.transform.FindChild("MarkerLocationTime").GetComponentInChildren<Text>();
+		location.text = GetMarker()._castLocationTime;
+		//
 		// TODO update description
 		
 		rotator._currentCastModel = castModel;
@@ -160,8 +176,11 @@ public class MarkerManager : MonoBehaviour {
 		int minFrameAoumt = 999;
 
 		for (int i = 0; i < hotspotsInfo.Length; i++) {
-			GameObject fragment = Instantiate(_FragmentPrefab, fragmentsContainer.position, Quaternion.identity) as GameObject;
+			GameObject fragment = Instantiate(_FragmentPrefab) as GameObject;
+			
 			fragment.transform.parent = fragmentsContainer.transform;
+			fragment.GetComponent<RectTransform>().anchoredPosition  = new Vector3(-30, -25, 0);
+			fragment.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
 			Sprite[] fragmentSprites = hotspotsInfo[i]._sprites;
 			fragment.GetComponent<Image>().sprite = fragmentSprites[0];
 			BG[i] = fragmentSprites;
@@ -225,6 +244,10 @@ public class MarkerManager : MonoBehaviour {
 
 	private string GetCastDescription() {
 		return GetMarker()._castDescription.ToString();
+	}
+
+	private string GetCastLocationTime() {
+		return GetMarker()._castLocationTime.ToString();
 	}
 
 

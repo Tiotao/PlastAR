@@ -13,7 +13,7 @@ public class Hotspot2D : MonoBehaviour {
 
 	public bool CheckVisibility(Camera cam) {
 		RaycastHit hit;
-		float sizeFactor = 0.1f;
+		float sizeFactor = 0f;
 
 		Vector3[] edgePoints = new Vector3[] {
 			new Vector3(transform.position.x + sizeFactor, transform.position.y + sizeFactor, transform.position.z),

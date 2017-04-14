@@ -16,9 +16,13 @@ public class Marker : MonoBehaviour {
 	[TextArea(3,10)]
 	public string _castDescription;
 
+	public string _castLocationTime;
+
 	public int _frameCount = 19;
 
 	public int _startingPoint = 0;
+
+	public Sprite _buildingMap;
 
 
 	enum DataType {
@@ -33,6 +37,7 @@ public class Marker : MonoBehaviour {
 		_cast = transform.GetChild((int) DataType.Cast).gameObject;
 		_marker = transform.GetChild((int) DataType.Marker).gameObject;
 		_story = transform.GetChild((int) DataType.Story).gameObject;
+		
 	}
 
 	// Use this for initialization

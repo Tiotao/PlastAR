@@ -24,6 +24,8 @@ TagManager:
   - GuidingLine
   - BuildingAppearFX
   - OnBoardingView
+  - HomeView
+  - MapView
   layers:
   - Default
   - TransparentFX

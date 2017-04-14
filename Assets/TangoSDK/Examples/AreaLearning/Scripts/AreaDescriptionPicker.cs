@@ -33,6 +33,9 @@ using UnityEngine.UI;
 /// </summary>
 public class AreaDescriptionPicker : MonoBehaviour, ITangoLifecycle
 {
+    
+    
+    
     /// <summary>
     /// The prefab of a standard button in the scrolling list.
     /// </summary>
@@ -78,6 +81,7 @@ public class AreaDescriptionPicker : MonoBehaviour, ITangoLifecycle
     /// GUI controller will be enabled when the game starts.
     /// </summary>
     public AreaLearningInGameController m_guiController;
+
 
     /// <summary>
     /// A reference to TangoApplication instance.
@@ -135,6 +139,7 @@ public class AreaDescriptionPicker : MonoBehaviour, ITangoLifecycle
         m_poseController.gameObject.SetActive(true);
         m_guiController.enabled = true;
         m_gameControlPanel.SetActive(true);
+        GlobalManagement.OnBoardingView.SetActive(true);
     }
 
     /// <summary>
