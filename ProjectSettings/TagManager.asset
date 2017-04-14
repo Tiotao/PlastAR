@@ -22,6 +22,8 @@ TagManager:
   - VirtualMarker
   - test
   - GuidingLine
+  - BuildingAppearFX
+  - OnBoardingView
   layers:
   - Default
   - TransparentFX

@@ -4,7 +4,7 @@ using System.Collections;
 
 public class Configs {
 
-	public static int appearMode = (int) AppearMode.Float;
+	
 	public enum AppearMode {
 		Default,
 		Float,

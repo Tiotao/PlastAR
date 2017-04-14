@@ -75,8 +75,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     public Material allowPlaceMat;
     public Material disallowPlaceMat;
-    public Material appearMat;
 
+    private GameObject buildingAppearFx;
     
 
 #if UNITY_EDITOR
@@ -162,6 +162,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     // how building appears
     private int _appearMode;
+
+    private GameObject _buildingGround;
     
 
 
@@ -176,7 +178,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         m_poseController = FindObjectOfType<TangoARPoseController>();
         m_tangoApplication = FindObjectOfType<TangoApplication>();
         m_markPrefabs = MarkerManager.GetComponent<MarkerManager>().GetMarkerModels();
-        _appearMode = Configs.appearMode;
+        _appearMode = GlobalManagement.appearMode;
         
         if (m_tangoApplication != null)
         {
@@ -209,24 +211,33 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     /// </summary>
 
     IEnumerator _BuildingAppearEffect(GameObject buildingSymbol) {
+        _isPlacingBuilding = true;
+        Destroy(buildingSymbol);
+        buildingSymbol = null;
+        SetRendererActive<MeshRenderer>(newMarkObject, true);
+        SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
+        // _buildingGround.SetActive(true);
         
         if (_appearMode == (int) Configs.AppearMode.Grow) {
+            
             Debug.Log("Start placing buildings");
-            _isPlacingBuilding = true;
-            SetMaterial<MeshRenderer>(buildingSymbol, appearMat);
             float w = 0;
             while (w < 1) {
-                foreach (MeshRenderer m in buildingSymbol.GetComponentsInChildren<MeshRenderer>()) {
-                    m.material.SetFloat("_Offset", w);
+                foreach (MeshRenderer m in newMarkObject.GetComponentsInChildren<MeshRenderer>()) {
+                    if (m.gameObject.CompareTag("Ground")) {
+                        m.material.SetColor("_Color", new Color(m.material.color.r, m.material.color.g, m.material.color.b, w));
+                    } else {
+                        foreach (Material mat in m.materials) {
+                            mat.SetFloat("_threshold", w);
+                        }
+                    }
+                    
                 }
                 w = w + Time.deltaTime * 0.3f;
                 yield return new WaitForSeconds(Time.deltaTime);
             }
         }
-        Destroy(buildingSymbol);
-        buildingSymbol = null;
-        SetRendererActive<MeshRenderer>(newMarkObject, true);
-        SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
+        
         _isPlacingBuilding = false;
         Debug.Log("End placing buildings");
 
@@ -268,7 +279,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building) {
 
-            
             // control input
             if (Input.touchCount == 1) {
 
@@ -301,6 +311,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     if (_planeCenter != Vector3.zero) {
                         Debug.Log("Plane is good and placing buildings");
                         _InstantiateBuilding(ObjectToInstant, _planeCenter);
+                        buildingAppearFx.GetComponent<BuildingGenAnimation>().StartAnimation();
                         // add into global management
                         GlobalManagement.Building = newMarkObject;
                         // destroy guide lines and transparent symbol
@@ -321,12 +332,18 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             if (GlobalManagement.Building == null) {
                 if (buildingSymbol == null) {
                     Debug.Log("create Building Symbol");
-                    Debug.Log(_isLookingForPlane);
                     buildingSymbol = Instantiate(MarkerManager.GetComponent<MarkerManager>().GetBuildingModel()) as GameObject;
+                    buildingAppearFx = Instantiate(GlobalManagement.BuildingAppearFX) as GameObject;
+                    // buildingAppearFx.GetComponent<BuildingGenAnimation>().SetRange(
+                    //     Mathf.Max(buildingSymbol.transform.lossyScale.x, buildingSymbol.transform.lossyScale.z) / 10, 
+                    //     buildingSymbol.transform.lossyScale.y);
+                    
                     if (_appearMode == (int) Configs.AppearMode.Grow) {
+                        // prevent from ground elements getting transparent
+                        _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
+                        _buildingGround.SetActive(false);
                         SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
                     }
-                    
                     SetRendererActive<MeshRenderer>(buildingSymbol, true);
                     StartCoroutine(_WaitForDepthAndFindPlane());
                 }
@@ -340,10 +357,15 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Landing) {
+            
+            if (buildingAppearFx) {
+                Destroy(buildingAppearFx);
+            }
 
             // remove building symbol
             if (buildingSymbol != null) {
                 Destroy(buildingSymbol);
+                
                 buildingSymbol = null;
                 GlobalManagement.Building = null;
                 Debug.Log("Destroy building symbol");
@@ -381,7 +403,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 touchEffectRectTransform.anchorMin = touchEffectRectTransform.anchorMax = normalizedPosition;
             }
             foreach (GameObject m in m_markerList) {
-                if(m.GetComponent<recognize>().seen ) {
+                if(m.GetComponent<recognize>().seen) {
                     MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
                     _selectedMarker = m;
                     GlobalManagement.Content.SetActive(true);
@@ -847,15 +869,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private void _InstantiateBuilding (GameObject ObjectToInstant, Vector3 planeCenter) {
 
-        Vector3 buildingPos;
-
-        if (_appearMode == (int) Configs.AppearMode.Float) {
-            buildingPos = planeCenter + new Vector3(0, 1.5f, 0);
-        } else {
-            buildingPos = planeCenter;
-        }
-        
-        newMarkObject = Instantiate(ObjectToInstant, buildingPos, Quaternion.identity) as GameObject;
+        newMarkObject = Instantiate(ObjectToInstant, planeCenter, Quaternion.identity) as GameObject;
         
         _SetUpARScript(newMarkObject);
 
@@ -886,63 +900,72 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     private IEnumerator _WaitForDepthAndFindPlane() {
         // start of the process, only one process at a time
 
-        _isLookingForPlane = true;
-        
-        m_findPlaneWaitingForDepth = true;
-    
-        // Turn on the camera and wait for a single depth update.
-        m_tangoApplication.SetDepthCameraRate(TangoEnums.TangoDepthCameraRate.MAXIMUM);
-        while (m_findPlaneWaitingForDepth)
-        {
-            yield return null;
-        }
-
-        m_tangoApplication.SetDepthCameraRate(TangoEnums.TangoDepthCameraRate.DISABLED);
-        
-        // Find the plane.
         Camera cam = Camera.main;
         Vector3 planeCenter;
-        Plane plane;
-        bool hasPlane = m_pointCloud.FindPlane(cam, new Vector2(cam.pixelWidth/2, cam.pixelHeight/2), out planeCenter, out plane);
-        GameObject GuidingLine = GlobalManagement.GuidingLine;
 
-        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && !_isPlacingBuilding) {
-            if (hasPlane && plane.normal.y < 1.0f && plane.normal.y > 0.95f)
+        _isLookingForPlane = true;
+
+        if(_appearMode == (int) Configs.AppearMode.Float) {
+
+            planeCenter = Camera.main.transform.position + Camera.main.transform.forward * 1.5f; 
+            buildingSymbol.transform.position = planeCenter; 
+            
+            _planeCenter = planeCenter;
+            
+
+        } else {
+
+             m_findPlaneWaitingForDepth = true;
+    
+            // Turn on the camera and wait for a single depth update.
+            m_tangoApplication.SetDepthCameraRate(TangoEnums.TangoDepthCameraRate.MAXIMUM);
+            while (m_findPlaneWaitingForDepth)
             {
-                
+                yield return null;
+            }
 
-                if (_appearMode == (int) Configs.AppearMode.Float) {
-                    buildingSymbol.transform.position = planeCenter + new Vector3(0, 1.5f, 0);
-                } else {
+            m_tangoApplication.SetDepthCameraRate(TangoEnums.TangoDepthCameraRate.DISABLED);
+            
+            // Find the plane.
+            Plane plane;
+            bool hasPlane = m_pointCloud.FindPlane(cam, new Vector2(cam.pixelWidth/2, cam.pixelHeight/2), out planeCenter, out plane);
+            GameObject GuidingLine = GlobalManagement.GuidingLine;
+
+
+            if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && !_isPlacingBuilding) {
+                if (hasPlane && plane.normal.y < 1.0f && plane.normal.y > 0.95f)
+                {
                     buildingSymbol.transform.position = planeCenter;
+                    
+                    
+                    
+                    if (_appearMode == (int) Configs.AppearMode.Grow) {
+                        
+                        SetMaterial<MeshRenderer>(buildingSymbol, allowPlaceMat);
+                        GuidingLine.GetComponent<Bezier>().controlPoints = new Transform[] {cam.transform, buildingSymbol.transform};
+                        // GuidingLine.SetActive(true);
+                        buildingAppearFx.transform.position = planeCenter; 
+                        buildingAppearFx.SetActive(true);
+                    }
+
+                    _planeCenter = planeCenter;
+                    
+                } else {
+                    buildingSymbol.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
+                    
+                    if (_appearMode == (int) Configs.AppearMode.Grow) {
+                        SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                        // GuidingLine.SetActive(false);
+                        buildingAppearFx.SetActive(false);
+                    }
+
+                    _planeCenter = Vector3.zero;
                 }
-                
-                if (_appearMode == (int) Configs.AppearMode.Grow) {
-                    SetMaterial<MeshRenderer>(buildingSymbol, allowPlaceMat);
-                    GuidingLine.GetComponent<Bezier>().controlPoints = new Transform[] {cam.transform, buildingSymbol.transform};
-                    GuidingLine.SetActive(true);
-                }
-
-                _planeCenter = planeCenter;
-                
-            } else {
-
-                buildingSymbol.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
-
-                if (_appearMode == (int) Configs.AppearMode.Grow) {
-                    SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
-                    GuidingLine.SetActive(false);
-                }
-
-                if (_appearMode == (int) Configs.AppearMode.Float) {
-
-
-                }
-
-                _planeCenter = Vector3.zero;
             }
         }
 
+        
+       
         _isLookingForPlane = false;
         
         // end of the process
@@ -992,6 +1015,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         
     
     }
+
+
 
     /// <summary>
     /// Data container for marker.

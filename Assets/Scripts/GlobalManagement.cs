@@ -20,8 +20,12 @@ public class GlobalManagement
 
     public static GameObject GuidingLine;
 
+    public static GameObject BuildingAppearFX;
+
     public static int SceneIndex = (int) Configs.SceneIndex.Landing;
 
     public static bool developerMode = false;
+
+    public static int appearMode = (int) Configs.AppearMode.Grow;
 
 }

@@ -8,6 +8,9 @@ public class MarkerManager : MonoBehaviour {
 	Marker[] _markers;
 
 	int _currentMarkerID;
+
+	int _updateMarkerID;
+
 	int _currentHotspotID;
 
 	// stores virtual camera and virtual cast model
@@ -31,34 +34,32 @@ public class MarkerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		#if UNITY_EDITOR
+		Init();
+		#endif
 	}
 
 	public void Init() {
 		_markers = GetComponentsInChildren<Marker>();
-		SetCurrentMarker(0);
 		_castBuffer = GameObject.Find("CastModels");
 		_castRotateView = GlobalManagement.RotateView;
 		_storyView = GlobalManagement.StoryView;
 		_menuView = GlobalManagement.Content;
-		Refresh(_currentMarkerID);
+		Refresh(0);
+		SetCurrentMarker(-1);
 		// TEMP: replace building model  
 		// GlobalManagement.Building = GetBuildingModel();
 	}
 	
 
 	public void Refresh(int markerID) {
-		SetCurrentMarker(markerID);
-		ClearPastData();
-		ActiveCastView();
-		ActiveMenuView();
-		if (GlobalManagement.developerMode) {
-			ActiveAdjustmentView();
+		if (markerID != _currentMarkerID) {
+			SetCurrentMarker(markerID);
+			ClearPastData();
+			ActiveStoryView();
+			ActiveCastView();
+			ActiveMenuView();
 		}
-		ActiveStoryView();
-		// TEMP
-		
-		
 	}
 
 	public void ActiveStoryView() {
