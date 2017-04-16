@@ -15,9 +15,8 @@ public class contentManagement : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
+        Debug.Log("HELLO");
         // CallExampleNotification();
-        InitializeScreen("MapView");
-
         InitializeScreen("HomeView");
         InitializeScreen("ScreenShot");
         InitializeScreen("RotateView");
@@ -30,8 +29,13 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("GuidingLine");
         InitializeScreen("BuildingAppearFX");
         InitializeScreen("OnBoardingView");
+        InitializeScreen("MapView");
         
         LoadData();
+
+        Debug.Log(GlobalManagement.MapView);
+
+
     }
 
     void LoadData() {
@@ -41,12 +45,16 @@ public class contentManagement : MonoBehaviour {
 
     
     GameObject InitializeScreen(string screenTag) {
+        
         GameObject returnObject = GameObject.FindGameObjectWithTag(screenTag);
-        Debug.Log(returnObject);
         if (returnObject != null) {
             returnObject.SetActive(false);
             typeof(GlobalManagement).GetField(screenTag).SetValue(null, returnObject);
+            Debug.Log("[" + screenTag.ToUpper() + "] initialized.");
+        } else {
+            Debug.Log("[" + screenTag.ToUpper() + "] not found.");
         }
+        
         return null;
     }
 

@@ -26,6 +26,7 @@ TagManager:
   - OnBoardingView
   - HomeView
   - MapView
+  - VirtualMarkerFinder
   layers:
   - Default
   - TransparentFX

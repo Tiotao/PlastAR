@@ -192,7 +192,18 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         foreach (T m in obj.GetComponentsInChildren<T>()) {
             Material[] mats = new Material[m.materials.Length];
             for (int j = 0; j < m.materials.Length; j++) {
-                mats[j] = mat; 
+                try {
+                    float height = m.materials[j].GetFloat("_maxHeight");
+                    mats[j] = mat;
+                    mats[j].SetFloat("_maxHeight", height);
+                } catch {
+                    Debug.Log("[SHADER] get height failed");
+                    mats[j] = mat;
+                }
+                
+                
+               
+                
             }
             m.materials = mats;
         }
@@ -343,6 +354,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
                         _buildingGround.SetActive(false);
                         SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                        
                     }
                     SetRendererActive<MeshRenderer>(buildingSymbol, true);
                     StartCoroutine(_WaitForDepthAndFindPlane());
@@ -872,7 +884,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         newMarkObject = Instantiate(ObjectToInstant, planeCenter, Quaternion.identity) as GameObject;
         
         _SetUpARScript(newMarkObject);
-
+        
         newMarkObject.GetComponent<manipulate>().enabled = true;
 
         m_selectedMarker = null;
@@ -880,14 +892,14 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private void _PlaceMarker(GameObject ObjectToInstant, Vector3 planeCenter, Vector3 forward, Vector3 up) {
         Debug.Log("Placing Marker");
-        newMarkObject = Instantiate(ObjectToInstant,
-                                    planeCenter,
-                                    Quaternion.identity) as GameObject;
+        newMarkObject = Instantiate(ObjectToInstant) as GameObject;
+        newMarkObject.transform.position = planeCenter;
 
         _SetUpARScript(newMarkObject);
         
         newMarkObject.GetComponent<ARMarker>().SetID(m_markerList.Count);
         newMarkObject.GetComponent<recognize>().enabled = true;
+        newMarkObject.GetComponentInChildren<MarkerRotation>()._startRotating = true;
 
         m_markerList.Add(newMarkObject);
         GlobalManagement.Markers = m_markerList;

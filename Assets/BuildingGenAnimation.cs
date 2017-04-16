@@ -45,7 +45,8 @@ public class BuildingGenAnimation : MonoBehaviour {
 		if (_wrapper.transform.localPosition.y >= _buildingHeight) {
 			var em = _ps.emission;
 			em.enabled = false;
-			iTween.Stop();
+			iTween.Stop(_wrapper);
+			iTween.Stop(_ps.gameObject);
 			StartCoroutine(DestroyEffect());
 		}
 	}

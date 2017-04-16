@@ -6,13 +6,24 @@ public class point : MonoBehaviour {
 
     public GameObject sp;
 
+    public Camera cam;
+
+    Plane frustumPlane;
+
+    GameObject markerFinder;
+
     GameObject[] path;
 
     const int slice = 20;
 
 	// Use this for initialization
 	void Start () {
-        path = new GameObject[slice];
+        
+        
+
+
+        // path = new GameObject[slice];
+        markerFinder = GameObject.FindGameObjectWithTag("VirtualMarkerFinder");
         for (int i = 0; i < slice; i++)
             path[i] = Instantiate(sp);
     }
@@ -44,11 +55,27 @@ public class point : MonoBehaviour {
 
         if (nearestMarker)
         {
-            for (int i = 0; i < slice; i++)
-            {
-                path[i].transform.position = startPoint + (nearestMarker.transform.position - startPoint) * i / slice;
+            frustumPlane = GeometryUtility.CalculateFrustumPlanes(cam)[5];
+            Vector3 planeCenter = -frustumPlane.normal * frustumPlane.distance;
+
+            Ray ray = new Ray(startPoint, nearestMarker.transform.position - startPoint);
+            float rayDistance;
+            if (frustumPlane.Raycast(ray, out rayDistance)) {
+                Vector3 intersectPos = ray.GetPoint(rayDistance);
+                Vector3 centerVector = intersectPos - planeCenter;
+                Vector3 upVector = planeCenter + cam.transform.up.normalized;
+                float horizontalOffset = Mathf.Sqrt(centerVector.sqrMagnitude - upVector.sqrMagnitude);
+                Debug.Log("(" +  upVector + ", " + centerVector + ")");
+
+                float verticalOffset = Vector3.Dot(centerVector.normalized, upVector.normalized);
+                Debug.Log("(" +  horizontalOffset + ", " + verticalOffset + ")");
+
             }
-            this.gameObject.transform.position = Camera.main.transform.position - Camera.main.transform.forward.normalized * 10;
+            // for (int i = 0; i < slice; i++)
+            // {
+            //     path[i].transform.position = startPoint + (nearestMarker.transform.position - startPoint) * i / slice;
+            // }
+            // this.gameObject.transform.position = Camera.main.transform.position - Camera.main.transform.forward.normalized * 10;
         }
 
         //if (nearestMarker)

@@ -135,7 +135,7 @@ Material:
       second: 0.004
     - first:
         name: _threshold
-      second: 1
+      second: 0
     m_Colors:
     - first:
         name: _Color

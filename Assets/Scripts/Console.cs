@@ -34,10 +34,10 @@ public class Console : MonoBehaviour
 		{ LogType.Warning, Color.yellow },
 	};
 
-	const int margin = 20;
+	const int margin = 100;
 
-	Rect windowRect = new Rect(margin, margin, Screen.width / 3, Screen.height / 2);
-	Rect titleBarRect = new Rect(0, 0, 10000, 20);
+	Rect windowRect = new Rect(margin, margin, Screen.width / 3, Screen.height / 3);
+	Rect titleBarRect = new Rect(0, 0, 10000, 40);
 	GUIContent clearLabel = new GUIContent("Clear", "Clear the contents of the console.");
 	GUIContent collapseLabel = new GUIContent("Collapse", "Hide repeated messages.");
 

@@ -98,6 +98,9 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
+        name: _Height
+      second: 0.004
+    - first:
         name: _Metallic
       second: 0
     - first:
@@ -130,6 +133,9 @@ Material:
     - first:
         name: _ZWrite
       second: 0
+    - first:
+        name: _maxHeight
+      second: 0.04
     m_Colors:
     - first:
         name: _Color

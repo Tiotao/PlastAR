@@ -41,6 +41,12 @@ public class MarkerManager : MonoBehaviour {
 		#endif
 	}
 
+	void Update() {
+		if (Input.GetKeyDown(KeyCode.K)) {
+			Refresh(0);
+		}
+	}
+
 	public void Init() {
 		_markers = GetComponentsInChildren<Marker>();
 		_castBuffer = GameObject.Find("CastModels");
@@ -58,7 +64,7 @@ public class MarkerManager : MonoBehaviour {
 	
 
 	public void Refresh(int markerID) {
-		Debug.Log("REFRESH: " + markerID);
+		// Debug.Log("REFRESH: " + markerID);
 		if (markerID != _currentMarkerID) {
 			SetCurrentMarker(markerID);
 			ClearPastData();
@@ -99,7 +105,11 @@ public class MarkerManager : MonoBehaviour {
 		Transform fragmentsContainer = _castRotateView.transform.FindChild("RotatableCast");
 		GlobalManagement.Building = null;
 
-		// Destroy(_castBuffer.transform.GetChild(1).gameObject);
+		try {
+			Destroy(_castBuffer.transform.GetChild(1).gameObject);
+		} catch {
+
+		}
 
 		foreach (Transform child in hotspotsView) {
 			GameObject.Destroy(child.gameObject);
@@ -135,6 +145,7 @@ public class MarkerManager : MonoBehaviour {
 		Transform fragmentsContainer = _castRotateView.transform.FindChild("RotatableCast");
 		RotatableSprites rotator = fragmentsContainer.GetComponent<RotatableSprites>();
 		// copy cast model information
+		
 		GameObject castModel = Instantiate(GetCast(), Vector3.zero, Quaternion.identity, _castBuffer.transform) as GameObject;
 		castModel.transform.localPosition = new Vector3(0, 0, 0);
 		// update canvas UI

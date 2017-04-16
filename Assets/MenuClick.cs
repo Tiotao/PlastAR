@@ -55,6 +55,9 @@ public class MenuClick : MonoBehaviour
     }
 
     public void ToggleMap() {
+        RefreshView();
+        Debug.Log(GlobalManagement.MapView);
+        Debug.Log(MapView);
         MapView.SetActive(!MapView.activeSelf);
     }
 

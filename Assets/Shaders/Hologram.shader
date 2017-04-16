@@ -7,6 +7,7 @@
 		_Outline ("Outline width", Range (0.0, 0.03)) = .005
 		_MainTex ("Base (RGB)", 2D) = "white" {}
         _Noise ("Noise", 2D) = "white" {}
+        _maxHeight ("Height", float) = 1
     }
    
     SubShader {
@@ -63,13 +64,14 @@
                 uniform sampler2D _MainTex;
                 uniform float4 _Color;
                 uniform sampler2D _Noise;
+                uniform float _maxHeight;
  
                 float4 frag(v2f i) : COLOR {
                     
-                    float offset = (tex2D(_Noise, float2(_Time[1] / 20, i.lpos.x)).r) / 10 + 0.01;
+                    float offset = ((tex2D(_Noise, float2(_Time[1] / 20, (i.lpos.x / _maxHeight))).r) / 10 + 0.01);
 
                     float4 texcol = tex2D(_MainTex, i.uv);
-                    texcol *= _Color / (i.lpos.y) * 2  - offset;
+                    texcol *= _Color / (i.lpos.y / _maxHeight) * 2  - offset;
                     // texcol *= _Color;
                     texcol.rgb += i.color;
                     // texcol.a = _Color.a;
