@@ -27,6 +27,8 @@ public class MenuClick : MonoBehaviour
 
     public GameObject MapView;
 
+    public GameObject GuideView;
+
     GameObject DebugConsole;
 
     public void Start() {
@@ -49,6 +51,7 @@ public class MenuClick : MonoBehaviour
         StoryView = GlobalManagement.StoryView;
         GuidingLine = GlobalManagement.GuidingLine;
         OnBoardingView = GlobalManagement.OnBoardingView;
+        GuideView = GlobalManagement.GuideView;
         // sub buttons
         MapView = GlobalManagement.MapView;
 
@@ -85,6 +88,7 @@ public class MenuClick : MonoBehaviour
         Destroy(Building);
         GlobalManagement.Building = null;
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
+        GuideView.SetActive(false);
         
 
     }
@@ -116,6 +120,7 @@ public class MenuClick : MonoBehaviour
         }
 
         GuidingLine.SetActive(false);
+        GuideView.SetActive(false);
 
     }
 
@@ -147,6 +152,7 @@ public class MenuClick : MonoBehaviour
         }
 
         GuidingLine.SetActive(false);
+        GuideView.SetActive(false);
 
     }
 
@@ -168,6 +174,7 @@ public class MenuClick : MonoBehaviour
         BuildingView.SetActive(false);
         FunctionView.SetActive(false);
         OnBoardingView.SetActive(false);
+        GuideView.SetActive(true);
         GlobalManagement.ShootButton.SetActive(false);
 
         try {

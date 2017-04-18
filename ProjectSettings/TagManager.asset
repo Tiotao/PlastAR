@@ -27,6 +27,7 @@ TagManager:
   - HomeView
   - MapView
   - VirtualMarkerFinder
+  - GuideView
   layers:
   - Default
   - TransparentFX

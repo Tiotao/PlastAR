@@ -30,7 +30,7 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("BuildingAppearFX");
         InitializeScreen("OnBoardingView");
         InitializeScreen("MapView");
-        
+        InitializeScreen("GuideView");
         LoadData();
 
         Debug.Log(GlobalManagement.MapView);

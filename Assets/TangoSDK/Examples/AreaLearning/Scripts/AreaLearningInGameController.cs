@@ -894,6 +894,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         Debug.Log("Placing Marker");
         newMarkObject = Instantiate(ObjectToInstant) as GameObject;
         newMarkObject.transform.position = planeCenter;
+        newMarkObject.tag = "VirtualMarker";
 
         _SetUpARScript(newMarkObject);
         

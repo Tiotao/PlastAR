@@ -26,6 +26,8 @@ public class GlobalManagement
 
     public static GameObject MapView;
 
+    public static GameObject GuideView;
+
     public static int SceneIndex = (int) Configs.SceneIndex.Landing;
 
     public static bool developerMode = false;

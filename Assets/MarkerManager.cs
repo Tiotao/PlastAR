@@ -23,11 +23,6 @@ public class MarkerManager : MonoBehaviour {
 
 	GameObject _mapView;
 
-	// TEMP
-	public GameObject _post1;
-	public GameObject _post0;
-
-
 
 	public GameObject _HotspotSpritePrefab;
 	public GameObject _FragmentPrefab;
