@@ -58,6 +58,7 @@ public class point : MonoBehaviour {
 
         if (nearestMarker)
         {
+            
             frustumPlane = GeometryUtility.CalculateFrustumPlanes(Camera.main)[5];
             Vector3 planeCenter = -frustumPlane.normal * frustumPlane.distance;
 

@@ -222,11 +222,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     /// </summary>
 
     IEnumerator _BuildingAppearEffect(GameObject buildingSymbol) {
+        
         _isPlacingBuilding = true;
         Destroy(buildingSymbol);
         buildingSymbol = null;
         SetRendererActive<MeshRenderer>(newMarkObject, true);
         SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
+        // if has bird
+        foreach (BirdRandomMovement bird in newMarkObject.GetComponentsInChildren<BirdRandomMovement>()){
+            bird.StartAnimation();
+        }
         // _buildingGround.SetActive(true);
         
         if (_appearMode == (int) Configs.AppearMode.Grow) {
@@ -328,9 +333,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         // destroy guide lines and transparent symbol
                         GlobalManagement.GuidingLine.SetActive(false);
                         Debug.Log("Guiding Line Status: " + GlobalManagement.GuidingLine.activeSelf);
-                        // show instruction
-                        GlobalManagement.ShootButton.transform.GetChild(0).gameObject.SetActive(false);
-                        GlobalManagement.ShootButton.transform.GetChild(1).gameObject.SetActive(true);
                         StartCoroutine(_BuildingAppearEffect(buildingSymbol));
 
                     }
@@ -832,7 +834,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             // Set marker ID
             temp.GetComponent<ARMarker>().SetID(i);
             temp.GetComponent<recognize>().enabled = true;
-            
+            temp.GetComponentInChildren<MarkerRotation>()._startRotating = true;
+            temp.tag = "VirtualMarker";
+            GlobalManagement.Markers = m_markerList;
             
             m_markerList.Add(temp);
         }

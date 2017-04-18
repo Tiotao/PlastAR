@@ -31,7 +31,7 @@ public class MainFunctions : MonoBehaviour {
 
     public void Shoot()
     {
-        ScreenShotImage = GlobalManagement.ScreenShot;
+        ScreenShotImage = GlobalManagement.ScreenShot.transform.GetChild(1).gameObject;
         FunctionView = GlobalManagement.FunctionView;
         ShootButton = GlobalManagement.ShootButton;
 
@@ -50,7 +50,7 @@ public class MainFunctions : MonoBehaviour {
 
         //yield return new WaitForSeconds(1);
 
-        ScreenShotImage.SetActive(true);
+        GlobalManagement.ScreenShot.SetActive(true);
         LoadImage();
 
         GlobalManagement.MessageBox.SetActive(true);

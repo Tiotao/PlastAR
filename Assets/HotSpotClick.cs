@@ -19,7 +19,7 @@ public class HotSpotClick : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        HotSpotDes = GlobalManagement.HotSpotDes;
+        // HotSpotDes = GlobalManagement.HotSpotDes;
         ScreenShotImage = GlobalManagement.ScreenShot;
     }
 
@@ -37,7 +37,7 @@ public class HotSpotClick : MonoBehaviour {
                 if (hit.collider.gameObject == this.gameObject)
                 {
                     
-                    HotSpotDes.SetActive(!flag);
+                    // HotSpotDes.SetActive(!flag);
                     flag = !flag;
                     looseFinger = false;
                 }

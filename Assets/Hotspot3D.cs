@@ -17,7 +17,7 @@ public class Hotspot3D : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        HotSpotDes = GlobalManagement.HotSpotDes;
+        // HotSpotDes = GlobalManagement.HotSpotDes;
         ScreenShotImage = GlobalManagement.ScreenShot;
     }
 
@@ -34,8 +34,8 @@ public class Hotspot3D : MonoBehaviour {
             {
                 if (hit.collider.gameObject == this.gameObject)
                 {
-                    HotSpotDes.transform.GetChild(0).GetComponent<Text>().text = _name;
-                    HotSpotDes.SetActive(!flag);
+                    // HotSpotDes.transform.GetChild(0).GetComponent<Text>().text = _name;
+                    // HotSpotDes.SetActive(!flag);
                     flag = !flag;
                     looseFinger = false;
                 }

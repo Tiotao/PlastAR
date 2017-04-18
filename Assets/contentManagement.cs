@@ -20,7 +20,6 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("HomeView");
         InitializeScreen("ScreenShot");
         InitializeScreen("RotateView");
-        InitializeScreen("HotSpotDes");
         InitializeScreen("FunctionView");
         InitializeScreen("ShootButton");
         InitializeScreen("MessageBox");
@@ -31,9 +30,9 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("OnBoardingView");
         InitializeScreen("MapView");
         InitializeScreen("GuideView");
+        InitializeScreen("BuildingView");
         LoadData();
 
-        Debug.Log(GlobalManagement.MapView);
 
 
     }

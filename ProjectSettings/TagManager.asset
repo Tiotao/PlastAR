@@ -28,6 +28,8 @@ TagManager:
   - MapView
   - VirtualMarkerFinder
   - GuideView
+  - BuildingView
+  - UIController
   layers:
   - Default
   - TransparentFX

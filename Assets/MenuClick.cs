@@ -29,12 +29,17 @@ public class MenuClick : MonoBehaviour
 
     public GameObject GuideView;
 
+    public GameObject BuildingOnboarding;
+
     GameObject DebugConsole;
+
+    GameObject SaveButton;
 
     public void Start() {
         DebugConsole = GameObject.Find("DebugConsole");
         DebugConsole.SetActive(false);
         RefreshView();
+        
         // toggle save button based on developer option
         
     }
@@ -45,7 +50,7 @@ public class MenuClick : MonoBehaviour
         LandingView = GlobalManagement.Markers;
         HomeView = GlobalManagement.HomeView;
         CastView = GlobalManagement.RotateView;
-        BuildingView = GlobalManagement.HotSpotDes;
+        BuildingView = GlobalManagement.BuildingView;
         FunctionView = GlobalManagement.FunctionView;
         Building = GlobalManagement.Building;
         StoryView = GlobalManagement.StoryView;
@@ -54,13 +59,12 @@ public class MenuClick : MonoBehaviour
         GuideView = GlobalManagement.GuideView;
         // sub buttons
         MapView = GlobalManagement.MapView;
+        SaveButton = FunctionView.transform.GetChild(0).gameObject;
 
     }
 
     public void ToggleMap() {
         RefreshView();
-        Debug.Log(GlobalManagement.MapView);
-        Debug.Log(MapView);
         MapView.SetActive(!MapView.activeSelf);
     }
 
@@ -82,6 +86,7 @@ public class MenuClick : MonoBehaviour
             Debug.Log("No Marker Present");
         }
         HomeView.SetActive(false);
+        BuildingView.SetActive(true);
         CastView.SetActive(false);
         FunctionView.SetActive(true);
         GlobalManagement.ShootButton.SetActive(true);
@@ -89,6 +94,7 @@ public class MenuClick : MonoBehaviour
         GlobalManagement.Building = null;
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
         GuideView.SetActive(false);
+        BuildingOnboarding.SetActive(true);
         
 
     }
@@ -121,6 +127,7 @@ public class MenuClick : MonoBehaviour
 
         GuidingLine.SetActive(false);
         GuideView.SetActive(false);
+        GlobalManagement.ShootButton.SetActive(false);
 
     }
 
@@ -153,6 +160,7 @@ public class MenuClick : MonoBehaviour
 
         GuidingLine.SetActive(false);
         GuideView.SetActive(false);
+        GlobalManagement.ShootButton.SetActive(false);
 
     }
 
@@ -209,6 +217,11 @@ public class MenuClick : MonoBehaviour
     public void ToggleSave() {
         GlobalManagement.developerMode = !GlobalManagement.developerMode;
         DebugConsole.SetActive(GlobalManagement.developerMode);
-        FunctionView.transform.GetChild(0).gameObject.SetActive(GlobalManagement.developerMode);
+        SaveButton.SetActive(GlobalManagement.developerMode);
     }
+
+    public void ReadBuildingOnboarding() {
+        BuildingOnboarding.SetActive(false);
+    }
+
 }

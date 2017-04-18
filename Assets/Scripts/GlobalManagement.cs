@@ -9,8 +9,6 @@ public class GlobalManagement
     public static GameObject RotateView;
     public static List<GameObject> Markers;
     public static GameObject Building;
-    public static GameObject HotSpotDes;
-
     public static GameObject FunctionView;
 
     public static GameObject OnBoardingView;
@@ -27,6 +25,8 @@ public class GlobalManagement
     public static GameObject MapView;
 
     public static GameObject GuideView;
+
+    public static GameObject BuildingView;
 
     public static int SceneIndex = (int) Configs.SceneIndex.Landing;
 

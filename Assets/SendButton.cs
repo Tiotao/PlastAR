@@ -23,13 +23,17 @@ public class SendButton : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         string emailAddress = InputBox.text;
-        MainFunction.GetComponent<MainFunctions>().SendEmail(emailAddress);
+        
+        StartCoroutine(SendEmail(emailAddress));
 
         GlobalManagement.FunctionView.SetActive(true);
         GlobalManagement.ShootButton.SetActive(true);
-
         GlobalManagement.ScreenShot.SetActive(false);
-
         GlobalManagement.EmailBox.SetActive(false);
+    }
+
+    IEnumerator SendEmail(string emailAddress) {
+        MainFunction.GetComponent<MainFunctions>().SendEmail(emailAddress);
+        yield return null;
     }
 }
