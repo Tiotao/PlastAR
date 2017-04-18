@@ -6,6 +6,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using System.IO;
+using Ionic.Zip;
+using System.Data;
+using System.Data.SqlClient;
+
 namespace Plastar
 {
     public partial class _Default : Page
@@ -50,35 +55,61 @@ namespace Plastar
             //p.WaitForExit();
             //Console.WriteLine(strOutput);
 
+            //Console.WriteLine("hehe");
+
+            string argument = DateTime.Now.ToFileTime().ToString();
+
             var si = new ProcessStartInfo();
             si.CreateNoWindow = true;
+            si.Arguments = argument;
             si.FileName = Server.MapPath("AssetsBundle") + "\\script.sh";
             si.UseShellExecute = true;
             Process.Start(si);
+
+            string name = "husiyuan";
+            string path = Server.MapPath("AssetsBundle") + "\\AssetsBundle\\" + argument;
+            string snapshot = argument + "\\000.png";
+
+            string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\App_Data\\PlastarDB.mdf;Integrated Security=True";
+            SqlConnection myCon = new SqlConnection(con);
+            SqlCommand cmd = new SqlCommand("insert into dbo.AssetsBundle(Name,Path,Snapshot) values (@name,@path,@snapshot)", myCon);
+            cmd.Parameters.AddWithValue(@"name", name);
+            cmd.Parameters.AddWithValue(@"path", path);
+            cmd.Parameters.AddWithValue(@"snapshot", snapshot);
+
+            myCon.Open();
+            cmd.ExecuteNonQuery();
+            myCon.Close();
         }
 
         private void Submit1_ServerClick(object sender, System.EventArgs e)
         {
-            if ((File1.PostedFile != null) && (File1.PostedFile.ContentLength > 0))
+            //if ((File1.PostedFile != null) && (File1.PostedFile.ContentLength > 0))
+            //{
+            //    string fn = System.IO.Path.GetFileName(File1.PostedFile.FileName);
+            //    string SaveLocation = Server.MapPath("AssetsBundle") + "\\resource\\" + fn;
+            //    try
+            //    {
+            //        File1.PostedFile.SaveAs(SaveLocation);
+            //        Response.Write("The file has been uploaded.");
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Response.Write("Error: " + ex.Message);
+            //        //Note: Exception.Message returns a detailed message that describes the current exception. 
+            //        //For security reasons, we do not recommend that you return Exception.Message to end users in 
+            //        //production environments. It would be better to return a generic error message. 
+            //    }
+            //}
+            //else
+            //{
+            //    Response.Write("Please select a file to upload.");
+            //}
+
+            string extractPath = Server.MapPath("AssetsBundle") + "\\resource\\";
+            using (ZipFile zip = ZipFile.Read(File1.PostedFile.InputStream))
             {
-                string fn = System.IO.Path.GetFileName(File1.PostedFile.FileName);
-                string SaveLocation = Server.MapPath("AssetsBundle") + "\\resource\\" + fn;
-                try
-                {
-                    File1.PostedFile.SaveAs(SaveLocation);
-                    Response.Write("The file has been uploaded.");
-                }
-                catch (Exception ex)
-                {
-                    Response.Write("Error: " + ex.Message);
-                    //Note: Exception.Message returns a detailed message that describes the current exception. 
-                    //For security reasons, we do not recommend that you return Exception.Message to end users in 
-                    //production environments. It would be better to return a generic error message. 
-                }
-            }
-            else
-            {
-                Response.Write("Please select a file to upload.");
+                zip.ExtractAll(extractPath, ExtractExistingFileAction.DoNotOverwrite);
             }
         }
     }

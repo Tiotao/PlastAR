@@ -5,13 +5,13 @@
 # resource path
 # assets bundle path
 
-
+ASSET_BUNDLE_DIR=/c/TangoProject/sample/recognize/backEnd/Plastar/Plastar/AssetsBundle/AssetsBundle
 
 UNITY_EXEC=/c/"Program Files"/Unity/Editor/Unity.exe
 
 # if [ -z "$2" ]; then echo "You must provide a path to the bundle assets and a path to the resulting bundle."; fi
-
-CREATION_TIME=`date +%s` ASSET_BUNDLE_PROJECT_DIR=/c/TangoProject/sample/recognize/backEnd/Plastar/Plastar/AssetsBundle/tmp/AssetBundle-${CREATION_TIME}
+#CREATION_TIME=`date +%s`
+CREATION_TIME="$1" ASSET_BUNDLE_PROJECT_DIR=/c/TangoProject/sample/recognize/backEnd/Plastar/Plastar/AssetsBundle/tmp/AssetBundle-${CREATION_TIME}
 
 echo $ASSET_BUNDLE_PROJECT_DIR
 
@@ -29,6 +29,7 @@ echo $ASSETS_TO_BUNDLE
 
 
 
+mkdir ${ASSET_BUNDLE_DIR}/${CREATION_TIME}
 
 mkdir ${ASSET_BUNDLE_PROJECT_DIR}/Assets/Editor/
 cat << EOF > ${ASSET_BUNDLE_PROJECT_DIR}/Assets/Editor/AssetsBundler.cs
@@ -55,7 +56,7 @@ public class AssetsBundler
 
         buildMap[0].assetNames = enemyAssets;
 
-        BuildPipeline.BuildAssetBundles("C:/TangoProject/sample/recognize/backEnd/Plastar/Plastar/AssetsBundle/AssetsBundle", buildMap, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
+        BuildPipeline.BuildAssetBundles("C:/TangoProject/sample/recognize/backEnd/Plastar/Plastar/AssetsBundle/AssetsBundle/${CREATION_TIME}", buildMap, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows);
     }
 }
 
@@ -66,5 +67,9 @@ EOF
 echo "Building the bundle."; "${UNITY_EXEC}" -batchmode -projectPath ${ASSET_BUNDLE_PROJECT_DIR} -executeMethod AssetsBundler.BuildAllAssetBundles -quit;
 
 echo "Deleting temporary project."; rm -rf ${ASSET_BUNDLE_PROJECT_DIR};
+
+mv ${RESOURCE_FILE}/cast/model/rotatedView/000.png ${ASSET_BUNDLE_DIR}/${CREATION_TIME}
+
+echo "Deleting resource file"; rm -rf ${RESOURCE_FILE}/cast;
 
 read -p "Press enter to continue"

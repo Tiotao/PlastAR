@@ -11,7 +11,6 @@
 
              
             <input type="file" id="File1" name="File1" runat="server" />
-            <br>
             <input type="submit" id="Submit1" value="Upload" runat="server" />
             <br>
             <br>
