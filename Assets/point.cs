@@ -69,9 +69,6 @@ public class point : MonoBehaviour {
                 Vector3 offset = intersection - planeCenter;
                 float verticalOffset = Vector3.Dot(offset, Camera.main.transform.up.normalized);
                 float horizontalOffset = Vector3.Dot(offset, Camera.main.transform.right.normalized);
-                
-                Debug.Log(horizontalOffset + "," + verticalOffset);
-
                 // if ( (horizontalOffset < 5 && horizontalOffset > -5) || (verticalOffset < 3.5f && verticalOffset > -3.5f) ) {
                 //     // markerFinder.SetActive(false);
                 //     return;

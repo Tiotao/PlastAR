@@ -8,6 +8,12 @@ public class manipulate : MonoBehaviour {
 
     ParticleSystem[] hotspots;
 
+    MaterialChanger matChanger;
+
+    public Material overrideMat;
+
+    public bool isTransparent;
+
 	// Use this for initialization
 	void Start () {
         hotspots = GetComponentsInChildren<ParticleSystem>();
@@ -15,7 +21,10 @@ public class manipulate : MonoBehaviour {
             ParticleSystem.EmissionModule em = p.GetComponentInChildren<ParticleSystem>().emission;
             em.enabled = true;
         }
+        matChanger = new MaterialChanger(gameObject.transform.FindChild("BuildingModel").gameObject, overrideMat);
 	}
+
+    
 
     void Update()
     {
@@ -62,5 +71,15 @@ public class manipulate : MonoBehaviour {
 
         oldTouch1 = newTouch1;
         oldTouch2 = newTouch2;
+    }
+
+    public bool ToggleRendering() {
+        if (isTransparent) {
+            matChanger.Revert<MeshRenderer>();
+        } else {
+            matChanger.Change<MeshRenderer>();
+        }
+        isTransparent = !isTransparent;
+        return isTransparent;
     }
 }

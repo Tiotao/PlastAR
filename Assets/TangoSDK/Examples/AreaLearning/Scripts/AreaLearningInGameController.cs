@@ -200,16 +200,14 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     Debug.Log("[SHADER] get height failed");
                     mats[j] = mat;
                 }
-                
-                
-               
-                
             }
             m.materials = mats;
         }
     }
 
     private void SetRendererActive<T> (GameObject obj, bool isActive) where T: Renderer  {
+        Debug.Log("Send Renderer Active");
+        Debug.Log(obj);
         foreach (T m in obj.GetComponentsInChildren<T>()) {
              m.enabled = isActive;
         }
@@ -232,10 +230,15 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         foreach (BirdRandomMovement bird in newMarkObject.GetComponentsInChildren<BirdRandomMovement>()){
             bird.StartAnimation();
         }
+
+        foreach (HumanMovement human in newMarkObject.GetComponentsInChildren<HumanMovement>()) {
+            human.StartAnimation();
+        }
+
+
         // _buildingGround.SetActive(true);
         
         if (_appearMode == (int) Configs.AppearMode.Grow) {
-            
             Debug.Log("Start placing buildings");
             float w = 0;
             while (w < 1) {
@@ -253,6 +256,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 yield return new WaitForSeconds(Time.deltaTime);
             }
         }
+
+        // show shot button
+        GlobalManagement.ShootButton.SetActive(true);
         
         _isPlacingBuilding = false;
         Debug.Log("End placing buildings");
@@ -352,13 +358,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     //     buildingSymbol.transform.lossyScale.y);
                     
                     if (_appearMode == (int) Configs.AppearMode.Grow) {
+
                         // prevent from ground elements getting transparent
                         _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
                         _buildingGround.SetActive(false);
-                        SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
-                        
+                        SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, disallowPlaceMat);
+
                     }
+                    Debug.Log("set bulding symbol active");
                     SetRendererActive<MeshRenderer>(buildingSymbol, true);
+                    Debug.Log("FINISH set bulding symbol active");
                     StartCoroutine(_WaitForDepthAndFindPlane());
                 }
 
@@ -954,12 +963,11 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 {
                     buildingSymbol.transform.position = planeCenter;
                     
-                    
+                    Debug.Log(planeCenter);
                     
                     if (_appearMode == (int) Configs.AppearMode.Grow) {
-                        
-                        SetMaterial<MeshRenderer>(buildingSymbol, allowPlaceMat);
-                        GuidingLine.GetComponent<Bezier>().controlPoints = new Transform[] {cam.transform, buildingSymbol.transform};
+                        SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, allowPlaceMat);
+                        // GuidingLine.GetComponent<Bezier>().controlPoints = new Transform[] {cam.transform, buildingSymbol.transform};
                         // GuidingLine.SetActive(true);
                         buildingAppearFx.transform.position = planeCenter; 
                         buildingAppearFx.SetActive(true);
@@ -971,12 +979,13 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     buildingSymbol.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 2f;
                     
                     if (_appearMode == (int) Configs.AppearMode.Grow) {
-                        SetMaterial<MeshRenderer>(buildingSymbol, disallowPlaceMat);
+                        SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, disallowPlaceMat);
                         // GuidingLine.SetActive(false);
                         buildingAppearFx.SetActive(false);
                     }
 
                     _planeCenter = Vector3.zero;
+
                 }
             }
         }

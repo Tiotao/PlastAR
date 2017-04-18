@@ -31,9 +31,17 @@ public class MenuClick : MonoBehaviour
 
     public GameObject BuildingOnboarding;
 
+    public GameObject BuildingRenderToggle;
+
+    // public GameObject currentBuilding;
+
+    
+
     GameObject DebugConsole;
 
     GameObject SaveButton;
+
+
 
     public void Start() {
         DebugConsole = GameObject.Find("DebugConsole");
@@ -44,7 +52,19 @@ public class MenuClick : MonoBehaviour
         
     }
 
-    
+    public void ToggleBuildingRendering() {
+        // GlobalManagement.Building = currentBuilding;
+        RectTransform toggleTransform = BuildingRenderToggle.transform.GetChild(3).GetComponent<RectTransform>();
+        if (GlobalManagement.Building != null) {
+            bool isTransparentRenderMode = GlobalManagement.Building.GetComponent<manipulate>().ToggleRendering();
+            if (isTransparentRenderMode) {
+                 toggleTransform.anchoredPosition = new Vector3(-56, -110, 0);
+            } else {
+                 toggleTransform.anchoredPosition = new Vector3(-56, -25, 0);
+            }
+            
+        }
+    }
 
     void RefreshView(){
         LandingView = GlobalManagement.Markers;
@@ -68,6 +88,7 @@ public class MenuClick : MonoBehaviour
         MapView.SetActive(!MapView.activeSelf);
     }
 
+
     
 
     public void ToBuiding()
@@ -76,6 +97,9 @@ public class MenuClick : MonoBehaviour
         
         
         RefreshView();
+
+        BuildingOnboarding.SetActive(true);
+        BuildingRenderToggle.SetActive(false);
         
         // disable active screen overlay
         try {
@@ -89,7 +113,7 @@ public class MenuClick : MonoBehaviour
         BuildingView.SetActive(true);
         CastView.SetActive(false);
         FunctionView.SetActive(true);
-        GlobalManagement.ShootButton.SetActive(true);
+        // GlobalManagement.ShootButton.SetActive(true);
         Destroy(Building);
         GlobalManagement.Building = null;
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
@@ -222,6 +246,7 @@ public class MenuClick : MonoBehaviour
 
     public void ReadBuildingOnboarding() {
         BuildingOnboarding.SetActive(false);
+        BuildingRenderToggle.SetActive(true);
     }
 
 }
