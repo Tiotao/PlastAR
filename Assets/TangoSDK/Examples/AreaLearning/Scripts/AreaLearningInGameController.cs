@@ -258,7 +258,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         // show shot button
-        GlobalManagement.ShootButton.SetActive(true);
+        if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building) {
+            GlobalManagement.ShootButton.SetActive(true);
+        }
+        
         
         _isPlacingBuilding = false;
         Debug.Log("End placing buildings");

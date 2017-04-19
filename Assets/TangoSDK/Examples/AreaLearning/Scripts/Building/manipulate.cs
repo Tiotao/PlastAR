@@ -12,7 +12,7 @@ public class manipulate : MonoBehaviour {
 
     public Material overrideMat;
 
-    public bool isTransparent;
+    public bool isTransparent = false;
 
 	// Use this for initialization
 	void Start () {
@@ -74,9 +74,12 @@ public class manipulate : MonoBehaviour {
     }
 
     public bool ToggleRendering() {
+        Debug.Log("Toggle Rendering");
         if (isTransparent) {
+            Debug.Log("Set back to texture mode");
             matChanger.Revert<MeshRenderer>();
         } else {
+            Debug.Log("Set to transparent mode");
             matChanger.Change<MeshRenderer>();
         }
         isTransparent = !isTransparent;

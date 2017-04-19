@@ -18,8 +18,6 @@ public class BirdRandomMovement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
-
     }
 	
 	public void StartAnimation() {

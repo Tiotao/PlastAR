@@ -57,6 +57,7 @@ public class MenuClick : MonoBehaviour
         RectTransform toggleTransform = BuildingRenderToggle.transform.GetChild(3).GetComponent<RectTransform>();
         if (GlobalManagement.Building != null) {
             bool isTransparentRenderMode = GlobalManagement.Building.GetComponent<manipulate>().ToggleRendering();
+            Debug.Log(isTransparentRenderMode);
             if (isTransparentRenderMode) {
                  toggleTransform.anchoredPosition = new Vector3(-56, -110, 0);
             } else {

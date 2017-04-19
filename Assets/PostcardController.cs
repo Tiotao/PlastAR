@@ -142,10 +142,12 @@ public class PostcardController : MonoBehaviour {
 		iTween.MoveTo(gameObject, iTween.Hash("position", new Vector3(0f, 0f, 0f),"islocal", true, "time", _ZOOM_TIME, "easetype", iTween.EaseType.easeInOutBack));
 		gameObject.transform.SetAsLastSibling();
 		_Hotspots.SetActive(true);
+		_DefocusButton.SetActive(true);
 		FadeIn(_Hotspots, _ZOOM_TIME);
+		FadeIn(_DefocusButton, _ZOOM_TIME);
 		yield return new WaitForSeconds(_ZOOM_TIME);
 		_expanding = false;
-		_DefocusButton.SetActive(true);
+		
 	} 
 
 	IEnumerator Defocus() {
@@ -153,6 +155,7 @@ public class PostcardController : MonoBehaviour {
 		iTween.ScaleTo(gameObject, iTween.Hash("scale", _initialScale, "time", _ZOOM_TIME, "easetype", iTween.EaseType.easeInOutBack));
 		iTween.MoveTo(gameObject, iTween.Hash("position", _initialLocation, "islocal", true, "time", _ZOOM_TIME, "easetype", iTween.EaseType.easeInOutBack));
 		FadeOut(_Hotspots, _ZOOM_TIME);
+		FadeOut(_DefocusButton, _ZOOM_TIME);
 		yield return new WaitForSeconds(_ZOOM_TIME);
 		_expanding = false;
 		_Hotspots.SetActive(false);
@@ -160,28 +163,37 @@ public class PostcardController : MonoBehaviour {
 	} 
 
 	IEnumerator RotateToFront() {
+		
 		_rotating = true;
+		_RotateBackButton.SetActive(true);
+		FadeIn(_RotateBackButton, _ROTATE_TIME);
+		FadeOut(_DefocusButton, _ROTATE_TIME);
 		iTween.RotateTo(_Front, iTween.Hash("rotation", new Vector3(0f, 90f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeInBack));
 		iTween.RotateTo(_Back, iTween.Hash("rotation", new Vector3(0f, -90f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeInBack));
 		yield return new WaitForSeconds(_ROTATE_TIME);
+		_DefocusButton.SetActive(false);
 		_Back.transform.SetAsFirstSibling();
 		iTween.RotateTo(_Front, iTween.Hash("rotation", new Vector3(0f, 180f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeOutBack));
 		iTween.RotateTo(_Back, iTween.Hash("rotation", new Vector3(0f, -180f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeOutBack));
 		yield return new WaitForSeconds(_ROTATE_TIME);
 		_rotating = false;
-		_RotateBackButton.SetActive(true);
+		
 	}
 
 	IEnumerator RotateToBack() {
 		_rotating = true;
+		FadeIn(_DefocusButton, _ROTATE_TIME);
+		FadeOut(_RotateBackButton, _ROTATE_TIME);
 		iTween.RotateTo(_Front, iTween.Hash("rotation", new Vector3(0f, 90f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeInBack));
 		iTween.RotateTo(_Back, iTween.Hash("rotation", new Vector3(0f, -90f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeInBack));
 		yield return new WaitForSeconds(_ROTATE_TIME);
+		_DefocusButton.SetActive(true);
+		_RotateBackButton.SetActive(false);
 		_Front.transform.SetAsFirstSibling();
 		iTween.RotateTo(_Front, iTween.Hash("rotation", new Vector3(0f, 0f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeOutBack));
 		iTween.RotateTo(_Back, iTween.Hash("rotation", new Vector3(0f, 0f, 0f), "time", _ROTATE_TIME, "easetype", iTween.EaseType.easeOutBack));
 		yield return new WaitForSeconds(_ROTATE_TIME);
 		_rotating = false;
-		_RotateBackButton.SetActive(false);
+		
 	}
 }

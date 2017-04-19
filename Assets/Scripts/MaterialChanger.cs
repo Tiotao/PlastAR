@@ -18,8 +18,8 @@ public class MaterialChanger {
 		this._materials = new List<Material>();
 		this._obj = obj;
 		this._overrideMat = overrideMat;
-		this._ground = obj.transform.FindChild("Ground").gameObject;
-		this._animation = obj.transform.FindChild("Animation").gameObject;
+		this._ground = obj.transform.parent.transform.FindChild("Ground").gameObject;
+		this._animation = obj.transform.parent.transform.FindChild("Animation").gameObject;
 	}
 
 	public void Change<T>() where T: Renderer{
