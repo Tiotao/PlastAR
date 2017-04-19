@@ -18,6 +18,10 @@ namespace Plastar
                 //Response.Redirect("~/");
                 AccessData();
             }
+            else
+            {
+                AccessData();
+            }
         }
 
         override protected void OnInit(EventArgs e)
@@ -43,6 +47,7 @@ namespace Plastar
         private void AddBundle_Click(object sender, System.EventArgs e)
         {
             //AccessData();
+            //Response.Write("<script>alert('第四种方式，有白屏！')</script>");
             Response.Redirect("~/");
         }
 
@@ -78,11 +83,18 @@ namespace Plastar
                             img.ImageUrl = "~\\AssetsBundle\\AssetsBundle\\"+ (r["Snapshot"].ToString());
                             holder.Controls.Add(img);
 
-                            holder.Controls.Add();
+                            Button btn = new Button();
+                            btn.Width = 100;
+                            btn.Height = 100;
+                            btn.CommandArgument = (r["Snapshot"].ToString());
+                            btn.Click += new System.EventHandler(this.ButtonClicked);
+                            holder.Controls.Add(btn);
 
+                            holder.Controls.Add(new LiteralControl("<br />"));
                         }
 
                     }
+                    myCon.Close();
                 }
 
                 
@@ -90,6 +102,53 @@ namespace Plastar
             catch (Exception ex)
             {
             }
+        }
+
+        protected void ButtonClicked(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+
+            string snapshot = button.CommandArgument;
+
+            string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\App_Data\\PlastarDB.mdf;Integrated Security=True";
+            SqlConnection myCon = new SqlConnection(con);
+            SqlCommand cmd = new SqlCommand("delete from dbo.AssetsBundle where Snapshot = @snapshot", myCon);
+            cmd.Parameters.AddWithValue(@"snapshot", snapshot);
+
+            myCon.Open();
+            cmd.ExecuteNonQuery();
+            myCon.Close();
+
+            //Response.Redirect(Request.RawUrl);
+
+            DeleteFileFromFolder("131370224948511349");
+
+            // need to delete the file physically
+        }
+
+        public void DeleteFileFromFolder(string StrFilename)
+        {
+            string strPhysicalFolder = "C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\AssetsBundle\\AssetsBundle\\";
+
+
+            //string strPhysicalFolder = "~\\AssetsBundle\\AssetsBundle\\";
+
+            string strFileFullPath = strPhysicalFolder + StrFilename;
+            //System.IO.File.Delete(strFileFullPath);
+            if (System.IO.File.Exists(strFileFullPath))
+            {
+                test("1");
+                System.IO.File.Delete(strFileFullPath);
+            }
+            else
+                test(strFileFullPath);
+
+        }
+
+
+        private void test(string str)
+        {
+            Response.Write("<script>alert('" + str + "')</script>");
         }
 
 

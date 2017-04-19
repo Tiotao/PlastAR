@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 2750877949
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1ef8fc6dbc76b2388d9d0e73c3397152
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: c1642440719609290a7e09a50a7286f4
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/cast/model/rotatedView/000.png
+Dependencies: []
