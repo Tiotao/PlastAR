@@ -63,15 +63,22 @@ public class recognize : MonoBehaviour {
 
     bool CouldBeSeen()
     {
-        float angleThresh = 25;
-        float distThresh = 50;
+        float angleThresh = Camera.main.fieldOfView / 4;
+        float distThresh = Camera.main.farClipPlane;
 
         Vector3 vc = Camera.main.transform.forward;
         Vector3 vt = this.gameObject.transform.position - Camera.main.transform.position;
 
-        if (Vector3.Angle(vc, vt) < angleThresh && Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position) < distThresh)
+        float angle = Vector3.Angle(vc, vt);
+
+        float forwardDistance = Mathf.Cos(angle) * Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
+
+        if (angle < angleThresh && forwardDistance < distThresh) {
+            Debug.Log(forwardDistance);
+            Debug.Log(angle);
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }
