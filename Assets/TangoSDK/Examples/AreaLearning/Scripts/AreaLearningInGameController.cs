@@ -77,6 +77,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     public Material disallowPlaceMat;
 
     private GameObject buildingAppearFx;
+
+    private GameObject buildingOnBoardingA;
+    private GameObject buildingOnBoardingB;
     
 
 #if UNITY_EDITOR
@@ -184,6 +187,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         {
             m_tangoApplication.Register(this);
         }
+
+        buildingOnBoardingA = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._onboardingA;
+        buildingOnBoardingB = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._onboardingB;
     }
 
     // set material of a structured gameobject (gameobject with multiple child and renderer)
@@ -366,6 +372,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
                         _buildingGround.SetActive(false);
                         SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, disallowPlaceMat);
+                        
+                        if (!buildingOnBoardingA.activeSelf) {
+                            buildingOnBoardingA.SetActive(true);
+                        }
+
+                        if (buildingOnBoardingB.activeSelf) {
+                            buildingOnBoardingB.SetActive(false);
+                        }
+                        
+                        
 
                     }
                     Debug.Log("set bulding symbol active");
@@ -927,6 +943,14 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         
         newMarkObject.GetComponent<manipulate>().enabled = true;
 
+        if (buildingOnBoardingA.activeSelf) {
+            buildingOnBoardingA.SetActive(false);
+        }
+
+        if (buildingOnBoardingB.activeSelf) {
+            buildingOnBoardingB.SetActive(false);
+        }
+
         m_selectedMarker = null;
     }
 
@@ -998,6 +1022,14 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         // GuidingLine.SetActive(true);
                         buildingAppearFx.transform.position = planeCenter; 
                         buildingAppearFx.SetActive(true);
+
+                        if (buildingOnBoardingA.activeSelf) {
+                            buildingOnBoardingA.SetActive(false);
+                        }
+
+                        if (!buildingOnBoardingB.activeSelf) {
+                            buildingOnBoardingB.SetActive(true);
+                        }
                     }
 
                     _planeCenter = planeCenter;
@@ -1009,6 +1041,14 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, disallowPlaceMat);
                         // GuidingLine.SetActive(false);
                         buildingAppearFx.SetActive(false);
+
+                        if (!buildingOnBoardingA.activeSelf) {
+                            buildingOnBoardingA.SetActive(true);
+                        }
+
+                        if (buildingOnBoardingB.activeSelf) {
+                            buildingOnBoardingB.SetActive(false);
+                        }
                     }
 
                     _planeCenter = Vector3.zero;
