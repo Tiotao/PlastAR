@@ -15,7 +15,6 @@ public class contentManagement : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
-        Debug.Log("HELLO");
         // CallExampleNotification();
         InitializeScreen("HomeView");
         InitializeScreen("ScreenShot");
@@ -31,6 +30,7 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("MapView");
         InitializeScreen("GuideView");
         InitializeScreen("BuildingView");
+        InitializeScreen("NavigationView");
         LoadData();
 
 

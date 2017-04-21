@@ -230,6 +230,7 @@ public class MarkerManager : MonoBehaviour {
 	}
 
 	public void SetCurrentMarker(int markerID) {
+		GlobalManagement.currentMarkerID = markerID;
 		_currentMarkerID = markerID;
 	}
 

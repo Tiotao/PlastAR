@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SendButton : MonoBehaviour, IPointerClickHandler
+public class SendButton : MonoBehaviour
 {
 
     public GameObject MainFunction;
@@ -20,20 +20,21 @@ public class SendButton : MonoBehaviour, IPointerClickHandler
 		
 	}
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        string emailAddress = InputBox.text;
+    // public void OnPointerClick(PointerEventData eventData)
+    // {
+    //     string emailAddress = InputBox.text;
         
-        StartCoroutine(SendEmail(emailAddress));
+    //     StartCoroutine(SendEmail(emailAddress));
 
-        GlobalManagement.FunctionView.SetActive(true);
-        GlobalManagement.ShootButton.SetActive(true);
-        GlobalManagement.ScreenShot.SetActive(false);
-        GlobalManagement.EmailBox.SetActive(false);
-    }
+    //     GlobalManagement.FunctionView.SetActive(true);
+    //     GlobalManagement.ShootButton.SetActive(true);
+    //     GlobalManagement.ScreenShot.SetActive(false);
+    //     GlobalManagement.EmailBox.SetActive(false);
+    // }
 
-    IEnumerator SendEmail(string emailAddress) {
-        MainFunction.GetComponent<MainFunctions>().SendEmail(emailAddress);
-        yield return null;
-    }
+    // IEnumerator SendEmail(string emailAddress) {
+    //     yield return null;
+    //     MainFunction.GetComponent<MainFunctions>().SendEmail(emailAddress);
+        
+    // }
 }

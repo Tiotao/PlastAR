@@ -16,6 +16,8 @@ public class GlobalManagement
     public static GameObject MessageBox;
     public static GameObject EmailBox;
 
+    public static GameObject NavigationView;
+
     public static GameObject StoryView;
 
     public static GameObject GuidingLine;
@@ -28,7 +30,9 @@ public class GlobalManagement
 
     public static GameObject BuildingView;
 
-    public static int SceneIndex = (int) Configs.SceneIndex.Landing;
+    public static int SceneIndex = (int) Configs.SceneIndex.Onboarding;
+
+    public static int currentMarkerID = -1;
 
     public static bool developerMode = false;
 

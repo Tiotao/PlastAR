@@ -100,7 +100,6 @@ public class PostcardController : MonoBehaviour {
 	}
 
 	public void FadeOut(GameObject target, float time) {
-		Debug.Log("fadeout");
         iTween.ValueTo(gameObject, iTween.Hash("from", 1.0f, "to", 0.0f, "time", time, "easetype", "linear","onupdate", (Action<object>) (newAlpha => {
 			Image[] images = target.GetComponentsInChildren<Image>();
          	foreach (Image mObj in images) {

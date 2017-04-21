@@ -33,6 +33,8 @@ public class MenuClick : MonoBehaviour
 
     public GameObject BuildingRenderToggle;
 
+    public GameObject NavigationView;
+
     // public GameObject currentBuilding;
 
     
@@ -78,6 +80,7 @@ public class MenuClick : MonoBehaviour
         GuidingLine = GlobalManagement.GuidingLine;
         OnBoardingView = GlobalManagement.OnBoardingView;
         GuideView = GlobalManagement.GuideView;
+        NavigationView = GlobalManagement.NavigationView;
         // sub buttons
         MapView = GlobalManagement.MapView;
         SaveButton = FunctionView.transform.GetChild(0).gameObject;
@@ -114,13 +117,14 @@ public class MenuClick : MonoBehaviour
         BuildingView.SetActive(true);
         CastView.SetActive(false);
         FunctionView.SetActive(true);
+        
         // GlobalManagement.ShootButton.SetActive(true);
         Destroy(Building);
         GlobalManagement.Building = null;
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
         GuideView.SetActive(false);
         BuildingOnboarding.SetActive(true);
-        
+        NavigationView.SetActive(false);
 
     }
 
@@ -153,6 +157,7 @@ public class MenuClick : MonoBehaviour
         GuidingLine.SetActive(false);
         GuideView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
+        NavigationView.SetActive(false);
 
     }
 
@@ -186,10 +191,13 @@ public class MenuClick : MonoBehaviour
         GuidingLine.SetActive(false);
         GuideView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
+        NavigationView.SetActive(false);
 
     }
 
-    public void ToLanding(){
+    
+
+    public void ToLanding(bool maintainMenu = true, bool fromMenu = false){
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Landing;
 
         RefreshView();
@@ -201,14 +209,28 @@ public class MenuClick : MonoBehaviour
         } catch {
             Debug.Log("No Marker Present");
         }
-        HomeView.SetActive(false);
+
+
+        HomeView.SetActive(maintainMenu);
+        
         CastView.SetActive(false);
         StoryView.SetActive(false);
         BuildingView.SetActive(false);
-        FunctionView.SetActive(false);
+        FunctionView.SetActive(true);
         OnBoardingView.SetActive(false);
-        GuideView.SetActive(true);
+        GuideView.SetActive(!maintainMenu);
         GlobalManagement.ShootButton.SetActive(false);
+        NavigationView.SetActive(!maintainMenu);
+        
+        if (fromMenu) {
+            int id = GlobalManagement.currentMarkerID;
+            if (id >= 0) {
+                Debug.Log("CURRENT ID" + id);
+                GlobalManagement.Markers[id].GetComponentInChildren<MarkerRotation>().Reset();
+            }
+            
+        }
+        
 
         try {
             Building.SetActive(false);
@@ -233,8 +255,14 @@ public class MenuClick : MonoBehaviour
             case (int) Configs.SceneIndex.Story:
                 ToLanding();
                 break;
+            case (int) Configs.SceneIndex.Onboarding:
+                ToLanding(false);
+                break;
+            case (int) Configs.SceneIndex.Landing:
+                ToLanding(false, true);
+                break;
             default:
-                ToLanding();
+                ToLanding(false);
                 break;
         }
     }

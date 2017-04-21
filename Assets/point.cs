@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class point : MonoBehaviour {
 
@@ -18,7 +19,7 @@ public class point : MonoBehaviour {
     int screenWidth = 800;
     int screenHeight = 500;
 
-    float scalingFactor;
+    float scalingFactor = 0;
 
     float horizontalRange;
 
@@ -26,11 +27,20 @@ public class point : MonoBehaviour {
 
     float farPlane;
 
+    int selectedMarkerId = -1;
+
+
 	// Use this for initialization
 	void Start () {
 
         markerFinder = GameObject.FindGameObjectWithTag("VirtualMarkerFinder");
-        
+        if (Camera.main != null) {
+            farPlane = Camera.main.farClipPlane;
+            FOV = Camera.main.fieldOfView;
+            verticalRange = Mathf.Tan(Mathf.Deg2Rad * FOV / 2) * farPlane;
+            horizontalRange = verticalRange / screenHeight * screenWidth;
+            scalingFactor = screenHeight / (verticalRange * 2);
+        }
         
         // path = new GameObject[slice];
         // markerFinder = GameObject.FindGameObjectWithTag("VirtualMarkerFinder");
@@ -52,16 +62,21 @@ public class point : MonoBehaviour {
             return;
         }
 
-        farPlane = Camera.main.farClipPlane;
-        FOV = Camera.main.fieldOfView;
-        verticalRange = Mathf.Tan(Mathf.Deg2Rad * FOV / 2) * farPlane;
-        horizontalRange = verticalRange / screenHeight * screenWidth;
-        scalingFactor = screenHeight / (verticalRange * 2);
+        if (scalingFactor == 0) {
+            farPlane = Camera.main.farClipPlane;
+            FOV = Camera.main.fieldOfView;
+            verticalRange = Mathf.Tan(Mathf.Deg2Rad * FOV / 2) * farPlane;
+            horizontalRange = verticalRange / screenHeight * screenWidth;
+            scalingFactor = screenHeight / (verticalRange * 2);
+        }
+
+        
         // Debug.Log(scalingFactor);
 
         
 
-        GameObject[] list = GameObject.FindGameObjectsWithTag("VirtualMarker");
+        // GameObject[] list = GameObject.FindGameObjectsWithTag("VirtualMarker");
+        List<GameObject> list = GlobalManagement.Markers;
         double dist = double.MaxValue;
         GameObject nearestMarker = null;
         foreach (var marker in list)
@@ -72,11 +87,17 @@ public class point : MonoBehaviour {
             {
                 dist = Vector3.Distance(Camera.main.transform.position, marker.transform.position);
                 nearestMarker = marker;
-                
             }
         }
 
         Vector3 startPoint = Camera.main.transform.position;
+
+        // override nearestMarker selection
+
+        if (selectedMarkerId > -1) {
+            nearestMarker = GlobalManagement.Markers[selectedMarkerId];
+        }
+
 
         if (nearestMarker)
         {
@@ -112,7 +133,6 @@ public class point : MonoBehaviour {
                 DrawLine(intersection, intersection + Camera.main.transform.up, Color.red);
                 DrawLine(intersection, intersection + Camera.main.transform.right, Color.yellow);
 #endif
-                Debug.Log("offset: " + horizontalOffset + ", " + verticalOffset);
                 
                  
 
@@ -140,7 +160,6 @@ public class point : MonoBehaviour {
                     markerFinder.SetActive(true);
                 }
 
-                
 
                 markerFinder.GetComponent<RectTransform>().LookAt(canvasCenter);
                 
@@ -151,6 +170,24 @@ public class point : MonoBehaviour {
         }
 
         
+    }
+
+    public void SetCurrentNavigation(int id) {
+        if (selectedMarkerId == id) {
+            id = -1;
+        }
+        
+        selectedMarkerId = id;
+        int i = 0;
+        foreach (Transform child in GlobalManagement.NavigationView.transform) {
+            if (i == id) {
+                child.gameObject.GetComponent<Image>().color = new Color(167f/255f, 0, 1f, 1f);
+            } else {
+                child.gameObject.GetComponent<Image>().color = new Color(0f, 0f, 0f, 1f);
+            }
+            i++;
+        }
+
     }
 
 

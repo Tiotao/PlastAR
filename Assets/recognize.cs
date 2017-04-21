@@ -3,17 +3,19 @@ using System.Collections;
 
 public class recognize : MonoBehaviour {
 
-    GameObject plan;
     public bool seen = false;
+
+    public bool active = false;
     
     GameObject MarkerManager;
+
+
 
     ParticleSystem[] hotspots;
     // Use this for initialization
     void Start()
     {
         MarkerManager = GameObject.FindGameObjectWithTag("MarkerManager");
-        plan = GlobalManagement.HomeView;
         hotspots = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem p in hotspots) {
             ParticleSystem.EmissionModule em = p.emission;
@@ -22,7 +24,6 @@ public class recognize : MonoBehaviour {
         foreach (MeshRenderer m in GetComponentsInChildren<MeshRenderer>()) {
             m.enabled = true;
         }
-
 
         //plan = GameObject.FindGameObjectWithTag("Content");
         //plan.SetActive(false);
@@ -64,18 +65,41 @@ public class recognize : MonoBehaviour {
     bool CouldBeSeen()
     {
         float angleThresh = Camera.main.fieldOfView / 4;
-        float distThresh = Camera.main.farClipPlane;
+        float distThresh = Camera.main.farClipPlane - 2f;
+
+        float distance = Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
+        // too far too see
+
+        if (distance > (distThresh - 2f)) {
+
+            if (active) {
+                GetComponentInChildren<MarkerRotation>().Pause();
+                active = false;
+            }
+
+            return false;
+
+        } else {
+
+            if (!active) {
+                GetComponentInChildren<MarkerRotation>().Resume();
+                active = true;
+            }
+        }
+
 
         Vector3 vc = Camera.main.transform.forward;
         Vector3 vt = this.gameObject.transform.position - Camera.main.transform.position;
 
         float angle = Vector3.Angle(vc, vt);
 
-        float forwardDistance = Mathf.Cos(angle) * Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
+        // float forwardDistance = Mathf.Cos(angle) * Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
 
-        if (angle < angleThresh && forwardDistance < distThresh) {
-            Debug.Log(forwardDistance);
-            Debug.Log(angle);
+
+
+        // whether in center
+
+        if (angle < angleThresh) {
             return true;
         } else {
             return false;

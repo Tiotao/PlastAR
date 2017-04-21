@@ -19,6 +19,8 @@ public class MainFunctions : MonoBehaviour {
     GameObject FunctionView;
     GameObject ShootButton;
 
+    public EmailController Emailer;
+
     // Use this for initialization
     void Start () {
 		
@@ -31,7 +33,7 @@ public class MainFunctions : MonoBehaviour {
 
     public void Shoot()
     {
-        ScreenShotImage = GlobalManagement.ScreenShot.transform.GetChild(1).gameObject;
+        ScreenShotImage = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject;
         FunctionView = GlobalManagement.FunctionView;
         ShootButton = GlobalManagement.ShootButton;
 
@@ -133,5 +135,6 @@ public class MainFunctions : MonoBehaviour {
             { return true; };
         smtpServer.Send(mail);
         Debug.Log("success");
+        Emailer.SendEmailSuccess();
     }
 }

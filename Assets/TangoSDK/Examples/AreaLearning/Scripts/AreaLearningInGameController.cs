@@ -428,18 +428,42 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 normalizedPosition.y /= Screen.height;
                 touchEffectRectTransform.anchorMin = touchEffectRectTransform.anchorMax = normalizedPosition;
             }
+
+            
+            if (GlobalManagement.HomeView.activeSelf) {
+                return;
+            }
+
+
             foreach (GameObject m in m_markerList) {
+                MarkerRotation marker = m.GetComponentInChildren<MarkerRotation>();
+
                 if(m.GetComponent<recognize>().seen) {
-                    MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
+
+                    if (marker._isFocused) {
+                        MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
+                        GlobalManagement.HomeView.SetActive(true);
+                        GlobalManagement.GuideView.SetActive(false);
+                        GlobalManagement.NavigationView.SetActive(false);
+
+                    } else {
+                        marker.StartFocusing();
+                    }
+
                     _selectedMarker = m;
-                    GlobalManagement.HomeView.SetActive(true);
+                    
                     return;
                 }
             }
+            
+
+
+
+
             // no marker being seen, set menu to inactive
-            if (GlobalManagement.HomeView.activeSelf) {
-                GlobalManagement.HomeView.SetActive(false);
-            }
+            // if (GlobalManagement.HomeView.activeSelf) {
+            //     GlobalManagement.HomeView.SetActive(false);
+            // }
 
             
             return;

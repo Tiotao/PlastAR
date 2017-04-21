@@ -7,12 +7,11 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: VirtualMarker
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION
+  m_Shader: {fileID: 4800000, guid: 27f25e268d1376844a7d1f813f76d397, type: 3}
+  m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -49,8 +48,8 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 2435ef2544ff8314a871204c3ae43a89, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - first:
         name: _MetallicGlossMap
@@ -88,7 +87,7 @@ Material:
       second: 1
     - first:
         name: _DstBlend
-      second: 10
+      second: 0
     - first:
         name: _GlossMapScale
       second: 1
@@ -99,6 +98,9 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
+        name: _Glow
+      second: 1
+    - first:
         name: _InvFade
       second: 1
     - first:
@@ -106,7 +108,7 @@ Material:
       second: 0
     - first:
         name: _Mode
-      second: 3
+      second: 0
     - first:
         name: _OcclusionStrength
       second: 1
@@ -133,17 +135,23 @@ Material:
       second: 0
     - first:
         name: _ZWrite
-      second: 0
+      second: 1
+    - first:
+        name: _factor
+      second: -1
     - first:
         name: _maxHeight
-      second: 0
+      second: 0.01
+    - first:
+        name: _threshold
+      second: 0.03
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 0.80689657, b: 0, a: 0.497}
+      second: {r: 1, g: 1, b: 1, a: 1}
     - first:
         name: _EmissionColor
-      second: {r: 0.38235295, g: 0.26105475, b: 0, a: 1}
+      second: {r: 0, g: 0, b: 0, a: 1}
     - first:
         name: _RimColor
       second: {r: 1, g: 1, b: 1, a: 1}

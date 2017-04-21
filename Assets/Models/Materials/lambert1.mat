@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: lambert1
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 8f2c3c3fb7126ee4fafb9abfe24bc41c, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
   m_CustomRenderQueue: -1
@@ -48,9 +48,9 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7a8047b13d05545f4a638d344b442e0a, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0, y: 1}
     - first:
         name: _MetallicGlossMap
       second:
@@ -69,6 +69,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - first:
+        name: _SpecGlossMap
+      second:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - first:
         name: _BumpScale
@@ -83,6 +89,9 @@ Material:
         name: _DstBlend
       second: 0
     - first:
+        name: _EmissionScaleUI
+      second: 0
+    - first:
         name: _GlossMapScale
       second: 1
     - first:
@@ -90,6 +99,9 @@ Material:
       second: 0
     - first:
         name: _GlossyReflections
+      second: 1
+    - first:
+        name: _Glow
       second: 1
     - first:
         name: _Metallic
@@ -118,10 +130,25 @@ Material:
     - first:
         name: _ZWrite
       second: 1
+    - first:
+        name: _factor
+      second: -1
+    - first:
+        name: _maxHeight
+      second: 0.00005
+    - first:
+        name: _threshold
+      second: -1.5
     m_Colors:
     - first:
         name: _Color
-      second: {r: 1, g: 1, b: 1, a: 1}
+      second: {r: 0, g: 0.7103448, b: 1, a: 1}
     - first:
         name: _EmissionColor
       second: {r: 0.35294116, g: 0.35294116, b: 0.35294116, a: 1}
+    - first:
+        name: _EmissionColorUI
+      second: {r: 1, g: 1, b: 1, a: 1}
+    - first:
+        name: _SpecColor
+      second: {r: 0.2, g: 0.2, b: 0.2, a: 1}

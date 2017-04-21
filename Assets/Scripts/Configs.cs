@@ -15,7 +15,8 @@ public class Configs {
 		Landing,
 		Cast,
 		Building,
-		Story
+		Story,
+		Onboarding,
 	}
 
 	public enum MarkerType {
