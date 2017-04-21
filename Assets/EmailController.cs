@@ -19,8 +19,8 @@ public class EmailController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_successPill.SetActive(false);
 		_sendPill.SetActive(true);
+		_successPill.SetActive(false);
 		_statusPill.SetActive(false);
 		_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 
@@ -88,6 +88,7 @@ public class EmailController : MonoBehaviour {
     }
 
 	public void SendEmailSuccess() {
+		_statusPill.SetActive(false);
 		_successPill.SetActive(true);
 		if (!_imageTransform) {
 			_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
