@@ -133,7 +133,7 @@ public class MainFunctions : MonoBehaviour {
             mail.Subject = "Plastar Photo";
             mail.Body = "This is a gift from Plastar";
             //System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(@Application.persistentDataPath + "/Screenshot.png");
-            //mail.Attachments.Add(attachment);
+            mail.Attachments.Add(attachment);
 
             SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
             smtpServer.Port = 587;
