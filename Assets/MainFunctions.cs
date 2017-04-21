@@ -117,24 +117,41 @@ public class MainFunctions : MonoBehaviour {
     // Send email
     public void SendEmail(string emailAddress)
     {
-        MailMessage mail = new MailMessage();
-
-        mail.From = new MailAddress("etcplastar@gmail.com");
-        mail.To.Add(emailAddress);
-        mail.Subject = "Plastar Photo";
-        mail.Body = "This is a gift from Plastar";
         System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(@Application.persistentDataPath + "/Screenshot.png");
-        mail.Attachments.Add(attachment);
+        var thread = new System.Threading.Thread(() => SendEmailWithSubThread(emailAddress, attachment));
+        thread.Start();
+    }
 
-        SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
-        smtpServer.Port = 587;
-        smtpServer.Credentials = new System.Net.NetworkCredential("etcplastar@gmail.com", "husiyuan") as ICredentialsByHost;
-        smtpServer.EnableSsl = true;
-        ServicePointManager.ServerCertificateValidationCallback =
-            delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-            { return true; };
-        smtpServer.Send(mail);
-        Debug.Log("success");
-        Emailer.SendEmailSuccess();
+    public void SendEmailWithSubThread(string emailAddress, System.Net.Mail.Attachment attachment)
+    {
+        try
+        {
+            MailMessage mail = new MailMessage();
+
+            mail.From = new MailAddress("etcplastar@gmail.com");
+            mail.To.Add(emailAddress);
+            mail.Subject = "Plastar Photo";
+            mail.Body = "This is a gift from Plastar";
+            //System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(@Application.persistentDataPath + "/Screenshot.png");
+            //mail.Attachments.Add(attachment);
+
+            SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+            smtpServer.Port = 587;
+            smtpServer.Credentials = new System.Net.NetworkCredential("etcplastar@gmail.com", "husiyuan") as ICredentialsByHost;
+            smtpServer.EnableSsl = true;
+            ServicePointManager.ServerCertificateValidationCallback =
+                delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                { return true; };
+            smtpServer.Send(mail);
+            Debug.Log("success");
+
+
+            Emailer.SendEmailSuccess();
+        }
+        catch
+        {
+            Debug.Log("fail");
+            Emailer.SendEmailFail();
+        }
     }
 }
