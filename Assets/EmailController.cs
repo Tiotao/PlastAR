@@ -22,13 +22,15 @@ public class EmailController : MonoBehaviour {
 		_sendPill.SetActive(true);
 		_successPill.SetActive(false);
 		_statusPill.SetActive(false);
-		_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
+		// _imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (!_imageTransform) {
+			_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
+		}
 	}
 
 	void OnDestroy() {

@@ -29,7 +29,7 @@ public class MenuClick : MonoBehaviour
 
     public GameObject GuideView;
 
-    public GameObject BuildingOnboarding;
+    // public GameObject BuildingOnboarding;
 
     public GameObject BuildingRenderToggle;
 
@@ -102,7 +102,7 @@ public class MenuClick : MonoBehaviour
         
         RefreshView();
 
-        BuildingOnboarding.SetActive(true);
+        // BuildingOnboarding.SetActive(true);
         BuildingRenderToggle.SetActive(false);
         
         // disable active screen overlay
@@ -123,7 +123,7 @@ public class MenuClick : MonoBehaviour
         GlobalManagement.Building = null;
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Building;
         GuideView.SetActive(false);
-        BuildingOnboarding.SetActive(true);
+        // BuildingOnboarding.SetActive(true);
         NavigationView.SetActive(false);
 
     }
@@ -274,7 +274,7 @@ public class MenuClick : MonoBehaviour
     }
 
     public void ReadBuildingOnboarding() {
-        BuildingOnboarding.SetActive(false);
+        // BuildingOnboarding.SetActive(false);
         BuildingRenderToggle.SetActive(true);
     }
 
