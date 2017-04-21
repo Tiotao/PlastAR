@@ -72,4 +72,4 @@ mv ${RESOURCE_FILE}/cast/model/rotatedView/000.png ${ASSET_BUNDLE_DIR}/${CREATIO
 
 echo "Deleting resource file"; rm -rf ${RESOURCE_FILE}/cast;
 
-read -p "Press enter to continue"
+#read -p "Press enter to continue"

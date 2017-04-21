@@ -86,6 +86,7 @@ namespace Plastar
                             Button btn = new Button();
                             btn.Width = 100;
                             btn.Height = 100;
+                            btn.Text = "delete";
                             btn.CommandArgument = (r["Snapshot"].ToString());
                             btn.Click += new System.EventHandler(this.ButtonClicked);
                             holder.Controls.Add(btn);
@@ -119,9 +120,9 @@ namespace Plastar
             cmd.ExecuteNonQuery();
             myCon.Close();
 
-            //Response.Redirect(Request.RawUrl);
+            Response.Redirect(Request.RawUrl);
 
-            DeleteFileFromFolder("131370224948511349");
+            //DeleteFileFromFolder("131370224948511349");
 
             // need to delete the file physically
         }
