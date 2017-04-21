@@ -67,7 +67,7 @@ public class MarkerManager : MonoBehaviour {
 			ActiveCastView();
 			ActiveHomeView();
 			ActiveMapView();
-			ActiveBuildingView();
+			// ActiveBuildingView();
 		}
 	}
 
@@ -136,10 +136,10 @@ public class MarkerManager : MonoBehaviour {
 		_mapView.transform.Find("Map").GetComponent<Image>().sprite = GetMarker()._buildingMap;
 	}
 
-	private void ActiveBuildingView() {
-		GameObject des = GameObject.FindGameObjectWithTag("UIController").GetComponent<MenuClick>().BuildingOnboarding.transform.GetChild(0).GetChild(0).gameObject;
-		des.GetComponent<Text>().text = "This is the original building of the " + GetMarker()._castName + ".\n\nPut it on the floor, scale it up and down, and walk around it.";
-	}
+	// private void ActiveBuildingView() {
+	// 	GameObject des = GameObject.FindGameObjectWithTag("UIController").GetComponent<MenuClick>().BuildingOnboarding.transform.GetChild(0).GetChild(0).gameObject;
+	// 	des.GetComponent<Text>().text = "This is the original building of the " + GetMarker()._castName + ".\n\nPut it on the floor, scale it up and down, and walk around it.";
+	// }
 
 	private void ActiveCastView() {
 
