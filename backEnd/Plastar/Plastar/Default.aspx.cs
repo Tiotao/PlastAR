@@ -25,6 +25,7 @@ namespace Plastar
             // 
             // CODEGEN: This call is required by the ASP.NET Web Form Designer.
             // 
+            ViewState["uploaded"] = false;
             InitializeComponent();
             base.OnInit(e);
         }
@@ -57,6 +58,12 @@ namespace Plastar
 
             //Console.WriteLine("hehe");
 
+            if (!(bool)ViewState["uploaded"])
+            {
+                Response.Write("<script>alert('Upload your cast first!')</script>");
+                return;
+            }
+
             string argument = DateTime.Now.ToFileTime().ToString();
 
             var si = new ProcessStartInfo();
@@ -73,13 +80,15 @@ namespace Plastar
             string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\App_Data\\PlastarDB.mdf;Integrated Security=True";
             SqlConnection myCon = new SqlConnection(con);
             SqlCommand cmd = new SqlCommand("insert into dbo.AssetsBundle(Name,Path,Snapshot) values (@name,@path,@snapshot)", myCon);
-            cmd.Parameters.AddWithValue(@"name", name);
+            cmd.Parameters.AddWithValue(@"name", ViewState["name"].ToString());
             cmd.Parameters.AddWithValue(@"path", path);
             cmd.Parameters.AddWithValue(@"snapshot", snapshot);
 
             myCon.Open();
             cmd.ExecuteNonQuery();
             myCon.Close();
+
+            ViewState["uploaded"] = false;
         }
 
         private void Submit1_ServerClick(object sender, System.EventArgs e)
@@ -107,9 +116,31 @@ namespace Plastar
             //}
 
             string extractPath = Server.MapPath("AssetsBundle") + "\\resource\\";
+            if (File1.PostedFile.FileName != "cast.zip")
+            {
+                Response.Write("<script>alert('File structure not valid!')</script>");
+                return;
+            }
             using (ZipFile zip = ZipFile.Read(File1.PostedFile.InputStream))
             {
+                //Response.Write("<script>alert('"+zip.EntryFileNames.ElementAt(0)+"')</script>");
+                for (int i = 0; i < zip.EntryFileNames.Count; i++)
+                {
+                    //Response.Write("<script>alert('" + zip.EntryFileNames.ElementAt(i) + "')</script>");
+                    if (zip.EntryFileNames.ElementAt(i).Substring(0, 4) != "cast")
+                    {
+                        Response.Write("<script>alert('File structure not valid!')</script>");
+                        return;
+                    }
+                    if (zip.EntryFileNames.ElementAt(i).Substring(0, 10) != "cast/model")
+                    {
+                        string str = zip.EntryFileNames.ElementAt(i).Substring(5);
+                        str = str.Substring(0, str.Length - 1);
+                        ViewState["name"] = str;
+                    }
+                }
                 zip.ExtractAll(extractPath, ExtractExistingFileAction.DoNotOverwrite);
+                ViewState["uploaded"] = true;
             }
         }
     }
