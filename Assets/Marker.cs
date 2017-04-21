@@ -11,6 +11,8 @@ public class Marker : MonoBehaviour {
 
 	GameObject _story;
 
+	public Sprite _icon;
+
 	public string _castName;
 
 	[TextArea(3,10)]

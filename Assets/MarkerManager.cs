@@ -49,12 +49,22 @@ public class MarkerManager : MonoBehaviour {
 		_storyView = GlobalManagement.StoryView;
 		_homeView = GlobalManagement.HomeView;
 		_mapView = GlobalManagement.MapView;
+		updateMarkerIcon();
+
 		SetCurrentMarker(-1);
 		Refresh(1);
 		SetCurrentMarker(-1);
 		
 		// TEMP: replace building model  
 		// GlobalManagement.Building = GetBuildingModel();
+	}
+
+	public void updateMarkerIcon() {
+		List<Sprite> icons = new List<Sprite>();
+		foreach (Marker m in _markers) {
+			icons.Add(m._icon);
+		}
+		GameObject.FindGameObjectWithTag("Navigator").GetComponent<point>().icons = icons.ToArray();
 	}
 	
 

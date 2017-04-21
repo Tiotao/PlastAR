@@ -90,6 +90,7 @@ public class EmailController : MonoBehaviour {
     }
 
 	public void SendEmailSuccess() {
+		Debug.Log("success");
 		_statusPill.SetActive(false);
 		_successPill.SetActive(true);
 		if (!_imageTransform) {
@@ -98,6 +99,7 @@ public class EmailController : MonoBehaviour {
 		_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 		_imageTransform.localScale = new Vector3(1f, 1f, 1f);
 		_imageTransform.anchoredPosition = new Vector2(40, -25);
+		Debug.Log("success END");
 	}
 
 	public void SendEmailFail() {

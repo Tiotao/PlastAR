@@ -29,6 +29,10 @@ public class point : MonoBehaviour {
 
     int selectedMarkerId = -1;
 
+    public Sprite[] icons;
+
+    public Sprite visitedIcon;
+
 
 	// Use this for initialization
 	void Start () {
@@ -79,6 +83,7 @@ public class point : MonoBehaviour {
         List<GameObject> list = GlobalManagement.Markers;
         double dist = double.MaxValue;
         GameObject nearestMarker = null;
+
         foreach (var marker in list)
         {
             if (marker.transform.position == new Vector3(0, 0, 0))
@@ -95,7 +100,12 @@ public class point : MonoBehaviour {
         // override nearestMarker selection
 
         if (selectedMarkerId > -1) {
+            markerFinder.SetActive(true);
             nearestMarker = GlobalManagement.Markers[selectedMarkerId];
+            markerFinder.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = icons[selectedMarkerId];
+
+        } else {
+            markerFinder.SetActive(false);
         }
 
 
@@ -176,18 +186,25 @@ public class point : MonoBehaviour {
         if (selectedMarkerId == id) {
             id = -1;
         }
-        
-        selectedMarkerId = id;
-        int i = 0;
-        foreach (Transform child in GlobalManagement.NavigationView.transform) {
-            if (i == id) {
-                child.gameObject.GetComponent<Image>().color = new Color(167f/255f, 0, 1f, 1f);
-            } else {
-                child.gameObject.GetComponent<Image>().color = new Color(0f, 0f, 0f, 1f);
-            }
-            i++;
-        }
 
+        selectedMarkerId = id;
+        
+        // selectedMarkerId = id;
+        // int i = 0;
+        // foreach (Button child in GlobalManagement.NavigationView.GetComponentsInChildren<Button>()) {
+        //     if (i == id) {
+        //         child.gameObject.GetComponent<Image>().sprite = visitedIcon;
+        //         // child.gameObject.GetComponent<Image>().color = new Color(167f/255f, 0, 1f, 1f);
+        //     } else {
+        //         // child.gameObject.GetComponent<Image>().color = new Color(0f, 0f, 0f, 1f);
+        //     }
+        //     i++;
+        // }
+
+    }
+
+    public void SetVisitedIcon(int id) {
+        GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[id].gameObject.GetComponent<Image>().sprite = visitedIcon;
     }
 
 

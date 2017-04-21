@@ -279,6 +279,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     public void Update()
     {
+       
+        
         if (m_saveThread != null && m_saveThread.ThreadState != ThreadState.Running)
         {
             // After saving an Area Description or mark data, we reload the scene to restart the game.
@@ -358,6 +360,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
             // display
             if (GlobalManagement.Building == null) {
+                
+                _isPlacingBuilding = false;
+
                 if (buildingSymbol == null) {
                     Debug.Log("create Building Symbol");
                     buildingSymbol = Instantiate(MarkerManager.GetComponent<MarkerManager>().GetBuildingModel()) as GameObject;
@@ -385,8 +390,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
                     }
                     Debug.Log("set bulding symbol active");
+                    
                     SetRendererActive<MeshRenderer>(buildingSymbol, true);
                     Debug.Log("FINISH set bulding symbol active");
+
                     StartCoroutine(_WaitForDepthAndFindPlane());
                 }
 
@@ -457,6 +464,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 if(m.GetComponent<recognize>().seen) {
 
                     if (marker._isFocused) {
+                        GameObject.FindGameObjectWithTag("Navigator").GetComponent<point>().SetVisitedIcon(m.GetComponent<ARMarker>().GetID());
                         MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
                         GlobalManagement.HomeView.SetActive(true);
                         GlobalManagement.GuideView.SetActive(false);
@@ -951,6 +959,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             buildingOnBoardingB.SetActive(false);
         }
 
+        Debug.Log("building instantiated");
+
         m_selectedMarker = null;
     }
 
@@ -1023,6 +1033,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         buildingAppearFx.transform.position = planeCenter; 
                         buildingAppearFx.SetActive(true);
 
+                        Debug.Log("change to on boardjing B");
+
                         if (buildingOnBoardingA.activeSelf) {
                             buildingOnBoardingA.SetActive(false);
                         }
@@ -1030,6 +1042,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         if (!buildingOnBoardingB.activeSelf) {
                             buildingOnBoardingB.SetActive(true);
                         }
+
+                        Debug.Log("FINISH change to on boardjing B");
+
+                        
                     }
 
                     _planeCenter = planeCenter;
@@ -1042,6 +1058,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         // GuidingLine.SetActive(false);
                         buildingAppearFx.SetActive(false);
 
+                        Debug.Log("change to on boardjing A");
+
                         if (!buildingOnBoardingA.activeSelf) {
                             buildingOnBoardingA.SetActive(true);
                         }
@@ -1049,6 +1067,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         if (buildingOnBoardingB.activeSelf) {
                             buildingOnBoardingB.SetActive(false);
                         }
+                        Debug.Log("FINISH change to on boardjing A");
                     }
 
                     _planeCenter = Vector3.zero;
@@ -1058,7 +1077,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         
-       
+       Debug.Log("set is looking for plane false");
         _isLookingForPlane = false;
         
         // end of the process

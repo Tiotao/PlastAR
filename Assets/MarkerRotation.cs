@@ -13,11 +13,12 @@ public class MarkerRotation : MonoBehaviour {
 	public bool _isFocused = false;
 
 	
+	
 
 	
 	
 
-	float _progress = -1.5f;
+	float _progress = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -37,11 +38,12 @@ public class MarkerRotation : MonoBehaviour {
 
 		if (_isFocusing) {
 			if (_progress < 1.0f) {
-				_progress = _progress + Time.deltaTime;
+				_progress = _progress + Time.deltaTime / 3;
 				_renderer.material.SetFloat("_threshold", _progress);
 			} else {
 				if (!_isFocused) {
 					_isFocused = true;
+					
 				} else {
 					_isFocused = false;
 				}
@@ -49,7 +51,7 @@ public class MarkerRotation : MonoBehaviour {
 
 		} else {
 			
-			if (_progress > -1.5f && !inMenu) {
+			if (_progress > 0f && !inMenu) {
 				_progress = _progress - Time.deltaTime;
 				_renderer.material.SetFloat("_threshold", _progress);
 			}
@@ -68,7 +70,7 @@ public class MarkerRotation : MonoBehaviour {
 	public void Reset() {
 		_isFocusing = false;
 		_isFocused = false;
-		_progress = -1.5f;
+		_progress = 0f;
 		_renderer.material.SetFloat("_threshold", _progress);
 	}
 

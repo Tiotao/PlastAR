@@ -9,6 +9,9 @@ public class BuildingOnboardingController : MonoBehaviour {
 	public GameObject _onboardingB;
 
 	void Start () {
+		Debug.Log("building started: ");
+		Debug.Log(_onboardingA.activeSelf);
+		Debug.Log(_onboardingB.activeSelf);
 		_onboardingA.SetActive(true);
 		_onboardingB.SetActive(false);
 

@@ -31,6 +31,7 @@ TagManager:
   - BuildingView
   - UIController
   - NavigationView
+  - Navigator
   layers:
   - Default
   - TransparentFX
