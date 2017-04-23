@@ -36,6 +36,8 @@ public class RotatableSprites : MonoBehaviour {
     public float minSwipeDistY;
  
     public float minSwipeDistX;
+
+    public bool _wrapOver;
          
     private Vector2 startPos;
 

@@ -24,10 +24,15 @@ public class MarkerRotation : MonoBehaviour {
 	void Start () {
 		_renderer = GetComponent<MeshRenderer>();
 		// Rotate();
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if(Input.GetKey(KeyCode.F)) {
+			StartFocusing();
+		}
 
 		bool inMenu = GlobalManagement.HomeView.activeSelf;
 
@@ -86,6 +91,8 @@ public class MarkerRotation : MonoBehaviour {
 		));
 	}
 
+	
+
 	public void Pause() {
 		iTween.Pause(gameObject);
 	}
@@ -95,11 +102,15 @@ public class MarkerRotation : MonoBehaviour {
 	}
 	
 	public void StartFocusing() {
+		iTween rotationAnimation = (iTween) this.gameObject.GetComponent<iTween>();
+		rotationAnimation.time = 0.5f;
 		_isFocusing = true;
 		
 	}
 
 	public void StopFocusing() {
+		iTween rotationAnimation = (iTween) this.gameObject.GetComponent<iTween>();
+		rotationAnimation.time = 3f;
 		_isFocusing = false;
 	}
 

@@ -33,6 +33,9 @@ public class point : MonoBehaviour {
 
     public Sprite visitedIcon;
 
+    public Sprite defaultIcon;
+
+    public Sprite currentIcon;
 
 	// Use this for initialization
 	void Start () {
@@ -197,23 +200,28 @@ public class point : MonoBehaviour {
     }
 
     public void SetCurrentNavigation(int id) {
+
+        List<GameObject> markers = GlobalManagement.Markers;
+
         if (selectedMarkerId == id) {
             id = -1;
+            for (int i = 0; i < markers.Count; i++) {
+                markers[i].GetComponentInChildren<MeshRenderer>().enabled = true;
+            }
+            GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[selectedMarkerId].gameObject.GetComponent<Image>().sprite = defaultIcon;
+            
+        } else {
+            for (int i = 0; i < markers.Count; i++) {
+                if (i == id) {
+                    markers[i].GetComponentInChildren<MeshRenderer>().enabled = true;
+                } else {
+                    markers[i].GetComponentInChildren<MeshRenderer>().enabled = false;
+                }
+            }
+            GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[id].gameObject.GetComponent<Image>().sprite = currentIcon;
         }
 
         selectedMarkerId = id;
-        
-        // selectedMarkerId = id;
-        // int i = 0;
-        // foreach (Button child in GlobalManagement.NavigationView.GetComponentsInChildren<Button>()) {
-        //     if (i == id) {
-        //         child.gameObject.GetComponent<Image>().sprite = visitedIcon;
-        //         // child.gameObject.GetComponent<Image>().color = new Color(167f/255f, 0, 1f, 1f);
-        //     } else {
-        //         // child.gameObject.GetComponent<Image>().color = new Color(0f, 0f, 0f, 1f);
-        //     }
-        //     i++;
-        // }
 
     }
 
