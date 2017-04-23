@@ -14,7 +14,15 @@ public class EmailController : MonoBehaviour {
 
 	public GameObject _sendPill;
 
+	public static string _errorMessageContent;
+
+	public GameObject _errorMessage;
+
 	RectTransform _imageTransform;
+
+	public static bool isSuccess = false;
+
+	public static bool isFailed = false;
 
 
 	// Use this for initialization
@@ -22,6 +30,7 @@ public class EmailController : MonoBehaviour {
 		_sendPill.SetActive(true);
 		_successPill.SetActive(false);
 		_statusPill.SetActive(false);
+		_errorMessage.SetActive(false);
 		// _imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 
 	}
@@ -30,6 +39,19 @@ public class EmailController : MonoBehaviour {
 	void Update () {
 		if (!_imageTransform) {
 			_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
+		}
+
+		if (EmailController.isSuccess) {
+			ShowSuccess ();
+			EmailController.isSuccess = false;
+			
+		}
+
+		if (EmailController.isFailed) {
+			Debug.Log("failed");
+			
+			ShowFail();
+			EmailController.isFailed = false;
 		}
 	}
 
@@ -47,7 +69,7 @@ public class EmailController : MonoBehaviour {
 		iTween.ValueTo(_imageTransform.gameObject, iTween.Hash(
 			"from", _imageTransform.anchoredPosition,
 			"to", targetPosition,
-			"time", 1f,
+			"time", 0.5f,
 			"onupdatetarget", gameObject, 
 			"onupdate", "MoveScreenshot")
 		);
@@ -55,7 +77,7 @@ public class EmailController : MonoBehaviour {
 		iTween.ValueTo(_imageTransform.gameObject, iTween.Hash(
 			"from", _imageTransform.localScale,
 			"to", targetScale,
-			"time", 1f,
+			"time", 0.5f,
 			"onupdatetarget", gameObject, 
 			"onupdate", "ScaleScreenshot"));
 	}
@@ -72,6 +94,8 @@ public class EmailController : MonoBehaviour {
 
 	public void SendEmail() {
 		string emailAddress = _input.text;
+		
+		// string emailAddress = "tiotaocn@gmail.com";
         
         StartCoroutine(SendEmailAsync(emailAddress));
 
@@ -89,21 +113,45 @@ public class EmailController : MonoBehaviour {
         
     }
 
+
 	public void SendEmailSuccess() {
-		Debug.Log("success");
+		EmailController.isSuccess = true;
+		// Invoke("ShowSuccess", 0);
+	}
+
+	public void ShowSuccess (){
 		_statusPill.SetActive(false);
 		_successPill.SetActive(true);
+		_errorMessage.SetActive(false);
 		if (!_imageTransform) {
 			_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 		}
 		_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 		_imageTransform.localScale = new Vector3(1f, 1f, 1f);
 		_imageTransform.anchoredPosition = new Vector2(40, -25);
-		Debug.Log("success END");
 	}
 
-	public void SendEmailFail() {
+	public void ShowFail (){
+		Debug.Log("showed failed");
+		_statusPill.SetActive(false);
+		_sendPill.SetActive(true);
+		_errorMessage.GetComponent<Text>().text = EmailController._errorMessageContent;
+		_errorMessage.SetActive(true);
 
+	}
+
+	public void SendEmailFail(string message) {
+		Debug.Log("fail");
+		EmailController.isFailed = true;
+		EmailController._errorMessageContent = message;
+		Debug.Log(EmailController.isFailed);
+		// Invoke("ShowFail", 0);
+		// if (!_imageTransform) {
+		// 	_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
+		// }
+		// _imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
+		// _imageTransform.localScale = new Vector3(1f, 1f, 1f);
+		// _imageTransform.anchoredPosition = new Vector2(40, -25);
 	}
 
 	public void Cancel() {

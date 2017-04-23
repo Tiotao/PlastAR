@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: a8a00875bc005c4428efa16edb91fac8
-timeCreated: 1491013492
+timeCreated: 1492897231
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -85,10 +85,10 @@ TextureImporter:
       name: story_1_0_1
       rect:
         serializedVersion: 2
-        x: 340
-        y: 682
-        width: 631
-        height: 390
+        x: 640
+        y: 581
+        width: 575
+        height: 470
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -98,10 +98,10 @@ TextureImporter:
       name: story_1_0_2
       rect:
         serializedVersion: 2
-        x: 1092
-        y: 608
-        width: 242
-        height: 357
+        x: 1238
+        y: 457
+        width: 455
+        height: 552
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,8 +111,8 @@ TextureImporter:
       name: story_1_0_3
       rect:
         serializedVersion: 2
-        x: 310
-        y: 98
+        x: 578
+        y: 168
         width: 287
         height: 367
       alignment: 0
@@ -126,7 +126,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1380
+        width: 1920
         height: 1200
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

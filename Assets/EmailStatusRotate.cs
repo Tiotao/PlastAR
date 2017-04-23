@@ -11,6 +11,6 @@ public class EmailStatusRotate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.Rotate(0,0,50*Time.deltaTime);
+		transform.Rotate(0,0,-200*Time.deltaTime);
 	}
 }

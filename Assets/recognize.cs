@@ -65,12 +65,12 @@ public class recognize : MonoBehaviour {
     bool CouldBeSeen()
     {
         float angleThresh = Camera.main.fieldOfView / 4;
-        float distThresh = Camera.main.farClipPlane - 2f;
+        float distThresh = Camera.main.farClipPlane / 2;
 
         float distance = Vector3.Distance(this.gameObject.transform.position, Camera.main.transform.position);
         // too far too see
 
-        if (distance > (distThresh - 2f)) {
+        if (distance > distThresh) {
 
             if (active) {
                 GetComponentInChildren<MarkerRotation>().Pause();

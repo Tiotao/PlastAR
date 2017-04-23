@@ -6,17 +6,21 @@ using UnityEngine.UI;
 
 public class PostcardController : MonoBehaviour {
 
-
+	static int currentPostcard;
 	GameObject _Front;
 	GameObject _Back;
 
 	GameObject _Hotspots;
+
+	GameObject _Year;
 
 	GameObject _RotateBackButton;
 
 	GameObject _DefocusButton;
 
 	GameObject _FocusButton;
+
+	GameObject _Divider;
 
 	public bool _rotating;
 	public bool _expanding;
@@ -39,15 +43,19 @@ public class PostcardController : MonoBehaviour {
 	void Start () {
 		_Front = transform.GetChild(0).gameObject;
 		_Back = transform.GetChild(1).gameObject;
+		_Year = _Back.transform.FindChild("Description").gameObject;
 		_Hotspots = _Back.transform.FindChild("Hotspots").gameObject;
-		_DefocusButton = _Back.transform.FindChild("DefocusButton").gameObject;
+		_Divider = _Front.transform.FindChild("HotspotDescription/Divider").gameObject;
+		_DefocusButton = GlobalManagement.StoryView.transform.FindChild("DefocusButton").gameObject;
 		_FocusButton = _Back.transform.FindChild("FocusButton").gameObject;
 		_RotateBackButton = _Front.transform.FindChild("BackToFrontButton").gameObject;
 		_initialLocation = transform.localPosition;
 		_initialScale = transform.localScale;
-		_Front.transform.rotation = Quaternion.Euler(new Vector3 (0f, 180f, 0f));
+		//_Front.transform.rotation = Quaternion.Euler(new Vector3 (0f, 0f, 0f));
 		_Hotspots.SetActive(false);
 		FadeOut(_Hotspots, 0f);
+		FadeOut(_Front, 0f);
+		_Front.SetActive(false);
 		_DefocusButton.SetActive(false);
 		_RotateBackButton.SetActive(false);
 		// ToggleFocus();
@@ -70,7 +78,9 @@ public class PostcardController : MonoBehaviour {
 	// } 
 
 	public void FocusCard() {
+		// Debug.Log("focus");
 		if (!_isFocused) {
+			PostcardController.currentPostcard = gameObject.transform.parent.childCount - 1;
 			_isFocused = true;
 			StartCoroutine(Focus());
 			
@@ -78,7 +88,32 @@ public class PostcardController : MonoBehaviour {
 		
 	}
 
-	public void DefocusCard() {
+	public void DefocusCard(){
+		Debug.Log("defocusing");
+		try {
+			PostcardController[] postcards = GlobalManagement.StoryView.GetComponentsInChildren<PostcardController>();
+			Debug.Log(postcards.Length);
+			Debug.Log(currentPostcard);
+			postcards[currentPostcard].DefocusThisCard();
+			// Debug.Log(currentPostcard);
+			PostcardController.currentPostcard = -1;
+		} catch {
+			Debug.Log("[POSTCARD] invalid id");
+		}
+		
+	}
+
+	// public static void FocusCard(){
+	// 	try {
+	// 		PostcardController[] postcards = GlobalManagement.StoryView.GetComponentsInChildren<PostcardController>();
+	// 		postcards[currentPostcard].FocusThisCard();
+	// 	} catch {
+	// 		Debug.Log("[POSTCARD] invalid id");
+	// 	}
+	// }
+
+	public void DefocusThisCard() {
+		
 		if (_isFocused) {
 			_isFocused = false;
 			StartCoroutine(Defocus());
@@ -91,10 +126,10 @@ public class PostcardController : MonoBehaviour {
 		
 		// update hotspot content
 		if (_isBack) {
-			StartCoroutine(RotateToFront());
+			StartCoroutine(EnterHotSpot());
 			UpdateFrontInfo(hotspotIndex);
 		} else {
-			StartCoroutine(RotateToBack());
+			StartCoroutine(ExitHotSpot());
 		}
 		_isBack = !_isBack;
 	}
@@ -103,6 +138,19 @@ public class PostcardController : MonoBehaviour {
         iTween.ValueTo(gameObject, iTween.Hash("from", 1.0f, "to", 0.0f, "time", time, "easetype", "linear","onupdate", (Action<object>) (newAlpha => {
 			Image[] images = target.GetComponentsInChildren<Image>();
          	foreach (Image mObj in images) {
+				if(mObj.gameObject.GetComponent<HotspotShine>()) {
+					mObj.color = new Color(
+            		mObj.color.r, mObj.color.g, 
+            		mObj.color.b, (float) newAlpha / 2);
+				} else {
+					mObj.color = new Color(
+					mObj.color.r, mObj.color.g, 
+					mObj.color.b, (float) newAlpha);
+				}
+				
+			}
+			Text[] texts = target.GetComponentsInChildren<Text>();
+         	foreach (Text mObj in texts) {
 				mObj.color = new Color(
             	mObj.color.r, mObj.color.g, 
             	mObj.color.b, (float) newAlpha);
@@ -113,6 +161,23 @@ public class PostcardController : MonoBehaviour {
          iTween.ValueTo(gameObject, iTween.Hash("from", 0.0f, "to", 1.0f, "time", time, "easetype", "linear","onupdate", (Action<object>) (newAlpha => {
 			Image[] images = target.GetComponentsInChildren<Image>();
          	foreach (Image mObj in images) {
+				if(mObj.gameObject.GetComponent<HotspotShine>()) {
+					mObj.color = new Color(
+            		mObj.color.r, mObj.color.g, 
+            		mObj.color.b, (float) newAlpha / 2);
+				} else if (mObj.gameObject.name == "Shadow"){
+					mObj.color = new Color(
+            		mObj.color.r, mObj.color.g, 
+            		mObj.color.b, (float) newAlpha / 3.33f);
+				}else {
+					mObj.color = new Color(
+					mObj.color.r, mObj.color.g, 
+					mObj.color.b, (float) newAlpha);
+				}
+			}
+
+			Text[] texts = target.GetComponentsInChildren<Text>();
+         	foreach (Text mObj in texts) {
 				mObj.color = new Color(
             	mObj.color.r, mObj.color.g, 
             	mObj.color.b, (float) newAlpha);
@@ -128,7 +193,11 @@ public class PostcardController : MonoBehaviour {
 		Text description = _Front.transform.FindChild("HotspotDescription/Text").GetComponent<Text>();
 		Text coolfact = _Front.transform.FindChild("HotspotDescription/CoolFact").GetComponent<Text>();
 		Image image = _Front.transform.FindChild("HotspotImage").GetComponent<Image>(); 
-
+		if (storyInfo._coolFact.Length == 0) {
+			_Divider.SetActive(false);
+		} else {
+			_Divider.SetActive(true);
+		}
 		description.text = storyInfo._description;
 		coolfact.text = storyInfo._coolFact;
 		image.sprite = storyInfo._sprite;
@@ -137,14 +206,16 @@ public class PostcardController : MonoBehaviour {
 
 	IEnumerator Focus() {
 		_expanding = true;
-		iTween.ScaleTo(gameObject, iTween.Hash("scale", new Vector3(0.8f, 0.8f, 0.8f), "time", _ZOOM_TIME, "easetype", iTween.EaseType.easeInOutBack));
+		iTween.ScaleTo(gameObject, iTween.Hash("scale", new Vector3(1.0f, 1.0f, 1.0f), "time", _ZOOM_TIME, "easetype", iTween.EaseType.easeInOutBack));
 		iTween.MoveTo(gameObject, iTween.Hash("position", new Vector3(0f, 0f, 0f),"islocal", true, "time", _ZOOM_TIME, "easetype", iTween.EaseType.easeInOutBack));
 		gameObject.transform.SetAsLastSibling();
 		_Hotspots.SetActive(true);
 		_DefocusButton.SetActive(true);
+		FadeOut(_Year, _ZOOM_TIME);
 		FadeIn(_Hotspots, _ZOOM_TIME);
 		FadeIn(_DefocusButton, _ZOOM_TIME);
 		yield return new WaitForSeconds(_ZOOM_TIME);
+		_Year.SetActive(false);
 		_expanding = false;
 		
 	} 
@@ -155,11 +226,54 @@ public class PostcardController : MonoBehaviour {
 		iTween.MoveTo(gameObject, iTween.Hash("position", _initialLocation, "islocal", true, "time", _ZOOM_TIME, "easetype", iTween.EaseType.easeInOutBack));
 		FadeOut(_Hotspots, _ZOOM_TIME);
 		FadeOut(_DefocusButton, _ZOOM_TIME);
+		_Year.SetActive(true);
+		FadeIn(_Year, _ZOOM_TIME);
 		yield return new WaitForSeconds(_ZOOM_TIME);
 		_expanding = false;
 		_Hotspots.SetActive(false);
 		_DefocusButton.SetActive(false);
 	} 
+
+	IEnumerator ExitHotSpot() {
+		_rotating = true;
+		
+		_DefocusButton.SetActive(true);
+		_Back.SetActive(true);
+
+		FadeOut(_RotateBackButton, _ROTATE_TIME);
+		FadeIn(_Back, _ROTATE_TIME);
+		FadeIn(_DefocusButton, _ROTATE_TIME);
+		FadeOut(_Front, _ROTATE_TIME);
+		
+		yield return new WaitForSeconds(_ROTATE_TIME);
+
+		_Front.SetActive(false);
+		_RotateBackButton.SetActive(false);
+
+		_rotating = false;
+	}
+
+	IEnumerator EnterHotSpot() {
+		_rotating = true;
+
+		_Front.SetActive(true);
+		_RotateBackButton.SetActive(true);
+		
+		
+		FadeIn(_RotateBackButton, _ROTATE_TIME);
+		FadeOut(_Back, _ROTATE_TIME);
+		FadeOut(_DefocusButton, _ROTATE_TIME);
+		FadeIn(_Front, _ROTATE_TIME);
+		
+		yield return new WaitForSeconds(_ROTATE_TIME);
+
+		
+		_Back.SetActive(false);
+		_DefocusButton.SetActive(false);
+
+
+		_rotating = false;
+	}
 
 	IEnumerator RotateToFront() {
 		

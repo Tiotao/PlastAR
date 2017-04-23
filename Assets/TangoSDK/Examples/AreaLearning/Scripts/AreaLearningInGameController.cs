@@ -472,13 +472,18 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
                     } else {
                         marker.StartFocusing();
+                        GlobalManagement.NavigationView.GetComponentInChildren<FocusController>()._isFocusing = true;
                     }
 
                     _selectedMarker = m;
                     
                     return;
                 }
+
+                
             }
+
+            GlobalManagement.NavigationView.GetComponentInChildren<FocusController>()._isFocusing = false;
             
 
 

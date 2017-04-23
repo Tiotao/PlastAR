@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Text.RegularExpressions;
 
 public class MainFunctions : MonoBehaviour {
 
@@ -20,6 +23,12 @@ public class MainFunctions : MonoBehaviour {
     GameObject ShootButton;
 
     public EmailController Emailer;
+
+    public const string MatchEmailPattern =
+            @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+            + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+              + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+            + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$";
 
     // Use this for initialization
     void Start () {
@@ -124,6 +133,13 @@ public class MainFunctions : MonoBehaviour {
 
     public void SendEmailWithSubThread(string emailAddress, System.Net.Mail.Attachment attachment)
     {
+        Debug.Log("has email address");
+
+        if (emailAddress == null || !Regex.IsMatch(emailAddress, MatchEmailPattern)) {
+            Emailer.SendEmailFail("Invalid Email Address.");
+            return;
+        }
+
         try
         {
             MailMessage mail = new MailMessage();
@@ -151,7 +167,7 @@ public class MainFunctions : MonoBehaviour {
         catch
         {
             Debug.Log("fail");
-            Emailer.SendEmailFail();
+            Emailer.SendEmailFail("Something went wrong. Please try again.");
         }
     }
 }

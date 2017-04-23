@@ -23,11 +23,19 @@ public class MenuClick : MonoBehaviour
 
     public GameObject Building;
 
+    public GameObject EmailBox;
+
+    public GameObject MessageBox;
+
     public GameObject GuidingLine;
 
     public GameObject MapView;
 
     public GameObject GuideView;
+
+    public GameObject Screenshot;
+
+    public GameObject ShootButton;
 
     // public GameObject BuildingOnboarding;
 
@@ -81,6 +89,10 @@ public class MenuClick : MonoBehaviour
         OnBoardingView = GlobalManagement.OnBoardingView;
         GuideView = GlobalManagement.GuideView;
         NavigationView = GlobalManagement.NavigationView;
+        EmailBox = GlobalManagement.EmailBox;
+        MessageBox = GlobalManagement.MessageBox;
+        Screenshot = GlobalManagement.ScreenShot;
+        ShootButton = GlobalManagement.ShootButton;
         // sub buttons
         MapView = GlobalManagement.MapView;
         SaveButton = FunctionView.transform.GetChild(0).gameObject;
@@ -195,7 +207,9 @@ public class MenuClick : MonoBehaviour
 
     }
 
-    
+    public void ToScanning() {
+        ToLanding(false, true);
+    }
 
     public void ToLanding(bool maintainMenu = true, bool fromMenu = false){
         GlobalManagement.SceneIndex = (int) Configs.SceneIndex.Landing;
@@ -216,11 +230,17 @@ public class MenuClick : MonoBehaviour
         CastView.SetActive(false);
         StoryView.SetActive(false);
         BuildingView.SetActive(false);
+        
         FunctionView.SetActive(true);
         OnBoardingView.SetActive(false);
         GuideView.SetActive(!maintainMenu);
         GlobalManagement.ShootButton.SetActive(false);
         NavigationView.SetActive(!maintainMenu);
+
+        EmailBox.SetActive(false);
+        MessageBox.SetActive(false);
+        Screenshot.SetActive(false);
+        ShootButton.SetActive(false);
         
         if (fromMenu) {
             int id = GlobalManagement.currentMarkerID;

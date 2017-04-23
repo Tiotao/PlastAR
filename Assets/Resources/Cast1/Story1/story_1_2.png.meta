@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d4a39eee5bb2c6d4b8cf7aabb4b0397f
-timeCreated: 1491013572
+timeCreated: 1492896579
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
@@ -89,10 +89,10 @@ TextureImporter:
       name: story_1_2_1
       rect:
         serializedVersion: 2
-        x: 363
-        y: 202
-        width: 662
-        height: 977
+        x: 544
+        y: 137
+        width: 727
+        height: 1063
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -102,10 +102,10 @@ TextureImporter:
       name: story_1_2_2
       rect:
         serializedVersion: 2
-        x: 410
-        y: 541
-        width: 577
-        height: 271
+        x: 603
+        y: 489
+        width: 521
+        height: 287
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,10 +115,10 @@ TextureImporter:
       name: story_1_2_3
       rect:
         serializedVersion: 2
-        x: 404
-        y: 782
+        x: 601
+        y: 772
         width: 555
-        height: 213
+        height: 240
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,9 +128,9 @@ TextureImporter:
       name: story_1_2_4
       rect:
         serializedVersion: 2
-        x: 411
+        x: 686
         y: 935
-        width: 541
+        width: 394
         height: 265
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -142,9 +142,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 101
-        width: 647
-        height: 926
+        y: 0
+        width: 850
+        height: 1069
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -154,7 +154,7 @@ TextureImporter:
       name: story_1_2_6
       rect:
         serializedVersion: 2
-        x: 606
+        x: 797
         y: 226
         width: 470
         height: 458
@@ -182,7 +182,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1380
+        width: 1920
         height: 1200
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

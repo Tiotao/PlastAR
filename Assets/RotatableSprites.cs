@@ -160,7 +160,7 @@ public class RotatableSprites : MonoBehaviour {
             screenPos.x = (screenPos.x) / 2 * 1.05f - 400;
             _HotSpotsSpritesTransform[i].GetComponent<RectTransform>().anchoredPosition = screenPos;
             // enable the hotspot of it is visiable
-            _HotSpotsSpritesTransform[i].gameObject.GetComponent<Image>().enabled = _hotspotsInfo[i].CheckVisibility(_cam);
+            _HotSpotsSpritesTransform[i].gameObject.SetActive(_hotspotsInfo[i].CheckVisibility(_cam));
         }
        
     }
@@ -180,6 +180,17 @@ public class RotatableSprites : MonoBehaviour {
                 _HotSpotDescription.text = "Tap on the hotspots to learn about this cast.";
                 _currentHotspot = 0;
                 Image[] fragmentSprites = transform.GetComponentsInChildren<Image>();
+
+                foreach (Transform hotspot in _HotSpotsSpritesTransform) {
+                    try {
+                        HotspotShine shine = hotspot.GetComponentInChildren<HotspotShine>();
+                        shine.Shine();
+                        // shine.gameObject.transform.parent.localScale = new Vector3(0.416f, 0.416f, 0.416f);
+                    } catch {
+                        
+                    }
+                }
+
                 foreach (Image sprites in fragmentSprites) {
                     float targetAlpha = 0f;
                     if (sprites.transform.GetSiblingIndex() == 0) {
@@ -209,6 +220,19 @@ public class RotatableSprites : MonoBehaviour {
                     sprites.color = color;
                 }
 
+
+                foreach (Transform hotspot in _HotSpotsSpritesTransform) {
+                    try {
+                        HotspotShine shine = hotspot.GetComponentInChildren<HotspotShine>();
+                        shine.StopShine();
+                        // shine.gameObject.transform.parent.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                    } catch {
+
+                    }
+                }
+
+                _HotSpotsSpritesTransform[hotspotID].GetComponentInChildren<HotspotShine>().Shine();
+                // _HotSpotsSpritesTransform[hotspotID].gameObject.transform.localScale = new Vector3(0.416f, 0.416f, 0.416f);
 
                 _currentHotspot = hotspotID;
                 // _HotSpotsPanel.SetActive(true);

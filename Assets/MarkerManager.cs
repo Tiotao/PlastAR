@@ -21,6 +21,8 @@ public class MarkerManager : MonoBehaviour {
 
 	GameObject _homeView;
 
+	GameObject _buildingView;
+
 	GameObject _mapView;
 
 
@@ -49,10 +51,11 @@ public class MarkerManager : MonoBehaviour {
 		_storyView = GlobalManagement.StoryView;
 		_homeView = GlobalManagement.HomeView;
 		_mapView = GlobalManagement.MapView;
+		_buildingView = GlobalManagement.BuildingView;
 		updateMarkerIcon();
 
 		SetCurrentMarker(-1);
-		Refresh(1);
+		Refresh(0);
 		SetCurrentMarker(-1);
 		
 		// TEMP: replace building model  
@@ -77,7 +80,7 @@ public class MarkerManager : MonoBehaviour {
 			ActiveCastView();
 			ActiveHomeView();
 			ActiveMapView();
-			// ActiveBuildingView();
+			ActiveBuildingView();
 		}
 	}
 
@@ -85,9 +88,13 @@ public class MarkerManager : MonoBehaviour {
 
 		GameObject storyContent = GetMarker().GetStory();
 
+		Text castName = GlobalManagement.StoryView.transform.GetChild(1).GetComponent<Text>();
+
+		castName.text = GetMarker()._castName;
+
 		GameObject story = Instantiate(storyContent, Vector3.zero, Quaternion.identity) as GameObject;
 		story.transform.parent = GlobalManagement.StoryView.transform;
-		story.transform.localPosition = Vector3.zero;
+		story.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
 		story.transform.localScale = new Vector3(1, 1, 1);
 	}
 
@@ -122,7 +129,7 @@ public class MarkerManager : MonoBehaviour {
 		}
 
 		try {
-			Destroy(GlobalManagement.StoryView.transform.GetChild(1).gameObject);
+			Destroy(GlobalManagement.StoryView.transform.GetChild(4).gameObject);
 		} catch {
 
 		}
@@ -146,10 +153,9 @@ public class MarkerManager : MonoBehaviour {
 		_mapView.transform.Find("Map").GetComponent<Image>().sprite = GetMarker()._buildingMap;
 	}
 
-	// private void ActiveBuildingView() {
-	// 	GameObject des = GameObject.FindGameObjectWithTag("UIController").GetComponent<MenuClick>().BuildingOnboarding.transform.GetChild(0).GetChild(0).gameObject;
-	// 	des.GetComponent<Text>().text = "This is the original building of the " + GetMarker()._castName + ".\n\nPut it on the floor, scale it up and down, and walk around it.";
-	// }
+	private void ActiveBuildingView() {
+		_buildingView.transform.Find("CastName").GetComponent<Text>().text = GetMarker()._castName;
+	}
 
 	private void ActiveCastView() {
 

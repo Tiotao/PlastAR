@@ -79,21 +79,21 @@ public class point : MonoBehaviour {
 
         
 
-        // GameObject[] list = GameObject.FindGameObjectsWithTag("VirtualMarker");
-        List<GameObject> list = GlobalManagement.Markers;
+        GameObject[] list = GameObject.FindGameObjectsWithTag("VirtualMarker");
+        // List<GameObject> list = GlobalManagement.Markers;
         double dist = double.MaxValue;
         GameObject nearestMarker = null;
 
-        foreach (var marker in list)
-        {
-            if (marker.transform.position == new Vector3(0, 0, 0))
-                continue;
-            if (Vector3.Distance(Camera.main.transform.position, marker.transform.position) < dist)
-            {
-                dist = Vector3.Distance(Camera.main.transform.position, marker.transform.position);
-                nearestMarker = marker;
-            }
-        }
+        // foreach (var marker in list)
+        // {
+        //     if (marker.transform.position == new Vector3(0, 0, 0))
+        //         continue;
+        //     if (Vector3.Distance(Camera.main.transform.position, marker.transform.position) < dist)
+        //     {
+        //         dist = Vector3.Distance(Camera.main.transform.position, marker.transform.position);
+        //         nearestMarker = marker;
+        //     }
+        // }
 
         Vector3 startPoint = Camera.main.transform.position;
 
@@ -102,7 +102,7 @@ public class point : MonoBehaviour {
         if (selectedMarkerId > -1) {
             markerFinder.SetActive(true);
             nearestMarker = GlobalManagement.Markers[selectedMarkerId];
-            markerFinder.transform.GetChild(0).gameObject.GetComponent<Image>().sprite = icons[selectedMarkerId];
+            markerFinder.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = icons[selectedMarkerId];
 
         } else {
             markerFinder.SetActive(false);
@@ -144,7 +144,7 @@ public class point : MonoBehaviour {
                 DrawLine(intersection, intersection + Camera.main.transform.right, Color.yellow);
 #endif
                 
-                 
+                float distance = Vector3.Distance(nearestMarker.transform.position, startPoint);
 
                 if (horizontalOffset > horizontalRange) {
                     horizontalOffset = horizontalRange;
@@ -163,20 +163,34 @@ public class point : MonoBehaviour {
                 }
 
                 
-
+                // within camera
                 if (verticalOffset <  verticalRange && verticalOffset > -verticalRange && horizontalOffset < horizontalRange && horizontalOffset > -horizontalRange) {
-                    markerFinder.SetActive(false);
+                    Debug.Log(distance);
+                    if (distance < Camera.main.farClipPlane / 4 ) {
+                        markerFinder.SetActive(false);
+                    } else {
+                        markerFinder.SetActive(true);
+                    }
+                // not in camera view
                 } else {
                     markerFinder.SetActive(true);
                 }
 
 
-                markerFinder.GetComponent<RectTransform>().LookAt(canvasCenter);
+                markerFinder.GetComponent<RectTransform>().LookAt(canvasCenter, transform.right);
+
+                Transform thumbnail = markerFinder.transform.GetChild(0).GetChild(0);
+                Vector3 guideRotation = markerFinder.GetComponent<RectTransform>().localRotation.eulerAngles;
+                Debug.Log(guideRotation);
+
+                thumbnail.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0); 
                 
                 markerFinder.GetComponent<RectTransform>().localPosition= new Vector3(horizontalOffset * scalingFactor,  verticalOffset * scalingFactor, 0);
 
             }
             
+        } else {
+            markerFinder.SetActive(false);
         }
 
         
