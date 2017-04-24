@@ -68,31 +68,38 @@ namespace Plastar
                     {
                         SqlDataAdapter a = new SqlDataAdapter(cm);
                         a.Fill(t);
+                        holder.Controls.Add(new LiteralControl("<div class='row cast-list'>"));
+
                         foreach (DataRow r in t.Rows)
                         {
-                            TextBox txt = new TextBox();
-                            txt.Width = 100;
-                            txt.Height = 100;
-                            txt.Text = (r["name"].ToString());
-                            holder.Controls.Add(txt);
-
+                            holder.Controls.Add(new LiteralControl("<div class='col-md-4 col-sm-6 holder'><div class='thumbnail'>"));
+                            
+                            // thumbnail image
                             Image img = new Image();
-                            img.Width = 100;
-                            img.Height = 100;
                             //img.ImageUrl = (r["Snapshot"].ToString());
-                            img.ImageUrl = "~\\AssetsBundle\\AssetsBundle\\"+ (r["Snapshot"].ToString());
+                            img.ImageUrl = "~\\AssetsBundle\\AssetsBundle\\" + (r["Snapshot"].ToString());
                             holder.Controls.Add(img);
+                           
 
+                            // caption
+                            holder.Controls.Add(new LiteralControl("<div class='caption'>"));
+                            string txt = (r["name"].ToString());
+                            holder.Controls.Add(new LiteralControl("<h3>" + txt + "</h3>"));
+                            holder.Controls.Add(new LiteralControl("<p>"));
                             Button btn = new Button();
-                            btn.Width = 100;
-                            btn.Height = 100;
+                            btn.CssClass = "btn btn-danger";
                             btn.Text = "delete";
                             btn.CommandArgument = (r["Snapshot"].ToString());
                             btn.Click += new System.EventHandler(this.ButtonClicked);
                             holder.Controls.Add(btn);
+                            holder.Controls.Add(new LiteralControl("</p>"));
+                            holder.Controls.Add(new LiteralControl("</div>"));
 
-                            holder.Controls.Add(new LiteralControl("<br />"));
+                            holder.Controls.Add(new LiteralControl("</div>"));
+                            holder.Controls.Add(new LiteralControl("</div>"));
+                            // holder.Controls.Add(new LiteralControl("<br />"));
                         }
+                        holder.Controls.Add(new LiteralControl("</div>"));
 
                     }
                     myCon.Close();

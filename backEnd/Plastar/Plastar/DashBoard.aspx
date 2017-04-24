@@ -3,8 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>
     <h3>This is where your casts are placed.</h3>
-    <p>You can add more cast here.</p>
-    <asp:Button ID="AddBundle" runat="server" Text="Add"/>
+    <asp:Button ID="AddBundle" runat="server" Text="Add Cast" style="float:right" CssClass="btn btn-primary"/>
     <br>
     <asp:PlaceHolder ID="holder" runat="server" />
 </asp:Content>
