@@ -56,7 +56,9 @@ public class MenuClick : MonoBehaviour
     public void Start() {
         DebugConsole = GameObject.Find("DebugConsole");
         DebugConsole.SetActive(false);
+        
         RefreshView();
+        
         
         // toggle save button based on developer option
         
@@ -115,7 +117,7 @@ public class MenuClick : MonoBehaviour
         RefreshView();
 
         // BuildingOnboarding.SetActive(true);
-        BuildingRenderToggle.SetActive(false);
+        // BuildingRenderToggle.SetActive(false);
         
         // disable active screen overlay
         try {
@@ -209,6 +211,7 @@ public class MenuClick : MonoBehaviour
 
     public void ToScanning() {
         ToLanding(false, true);
+        FunctionView.SetActive(false);
     }
 
     public void ToLanding(bool maintainMenu = true, bool fromMenu = false){
@@ -229,6 +232,7 @@ public class MenuClick : MonoBehaviour
         
         CastView.SetActive(false);
         StoryView.SetActive(false);
+        BuildingRenderToggle.SetActive(false);
         BuildingView.SetActive(false);
         
         FunctionView.SetActive(true);
@@ -241,6 +245,7 @@ public class MenuClick : MonoBehaviour
         MessageBox.SetActive(false);
         Screenshot.SetActive(false);
         ShootButton.SetActive(false);
+        MapView.SetActive(false);
         
         if (fromMenu) {
             int id = GlobalManagement.currentMarkerID;
@@ -277,6 +282,7 @@ public class MenuClick : MonoBehaviour
                 break;
             case (int) Configs.SceneIndex.Onboarding:
                 ToLanding(false);
+                FunctionView.SetActive(false);
                 break;
             case (int) Configs.SceneIndex.Landing:
                 ToLanding(false, true);
@@ -293,9 +299,9 @@ public class MenuClick : MonoBehaviour
         SaveButton.SetActive(GlobalManagement.developerMode);
     }
 
-    public void ReadBuildingOnboarding() {
-        // BuildingOnboarding.SetActive(false);
-        BuildingRenderToggle.SetActive(true);
-    }
+    // public void ReadBuildingOnboarding() {
+    //     // BuildingOnboarding.SetActive(false);
+    //     BuildingRenderToggle.SetActive(true);
+    // }
 
 }

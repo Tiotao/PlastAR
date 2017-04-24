@@ -20,6 +20,9 @@ public class MainFunctions : MonoBehaviour {
 
     GameObject ScreenShotImage;
     GameObject FunctionView;
+
+    GameObject BuildingView;
+    
     GameObject ShootButton;
 
     public EmailController Emailer;
@@ -45,10 +48,10 @@ public class MainFunctions : MonoBehaviour {
         ScreenShotImage = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject;
         FunctionView = GlobalManagement.FunctionView;
         ShootButton = GlobalManagement.ShootButton;
-
+        BuildingView = GlobalManagement.BuildingView;
         FunctionView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
-
+        BuildingView.SetActive(false);
         StartCoroutine("CaptureScreen");
     }
 

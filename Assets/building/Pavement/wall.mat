@@ -93,7 +93,7 @@ Material:
       second: 1
     - first:
         name: _Glow
-      second: 1
+      second: 1.13
     - first:
         name: _Metallic
       second: 0
@@ -126,7 +126,7 @@ Material:
       second: -1
     - first:
         name: _maxHeight
-      second: 0.004
+      second: 0.006
     - first:
         name: _threshold
       second: 1

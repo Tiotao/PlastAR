@@ -55,7 +55,7 @@ public class MarkerManager : MonoBehaviour {
 		updateMarkerIcon();
 
 		SetCurrentMarker(-1);
-		Refresh(0);
+		Refresh(2);
 		SetCurrentMarker(-1);
 		
 		// TEMP: replace building model  

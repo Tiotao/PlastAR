@@ -8,13 +8,19 @@ public class BuildingOnboardingController : MonoBehaviour {
 	public GameObject _onboardingA;
 	public GameObject _onboardingB;
 
+	public GameObject _renderToggle;
+
 	void Start () {
-		Debug.Log("building started: ");
-		Debug.Log(_onboardingA.activeSelf);
-		Debug.Log(_onboardingB.activeSelf);
 		_onboardingA.SetActive(true);
 		_onboardingB.SetActive(false);
+		_renderToggle.SetActive(false);
 
+	}
+
+	public void SkipOnBoarding() {
+		_onboardingA.SetActive(false);
+		_onboardingB.SetActive(false);
+		_renderToggle.SetActive(true);
 	}
 	
 	// Update is called once per frame

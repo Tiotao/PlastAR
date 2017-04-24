@@ -6,6 +6,8 @@ public class recognize : MonoBehaviour {
     public bool seen = false;
 
     public bool active = false;
+
+    public bool isVisited = false;
     
     GameObject MarkerManager;
 

@@ -31,6 +31,7 @@ public class EmailController : MonoBehaviour {
 		_successPill.SetActive(false);
 		_statusPill.SetActive(false);
 		_errorMessage.SetActive(false);
+		
 		// _imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 
 	}
@@ -95,7 +96,7 @@ public class EmailController : MonoBehaviour {
 	public void SendEmail() {
 		string emailAddress = _input.text;
 		
-		// string emailAddress = "tiotaocn@gmail.com";
+		emailAddress = "tiotaocn@gmail.com";
         
         StartCoroutine(SendEmailAsync(emailAddress));
 
@@ -123,12 +124,7 @@ public class EmailController : MonoBehaviour {
 		_statusPill.SetActive(false);
 		_successPill.SetActive(true);
 		_errorMessage.SetActive(false);
-		if (!_imageTransform) {
-			_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
-		}
-		_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
-		_imageTransform.localScale = new Vector3(1f, 1f, 1f);
-		_imageTransform.anchoredPosition = new Vector2(40, -25);
+		
 	}
 
 	public void ShowFail (){
@@ -158,13 +154,16 @@ public class EmailController : MonoBehaviour {
 		if (!_imageTransform) {
 			_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 		}
+
 		_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 		_imageTransform.localScale = new Vector3(1f, 1f, 1f);
 		_imageTransform.anchoredPosition = new Vector2(40, -25);
-
+		GlobalManagement.BuildingView.SetActive(true);
+		GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>().SkipOnBoarding();
 		GlobalManagement.FunctionView.SetActive(true);
         GlobalManagement.ShootButton.SetActive(true);
-        GlobalManagement.ScreenShot.SetActive(false);
+		GlobalManagement.ScreenShot.SetActive(false);
         GlobalManagement.EmailBox.SetActive(false);
+		_errorMessage.SetActive(false);
 	}
 }

@@ -80,6 +80,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private GameObject buildingOnBoardingA;
     private GameObject buildingOnBoardingB;
+
+    private GameObject buildingRenderToggle;
     
 
 #if UNITY_EDITOR
@@ -190,6 +192,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         buildingOnBoardingA = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._onboardingA;
         buildingOnBoardingB = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._onboardingB;
+        buildingRenderToggle = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._renderToggle;
     }
 
     // set material of a structured gameobject (gameobject with multiple child and renderer)
@@ -384,7 +387,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
                         if (buildingOnBoardingB.activeSelf) {
                             buildingOnBoardingB.SetActive(false);
+                            
                         }
+
+                        
                         
                         
 
@@ -467,6 +473,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         GameObject.FindGameObjectWithTag("Navigator").GetComponent<point>().SetVisitedIcon(m.GetComponent<ARMarker>().GetID());
                         MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
                         GlobalManagement.HomeView.SetActive(true);
+                        GlobalManagement.FunctionView.SetActive(true);
                         GlobalManagement.GuideView.SetActive(false);
                         GlobalManagement.NavigationView.SetActive(false);
 
@@ -492,6 +499,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             // no marker being seen, set menu to inactive
             // if (GlobalManagement.HomeView.activeSelf) {
             //     GlobalManagement.HomeView.SetActive(false);
+            //     GlobalManagement.NavigationView.SetActive(true);
+            //     GlobalManagement.GuideView.SetActive(true);
             // }
 
             
@@ -962,6 +971,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         if (buildingOnBoardingB.activeSelf) {
             buildingOnBoardingB.SetActive(false);
+        }
+
+        if (!buildingRenderToggle.activeSelf) {
+            buildingRenderToggle.SetActive(true);
         }
 
         Debug.Log("building instantiated");

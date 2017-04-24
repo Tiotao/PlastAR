@@ -26,6 +26,8 @@ public class Marker : MonoBehaviour {
 
 	public Sprite _buildingMap;
 
+	public bool _isVisited;
+
 
 	enum DataType {
 		Marker,

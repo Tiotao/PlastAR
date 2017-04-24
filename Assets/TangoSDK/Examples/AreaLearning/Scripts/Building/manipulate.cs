@@ -12,6 +12,8 @@ public class manipulate : MonoBehaviour {
 
     public Material overrideMat;
 
+    public Material highlightMat;
+
     public bool isTransparent = false;
 
 	// Use this for initialization
@@ -21,13 +23,17 @@ public class manipulate : MonoBehaviour {
             ParticleSystem.EmissionModule em = p.GetComponentInChildren<ParticleSystem>().emission;
             em.enabled = true;
         }
-        matChanger = new MaterialChanger(gameObject.transform.FindChild("BuildingModel").gameObject, overrideMat);
+        matChanger = new MaterialChanger(gameObject.transform.FindChild("BuildingModel").gameObject, overrideMat, highlightMat);
 	}
 
     
 
     void Update()
     {
+
+        if(Input.GetKeyDown(KeyCode.R)) {
+            ToggleRendering();
+        }
 
         if (Input.touchCount <= 0)
         {

@@ -37,6 +37,7 @@ public class point : MonoBehaviour {
 
     public Sprite currentIcon;
 
+
 	// Use this for initialization
 	void Start () {
 
@@ -48,6 +49,7 @@ public class point : MonoBehaviour {
             horizontalRange = verticalRange / screenHeight * screenWidth;
             scalingFactor = screenHeight / (verticalRange * 2);
         }
+        
         
         // path = new GameObject[slice];
         // markerFinder = GameObject.FindGameObjectWithTag("VirtualMarkerFinder");
@@ -184,7 +186,6 @@ public class point : MonoBehaviour {
 
                 Transform thumbnail = markerFinder.transform.GetChild(0).GetChild(0);
                 Vector3 guideRotation = markerFinder.GetComponent<RectTransform>().localRotation.eulerAngles;
-                Debug.Log(guideRotation);
 
                 thumbnail.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0); 
                 
@@ -202,23 +203,46 @@ public class point : MonoBehaviour {
     public void SetCurrentNavigation(int id) {
 
         List<GameObject> markers = GlobalManagement.Markers;
+        
 
         if (selectedMarkerId == id) {
             id = -1;
             for (int i = 0; i < markers.Count; i++) {
                 markers[i].GetComponentInChildren<MeshRenderer>().enabled = true;
             }
-            GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[selectedMarkerId].gameObject.GetComponent<Image>().sprite = defaultIcon;
+
+            Sprite iconToUpdate;
+
+            if (markers[selectedMarkerId].GetComponent<recognize>().isVisited) {
+                iconToUpdate = visitedIcon;
+            } else {
+                iconToUpdate = defaultIcon;
+            }
+
+            GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[selectedMarkerId].gameObject.GetComponent<Image>().sprite = iconToUpdate;
+
             
         } else {
             for (int i = 0; i < markers.Count; i++) {
+                Debug.Log("Marker " + i);
                 if (i == id) {
                     markers[i].GetComponentInChildren<MeshRenderer>().enabled = true;
+                    GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = currentIcon;
+                    Debug.Log("Marker " + i + " set to current");
+                    // GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = currentIcon;
                 } else {
+                    Sprite iconToUpdate;
+                    if (markers[i].GetComponent<recognize>().isVisited) {
+                        iconToUpdate = visitedIcon;
+                    } else {
+                        iconToUpdate = defaultIcon;
+                    }
+                    GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = iconToUpdate;
                     markers[i].GetComponentInChildren<MeshRenderer>().enabled = false;
+                    Debug.Log("Marker " + i + " set to visited/default");
                 }
             }
-            GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[id].gameObject.GetComponent<Image>().sprite = currentIcon;
+            
         }
 
         selectedMarkerId = id;
@@ -227,6 +251,8 @@ public class point : MonoBehaviour {
 
     public void SetVisitedIcon(int id) {
         GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[id].gameObject.GetComponent<Image>().sprite = visitedIcon;
+        GlobalManagement.Markers[id].GetComponent<recognize>().isVisited = true;
+        // selectedMarkerId = -1;
     }
 
 
