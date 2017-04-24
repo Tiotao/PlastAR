@@ -27,6 +27,50 @@ input[type="select"] {
     max-width: 280px;
 }
 
+.holder {
+	//background: black;
+    //  border-top: 1px dotted grey;
+
+    // background-color: #eee;
+    padding-top: 1em;
+
+}
+
+.holder .cast-name {
+    display: inline-block;
+    font-size: 2em;
+    line-height: 200px;
+    width: 400px;
+
+}
+
+.caption {
+    background-color: #f3f3f3;
+    
+}
+
+.caption p {
+    padding-top: 2em;
+    text-align:center;
+}
+
+.caption h3 {
+    text-align:center;
+}
+
+.cast-list {
+    margin-top: 2em;
+
+}
+.holder .btn-danger {
+    
+}
+
+.holder img {
+    width: 200px;
+    height: 200px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
     .jumbotron {
