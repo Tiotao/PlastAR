@@ -6,6 +6,10 @@ using UnityEngine.UI;
 public class HotspotShine : MonoBehaviour {
 
 
+	public bool _isVisited = false;
+	public Sprite _visitedSprite;
+
+
 	// Use this for initialization
 	void Start () {
 		Shine();
@@ -21,24 +25,34 @@ public class HotspotShine : MonoBehaviour {
 	}
 	public void Shine() {
 
+		
+		GameObject hotspot = gameObject.transform.parent.gameObject;
+		gameObject.transform.parent.gameObject.SetActive(true);
+
+		if (_isVisited) {
+			return;
+		}
+
+		Debug.Log(hotspot);
+
 		iTween.Stop(gameObject);
 		gameObject.transform.localScale = new Vector3(1, 1, 1);
 		iTween.ValueTo(gameObject, iTween.Hash(
 			"from", 0f,
 			"to", 0.5f,
-			"time", 1f,
+			"time", 0.5f,
 			"onupdate", "UpdateAlpha",
 			"onupdatetarget", gameObject));
 		iTween.ValueTo(gameObject, iTween.Hash(
 			"from", 0.5f,
 			"to", 0f,
-			"time", 1f,
-			"delay", 1f,
+			"time", 0.5f,
+			"delay", 0.5f,
 			"onupdate", "UpdateAlpha",
 			"onupdatetarget", gameObject));
 		iTween.ScaleTo(gameObject, iTween.Hash(
 			"scale", new Vector3(1.5f, 1.5f, 1.5f),
-			"time", 2f,
+			"time", 1f,
 			"oncomplete", "Shine",
 			"oncompletetarget", gameObject
 		));
@@ -50,10 +64,19 @@ public class HotspotShine : MonoBehaviour {
 	}
 
 	public void StopShine() {
+
+		
 		iTween.Stop(gameObject);
 		gameObject.transform.localScale = new Vector3(1, 1, 1);
 		Color c = gameObject.GetComponent<Image>().color;
 		gameObject.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0);
+
+		GameObject hotspot = gameObject.transform.parent.gameObject;
+		
+		// hide the hotspot
+		gameObject.transform.parent.gameObject.SetActive(false);
+
+		hotspot.GetComponent<Image>().sprite = _visitedSprite;
 
 		
 	}

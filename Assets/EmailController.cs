@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text;
+using System.Text.RegularExpressions;
 
 public class EmailController : MonoBehaviour {
 
@@ -24,6 +26,14 @@ public class EmailController : MonoBehaviour {
 
 	public static bool isFailed = false;
 
+	AudioSource _audio;
+
+	public const string MatchEmailPattern =
+            @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+            + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+              + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+            + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$";
+
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +41,7 @@ public class EmailController : MonoBehaviour {
 		_successPill.SetActive(false);
 		_statusPill.SetActive(false);
 		_errorMessage.SetActive(false);
+		_audio = GetComponent<AudioSource>();
 		
 		// _imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 
@@ -83,8 +94,20 @@ public class EmailController : MonoBehaviour {
 			"onupdate", "ScaleScreenshot"));
 	}
 
+	public void OnEndEdit() {
+		string emailAddress = _input.text;
+#if UNITY_EDITOR
+		emailAddress = "tiotaocn@gmail.com";
+#endif
+		if (emailAddress == null || !Regex.IsMatch(emailAddress, MatchEmailPattern)) {
+            SendEmailFail("Invalid Email Address.");
+			_sendPill.GetComponent<Button>().interactable = false;
+        } else {
+			_sendPill.GetComponent<Button>().interactable = true;
+		}
+	}
+
 	public void MoveScreenshot(Vector2 position) {
-		Debug.Log("move");
 		_imageTransform.anchoredPosition = position;
 	}
 
@@ -95,15 +118,10 @@ public class EmailController : MonoBehaviour {
 
 	public void SendEmail() {
 		string emailAddress = _input.text;
-		
+#if UNITY_EDITOR
 		emailAddress = "tiotaocn@gmail.com";
-        
+#endif
         StartCoroutine(SendEmailAsync(emailAddress));
-
-        // GlobalManagement.FunctionView.SetActive(true);
-        // GlobalManagement.ShootButton.SetActive(true);
-        // GlobalManagement.ScreenShot.SetActive(false);
-        // GlobalManagement.EmailBox.SetActive(false);
 	}
 
 	IEnumerator SendEmailAsync(string emailAddress) {
@@ -121,10 +139,19 @@ public class EmailController : MonoBehaviour {
 	}
 
 	public void ShowSuccess (){
+		StartCoroutine(SuccessEffect());
+	}
+
+	IEnumerator SuccessEffect() {
 		_statusPill.SetActive(false);
 		_successPill.SetActive(true);
 		_errorMessage.SetActive(false);
-		
+		if (!_audio.isPlaying) {
+			_audio.Play();
+		}
+		yield return new WaitForSeconds(1f);
+		ResetScreenshotTransform();
+		ResumeBuildingView();
 	}
 
 	public void ShowFail (){
@@ -141,16 +168,17 @@ public class EmailController : MonoBehaviour {
 		EmailController.isFailed = true;
 		EmailController._errorMessageContent = message;
 		Debug.Log(EmailController.isFailed);
-		// Invoke("ShowFail", 0);
-		// if (!_imageTransform) {
-		// 	_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
-		// }
-		// _imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
-		// _imageTransform.localScale = new Vector3(1f, 1f, 1f);
-		// _imageTransform.anchoredPosition = new Vector2(40, -25);
+
 	}
 
 	public void Cancel() {
+		ResetScreenshotTransform();
+		ResumeBuildingView();
+		
+		
+	}
+
+	public void ResetScreenshotTransform() {
 		if (!_imageTransform) {
 			_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 		}
@@ -158,6 +186,9 @@ public class EmailController : MonoBehaviour {
 		_imageTransform = GlobalManagement.ScreenShot.transform.GetChild(0).gameObject.GetComponent<RectTransform>();
 		_imageTransform.localScale = new Vector3(1f, 1f, 1f);
 		_imageTransform.anchoredPosition = new Vector2(40, -25);
+	}
+
+	public void ResumeBuildingView() {
 		GlobalManagement.BuildingView.SetActive(true);
 		GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>().SkipOnBoarding();
 		GlobalManagement.FunctionView.SetActive(true);

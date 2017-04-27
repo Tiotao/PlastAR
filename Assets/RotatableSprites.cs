@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using UnityEngine.UI;
 
 public class RotatableSprites : MonoBehaviour {
@@ -44,6 +45,10 @@ public class RotatableSprites : MonoBehaviour {
     private Touch oldTouch1;
     private Touch oldTouch2;
 
+    public GameObject _onboarding;
+
+    private bool _isOnboardingFading = false;
+
     // Use this for initialization
     void Awake()
     {
@@ -65,8 +70,9 @@ public class RotatableSprites : MonoBehaviour {
             Debug.Log(_currentFrame);
             int frameChange =  (_currentFrame + (int) (-deltaPos.x / 2)  + _frameAmount ) % _frameAmount;
             SetFrame(frameChange);
-            Debug.Log(frameChange);
-            
+            if (_onboarding.activeSelf && !_isOnboardingFading) {
+                StartCoroutine(DisableOnboarding());
+            }            
             //transform.Rotate(Vector3.right * deltaPos.y, Space.World);
         }
 
@@ -99,6 +105,24 @@ public class RotatableSprites : MonoBehaviour {
 
         // oldTouch1 = newTouch1;
         // oldTouch2 = newTouch2;
+    }
+
+    public void FadeOut(GameObject target, float time) {
+        iTween.ValueTo(gameObject, iTween.Hash("from", 1.0f, "to", 0.0f, "time", time, "easetype", "linear","onupdate", (Action<object>) (newAlpha => {
+			Image[] images = target.GetComponentsInChildren<Image>();
+         	foreach (Image mObj in images) {
+					mObj.color = new Color(
+					mObj.color.r, mObj.color.g, 
+					mObj.color.b, (float) newAlpha);
+			}
+		})));
+    }
+
+    IEnumerator DisableOnboarding() {
+        _isOnboardingFading = true;
+        FadeOut(_onboarding, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        _onboarding.SetActive(false);
     }
 
     public void InitializeContent(bool isRemote) {
@@ -173,20 +197,30 @@ public class RotatableSprites : MonoBehaviour {
         _currentCastModel.transform.rotation = Quaternion.Euler(0, rotation, 0);
     }
 
+    
+
     // toggle display of the hotspot information, update inforamtion
     public void ToggleHotSpotInfo(int hotspotID){
+
+        if (!_isOnboardingFading && _onboarding.activeSelf && hotspotID > 0) {
+            StartCoroutine(DisableOnboarding());
+        }
         
         if (hotspotID < _hotspotsInfo.Length) {
-            if (hotspotID == _currentHotspot) {
+
+            if (hotspotID == 0) {
                 // _HotSpotsPanel.SetActive(false);
                 _HotSpotDescription.text = "Tap on the hotspots to learn about this cast.";
-                _currentHotspot = 0;
+
                 Image[] fragmentSprites = transform.GetComponentsInChildren<Image>();
+
+                Debug.Log(_HotSpotsSpritesTransform.Length);
 
                 foreach (Transform hotspot in _HotSpotsSpritesTransform) {
                     try {
                         HotspotShine shine = hotspot.GetComponentInChildren<HotspotShine>();
                         shine.Shine();
+                        
                         // shine.gameObject.transform.parent.localScale = new Vector3(0.416f, 0.416f, 0.416f);
                     } catch {
                         
@@ -205,7 +239,10 @@ public class RotatableSprites : MonoBehaviour {
                 }
                 
             } else {
+                // update text description
+                
                 _HotSpotDescription.text = _hotspotsInfo[hotspotID]._description;
+                
                 // highlight fragments
 
                 Image[] fragmentSprites = transform.GetComponentsInChildren<Image>();
@@ -222,24 +259,26 @@ public class RotatableSprites : MonoBehaviour {
                     sprites.color = color;
                 }
 
+                // make changes on hotspot 
 
                 foreach (Transform hotspot in _HotSpotsSpritesTransform) {
                     try {
                         HotspotShine shine = hotspot.GetComponentInChildren<HotspotShine>();
                         shine.StopShine();
-                        // shine.gameObject.transform.parent.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                        
                     } catch {
 
                     }
                 }
 
-                _HotSpotsSpritesTransform[hotspotID].GetComponentInChildren<HotspotShine>().Shine();
-                // _HotSpotsSpritesTransform[hotspotID].gameObject.transform.localScale = new Vector3(0.416f, 0.416f, 0.416f);
+                _HotSpotsSpritesTransform[hotspotID].GetComponentInChildren<HotspotShine>()._isVisited = true;
+                
 
-                _currentHotspot = hotspotID;
-                // _HotSpotsPanel.SetActive(true);
+                
                 
             }
+
+            _currentHotspot = hotspotID;
            
         } else {
             Debug.Log("hotspotID invalid");

@@ -43,7 +43,7 @@ public class MarkerRotation : MonoBehaviour {
 
 		if (_isFocusing) {
 			if (_progress < 1.0f) {
-				_progress = _progress + Time.deltaTime / 3;
+				_progress = _progress + Time.deltaTime;
 				_renderer.material.SetFloat("_threshold", _progress);
 			} else {
 				if (!_isFocused) {

@@ -25,13 +25,11 @@ public class MainFunctions : MonoBehaviour {
     
     GameObject ShootButton;
 
+    public GameObject WaterMark;
+
     public EmailController Emailer;
 
-    public const string MatchEmailPattern =
-            @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
-            + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
-              + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
-            + @"([a-zA-Z]+[\w-]+\.)+[a-zA-Z]{2,4})$";
+    
 
     // Use this for initialization
     void Start () {
@@ -51,6 +49,7 @@ public class MainFunctions : MonoBehaviour {
         BuildingView = GlobalManagement.BuildingView;
         FunctionView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
+        WaterMark.SetActive(true);
         BuildingView.SetActive(false);
         StartCoroutine("CaptureScreen");
     }
@@ -61,14 +60,16 @@ public class MainFunctions : MonoBehaviour {
         //Application.CaptureScreenshot("Screenshot.png", 0);
         yield return new WaitForSeconds(0.1f);
         CaptureScreenshot2(new Rect(0, 0, Screen.width, Screen.height));
-
+        
         //yield return new WaitForSeconds(1);
 
         GlobalManagement.ScreenShot.SetActive(true);
         LoadImage();
-
+        WaterMark.SetActive(false);
         GlobalManagement.MessageBox.SetActive(true);
     }
+
+    
 
     void CaptureScreenshot2(Rect rect)
     {
@@ -80,7 +81,7 @@ public class MainFunctions : MonoBehaviour {
         byte[] bytes = screenShot.EncodeToPNG();
         string filename = Application.persistentDataPath + "/Screenshot.png";
         System.IO.File.WriteAllBytes(filename, bytes);
-
+        
         //return screenShot;
     }
 
@@ -136,13 +137,15 @@ public class MainFunctions : MonoBehaviour {
 
     public void SendEmailWithSubThread(string emailAddress, System.Net.Mail.Attachment attachment)
     {
-        Debug.Log("has email address");
+        // Debug.Log("has email address");
 
-        if (emailAddress == null || !Regex.IsMatch(emailAddress, MatchEmailPattern)) {
-            Emailer.SendEmailFail("Invalid Email Address.");
-            return;
-        }
+        // if (emailAddress == null || !Regex.IsMatch(emailAddress, MatchEmailPattern)) {
+        //     Emailer.SendEmailFail("Invalid Email Address.");
+        //     return;
+        // }
 
+
+        
         try
         {
             MailMessage mail = new MailMessage();

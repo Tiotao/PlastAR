@@ -37,6 +37,11 @@ public class point : MonoBehaviour {
 
     public Sprite currentIcon;
 
+    public GameObject instruction;
+
+
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -57,6 +62,8 @@ public class point : MonoBehaviour {
         //     path[i] = Instantiate(sp);
     }
 	
+
+   
 	// Update is called once per frame
 	void Update () {
 
@@ -85,6 +92,7 @@ public class point : MonoBehaviour {
         
 
         GameObject[] list = GameObject.FindGameObjectsWithTag("VirtualMarker");
+        
         // List<GameObject> list = GlobalManagement.Markers;
         double dist = double.MaxValue;
         GameObject nearestMarker = null;
@@ -101,12 +109,13 @@ public class point : MonoBehaviour {
         // }
 
         Vector3 startPoint = Camera.main.transform.position;
+        float verticalOffset, horizontalOffset;
 
         // override nearestMarker selection
 
         if (selectedMarkerId > -1) {
             markerFinder.SetActive(true);
-            nearestMarker = GlobalManagement.Markers[selectedMarkerId];
+            nearestMarker = list[selectedMarkerId];
             markerFinder.transform.GetChild(0).GetChild(0).gameObject.GetComponent<Image>().sprite = icons[selectedMarkerId];
 
         } else {
@@ -137,8 +146,8 @@ public class point : MonoBehaviour {
                 Vector3 offset = intersection - planeCenter;
 
                 
-                float verticalOffset = Vector3.Dot(offset, Camera.main.transform.up);
-                float horizontalOffset = Vector3.Dot(offset, Camera.main.transform.right);
+                verticalOffset = Vector3.Dot(offset, Camera.main.transform.up);
+                horizontalOffset = Vector3.Dot(offset, Camera.main.transform.right);
                 // if ( (horizontalOffset < 5 && horizontalOffset > -5) || (verticalOffset < 3.5f && verticalOffset > -3.5f) ) {
                 //     // markerFinder.SetActive(false);
                 //     return;
@@ -150,6 +159,9 @@ public class point : MonoBehaviour {
 #endif
                 
                 float distance = Vector3.Distance(nearestMarker.transform.position, startPoint);
+
+                
+               
 
                 if (horizontalOffset > horizontalRange) {
                     horizontalOffset = horizontalRange;
@@ -180,18 +192,26 @@ public class point : MonoBehaviour {
                 } else {
                     markerFinder.SetActive(true);
                 }
+                instruction.SetActive(false);
 
-
-                markerFinder.GetComponent<RectTransform>().LookAt(canvasCenter, transform.right);
-
-                Transform thumbnail = markerFinder.transform.GetChild(0).GetChild(0);
-                Vector3 guideRotation = markerFinder.GetComponent<RectTransform>().localRotation.eulerAngles;
-
-                thumbnail.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0); 
                 
-                markerFinder.GetComponent<RectTransform>().localPosition= new Vector3(horizontalOffset * scalingFactor,  verticalOffset * scalingFactor, 0);
-
+            } else {
+                // facing backwards
+                verticalOffset = 0;
+                horizontalOffset = horizontalRange;
+                instruction.SetActive(true);
             }
+
+            markerFinder.GetComponent<RectTransform>().LookAt(canvasCenter, transform.right);
+
+            Transform thumbnail = markerFinder.transform.GetChild(0).GetChild(0);
+            Vector3 guideRotation = markerFinder.GetComponent<RectTransform>().localRotation.eulerAngles;
+
+            thumbnail.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0); 
+            
+            markerFinder.GetComponent<RectTransform>().localPosition = new Vector3(horizontalOffset * scalingFactor,  verticalOffset * scalingFactor, 0);
+
+            
             
         } else {
             markerFinder.SetActive(false);
@@ -203,7 +223,6 @@ public class point : MonoBehaviour {
     public void SetCurrentNavigation(int id) {
 
         List<GameObject> markers = GlobalManagement.Markers;
-        
 
         if (selectedMarkerId == id) {
             id = -1;
