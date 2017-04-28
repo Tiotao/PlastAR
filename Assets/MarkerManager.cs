@@ -55,7 +55,7 @@ public class MarkerManager : MonoBehaviour {
 		updateMarkerIcon();
 
 		SetCurrentMarker(-1);
-		Refresh(2);
+		Refresh(0);
 		SetCurrentMarker(-1);
 		
 		// TEMP: replace building model  
@@ -129,7 +129,7 @@ public class MarkerManager : MonoBehaviour {
 		}
 
 		try {
-			Destroy(GlobalManagement.StoryView.transform.GetChild(4).gameObject);
+			Destroy(GlobalManagement.StoryView.transform.GetChild(5).gameObject);
 		} catch {
 
 		}

@@ -7,7 +7,7 @@ public class HotspotShine : MonoBehaviour {
 
 
 	public bool _isVisited = false;
-	public Sprite _visitedSprite;
+	// public Sprite _visitedSprite;
 
 
 	// Use this for initialization
@@ -24,16 +24,9 @@ public class HotspotShine : MonoBehaviour {
 
 	}
 	public void Shine() {
-
-		
-		GameObject hotspot = gameObject.transform.parent.gameObject;
-		gameObject.transform.parent.gameObject.SetActive(true);
-
 		if (_isVisited) {
 			return;
 		}
-
-		Debug.Log(hotspot);
 
 		iTween.Stop(gameObject);
 		gameObject.transform.localScale = new Vector3(1, 1, 1);
@@ -70,14 +63,7 @@ public class HotspotShine : MonoBehaviour {
 		gameObject.transform.localScale = new Vector3(1, 1, 1);
 		Color c = gameObject.GetComponent<Image>().color;
 		gameObject.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0);
+		// gameObject.transform.parent.gameObject.SetActive(false);
 
-		GameObject hotspot = gameObject.transform.parent.gameObject;
-		
-		// hide the hotspot
-		gameObject.transform.parent.gameObject.SetActive(false);
-
-		hotspot.GetComponent<Image>().sprite = _visitedSprite;
-
-		
 	}
 }

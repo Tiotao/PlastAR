@@ -265,7 +265,8 @@ public class MenuClick : MonoBehaviour
 
         GuidingLine.SetActive(false);
     }
-
+    
+    
     public void Exit() {
         int currentIndex = GlobalManagement.SceneIndex;
 

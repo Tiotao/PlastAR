@@ -9,6 +9,9 @@ public class RotatableSprites : MonoBehaviour {
     
     private GameObject _CastModels;                              // container that stores models of the casts
     
+
+    public GameObject _HotSpotSprites;
+
     public Camera _cam;                                         // fake camera that handles hotspot placement projection on 2D canvas from 3D space
 
     public Text _HotSpotDescription;                            // Text field that displays the description of the hotspot
@@ -49,14 +52,26 @@ public class RotatableSprites : MonoBehaviour {
 
     private bool _isOnboardingFading = false;
 
+    public Sprite _visitedSprite;
+
+    public GameObject _UIController;
+
+    public bool _isInHotspot = false;
+
     // Use this for initialization
     void Awake()
     {
         _cam = GameObject.FindGameObjectWithTag("HotSpotCamera").GetComponent<Camera>();
+        // _HotSpotSprites = transform.parent.FindChild("HotSpotSprites").gameObject;
     }
 
     // enable cast model and hotspots
 
+
+    void Start() {
+        // _HotSpotSprites = transform.parent.FindChild("HotSpotSprites").gameObject;
+        // _UIController = GameObject.FindGameObjectWithTag("UIController");
+    }
     void Update() {
         if (Input.touchCount <= 0)
         {
@@ -67,7 +82,6 @@ public class RotatableSprites : MonoBehaviour {
         {
             Touch touch = Input.GetTouch(0);
             Vector2 deltaPos = touch.deltaPosition;
-            Debug.Log(_currentFrame);
             int frameChange =  (_currentFrame + (int) (-deltaPos.x / 2)  + _frameAmount ) % _frameAmount;
             SetFrame(frameChange);
             if (_onboarding.activeSelf && !_isOnboardingFading) {
@@ -76,35 +90,10 @@ public class RotatableSprites : MonoBehaviour {
             //transform.Rotate(Vector3.right * deltaPos.y, Space.World);
         }
 
-        // Touch newTouch1 = Input.GetTouch(0);
-        // Touch newTouch2 = Input.GetTouch(1);
+        
 
-        // if (newTouch2.phase == TouchPhase.Began)
-        // {
-        //     oldTouch2 = newTouch2;
-        //     oldTouch1 = newTouch1;
-        //     return;
-        // }
+        
 
-        // float oldDistance = Vector2.Distance(oldTouch1.position, oldTouch2.position);
-        // float newDistance = Vector2.Distance(newTouch1.position, newTouch2.position);
-
-        // float offset = newDistance - oldDistance;
-
-        // float scaleFactor = offset / 3000f;
-        // Vector3 localScale = transform.localScale;
-        // Vector3 scale = new Vector3(localScale.x + scaleFactor,
-        //                             localScale.y + scaleFactor,
-        //                             localScale.z + scaleFactor);
-
-        // //if (scale.x > 0.3f && scale.y > 0.3f && scale.z > 0.3f)
-        // if (scale.x > 0f && scale.y > 0f && scale.z > 0f)
-        // {
-        //     transform.localScale = scale;
-        // }
-
-        // oldTouch1 = newTouch1;
-        // oldTouch2 = newTouch2;
     }
 
     public void FadeOut(GameObject target, float time) {
@@ -136,6 +125,7 @@ public class RotatableSprites : MonoBehaviour {
         
         // _CastInfos = _CastModels.GetComponentsInChildren<CastInformation>();
         SetFrame(_startFrame);
+        _HotSpotSprites.SetActive(false);
         ToggleHotSpotInfo(0);
         _ControlSlider.GetComponent<Slider>().maxValue = _frameAmount - 1;
         _ControlSlider.GetComponent<Slider>().value = _startFrame;
@@ -201,26 +191,35 @@ public class RotatableSprites : MonoBehaviour {
 
     // toggle display of the hotspot information, update inforamtion
     public void ToggleHotSpotInfo(int hotspotID){
-
+        Debug.Log("toggled");
         if (!_isOnboardingFading && _onboarding.activeSelf && hotspotID > 0) {
             StartCoroutine(DisableOnboarding());
         }
         
-        if (hotspotID < _hotspotsInfo.Length) {
+        if (hotspotID < _hotspotsInfo.Length && hotspotID >= 0) {
+            
 
             if (hotspotID == 0) {
+
+                if (_HotSpotSprites.activeSelf) {
+                    // Debug.Log(_HotSpotSprites.activeSelf);
+                    
+                    _UIController.GetComponent<MenuClick>().Exit();
+                    
+                }
+
+                _HotSpotSprites.SetActive(true);
+
                 // _HotSpotsPanel.SetActive(false);
                 _HotSpotDescription.text = "Tap on the hotspots to learn about this cast.";
 
                 Image[] fragmentSprites = transform.GetComponentsInChildren<Image>();
 
-                Debug.Log(_HotSpotsSpritesTransform.Length);
-
                 foreach (Transform hotspot in _HotSpotsSpritesTransform) {
                     try {
                         HotspotShine shine = hotspot.GetComponentInChildren<HotspotShine>();
                         shine.Shine();
-                        
+                        // hotspot.gameObject.SetActive(true);
                         // shine.gameObject.transform.parent.localScale = new Vector3(0.416f, 0.416f, 0.416f);
                     } catch {
                         
@@ -240,6 +239,8 @@ public class RotatableSprites : MonoBehaviour {
                 
             } else {
                 // update text description
+
+                _HotSpotSprites.SetActive(false);
                 
                 _HotSpotDescription.text = _hotspotsInfo[hotspotID]._description;
                 
@@ -265,14 +266,16 @@ public class RotatableSprites : MonoBehaviour {
                     try {
                         HotspotShine shine = hotspot.GetComponentInChildren<HotspotShine>();
                         shine.StopShine();
-                        
-                    } catch {
-
+                        // hotspot.gameObject.SetActive(false);
+                    } catch(Exception e) {
+                        Debug.Log("Hotspot stopshine error: " + e.Message);
                     }
                 }
 
-                _HotSpotsSpritesTransform[hotspotID].GetComponentInChildren<HotspotShine>()._isVisited = true;
-                
+                HotspotShine visitedHotspotShine = _HotSpotsSpritesTransform[hotspotID].GetComponentInChildren<HotspotShine>();
+
+                visitedHotspotShine._isVisited = true;
+                visitedHotspotShine.transform.parent.GetChild(1).GetComponent<Image>().sprite = _visitedSprite;
 
                 
                 
