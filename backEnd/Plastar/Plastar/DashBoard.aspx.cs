@@ -57,7 +57,8 @@ namespace Plastar
             //TextBox1.Text = hdna.Value.ToString();
 
             DataTable t = new System.Data.DataTable();
-            string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\App_Data\\PlastarDB.mdf;Integrated Security=True";
+            //string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\App_Data\\PlastarDB.mdf;Integrated Security=True";
+            string con = "Data Source=128.2.238.5;Initial Catalog=plastar;User ID=plastar;Password=husiyuan";
             try
             {
                 using (SqlConnection myCon = new SqlConnection(con))
