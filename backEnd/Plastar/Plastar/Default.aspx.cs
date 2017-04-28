@@ -10,6 +10,7 @@ using System.IO;
 using Ionic.Zip;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace Plastar
 {
@@ -71,13 +72,19 @@ namespace Plastar
             si.Arguments = argument;
             si.FileName = Server.MapPath("AssetsBundle") + "\\script.sh";
             si.UseShellExecute = true;
-            Process.Start(si);
+            var process = new Process { StartInfo = si };
+            process.Start();
+
+            Thread.Sleep(20000);
+            //process.WaitForExit(10000);
+            //process.Exited += new EventHandler(captureExit);
+            //process.WaitForExit();
 
             string name = "husiyuan";
             string path = Server.MapPath("AssetsBundle") + "\\AssetsBundle\\" + argument;
             string snapshot = argument + "\\000.png";
 
-            string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\App_Data\\PlastarDB.mdf;Integrated Security=True";
+            string con = "Data Source=128.2.238.5;Initial Catalog=plastar;User ID=plastar;Password=husiyuan";
             SqlConnection myCon = new SqlConnection(con);
             SqlCommand cmd = new SqlCommand("insert into dbo.AssetsBundle(Name,Path,Snapshot) values (@name,@path,@snapshot)", myCon);
             cmd.Parameters.AddWithValue(@"name", ViewState["name"].ToString());
@@ -89,6 +96,13 @@ namespace Plastar
             myCon.Close();
 
             ViewState["uploaded"] = false;
+            //Response.Write("<script>alert('"+"done!!"+"')</script>");
+        }
+
+        private void captureExit(object sender, EventArgs e)
+        {
+            Response.Write("<script>alert('" + "done!!!" + "')</script>");
+
         }
 
         private void Submit1_ServerClick(object sender, System.EventArgs e)
