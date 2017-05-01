@@ -14,9 +14,9 @@ Shader "Custom/Clip" {
 Properties {
 	_MainTex ("Base (RGB)", 2D) = "white" {}
 	[NoScaleOffset] _BumpMap ("Normalmap", 2D) = "bump" {}
-    _factor ("factor",Float) = 0.0
+    _factor ("factor",Float) = -1.0
     _threshold ("threshold",Float) = 0.0
-	_maxHeight ("Max Height", Float) = 0.0
+	_maxHeight ("Max Height", Float) = 0.006
 	_Color ("Color", Color) = (1,1,1,1)
 	_Glow ("Intensity", Range(0, 3)) = 1
 	

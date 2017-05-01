@@ -169,6 +169,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     private int _appearMode;
 
     private GameObject _buildingGround;
+
+    public GameObject _markerPrefab;
     
 
 
@@ -182,7 +184,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         Debug.Log("In Game Controller Online");
         m_poseController = FindObjectOfType<TangoARPoseController>();
         m_tangoApplication = FindObjectOfType<TangoApplication>();
-        m_markPrefabs = MarkerManager.GetComponent<MarkerManager>().GetMarkerModels();
+        // m_markPrefabs = MarkerManager.GetComponent<MarkerManager>().GetMarkerModels();
         _appearMode = GlobalManagement.appearMode;
         
         if (m_tangoApplication != null)
@@ -902,7 +904,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         {
             MarkerData mark = xmlDataList[i];
             // Instantiate all markers' gameobject.
-            GameObject temp = Instantiate(m_markPrefabs[i],
+            GameObject temp = Instantiate(_markerPrefab,
                                           mark.m_position,
                                           mark.m_orientation) as GameObject;
             // Set marker ID
@@ -1139,7 +1141,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             // main scene
             
             SetCurrentMarkType((int) Configs.MarkerType.Marker);
-            ObjectToInstant = m_markPrefabs[m_markerList.Count];
+            ObjectToInstant = _markerPrefab;
             _PlaceMarker(ObjectToInstant, planeCenter, forward, up);
         } 
         
