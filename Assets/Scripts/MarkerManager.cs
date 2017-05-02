@@ -57,6 +57,8 @@ public class MarkerManager : MonoBehaviour {
 		_buildingView = GlobalManagement.BuildingView;
 		updateMarkerIcon();
 
+		
+
 		SetCurrentMarker(-1);
 		Refresh(0);
 		SetCurrentMarker(-1);

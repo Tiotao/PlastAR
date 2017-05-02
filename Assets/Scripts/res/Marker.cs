@@ -29,6 +29,10 @@ public class Marker : MonoBehaviour {
 
 	public bool _isVisited;
 
+	private Renderer[] renderers;
+    private Material[] materials;
+    private string[] shaders;
+
 
 	enum DataType {
 		// Marker,
@@ -42,7 +46,22 @@ public class Marker : MonoBehaviour {
 		_cast = transform.GetChild((int) DataType.Cast).gameObject;
 		// _marker = transform.GetChild((int) DataType.Marker).gameObject;
 		_story = transform.GetChild((int) DataType.Story).gameObject;
-		
+
+		foreach(var rend in _building.GetComponentsInChildren<Renderer>())
+        {
+            materials = rend.sharedMaterials;
+            shaders =  new string[materials.Length];
+ 
+            for( int i = 0; i < materials.Length; i++)
+            {
+                shaders[i] = materials[i].shader.name;
+            }        
+ 
+            for( int i = 0; i < materials.Length; i++)
+            {
+                materials[i].shader = Shader.Find(shaders[i]);
+            }
+        }
 	}
 
 	// Use this for initialization

@@ -10894,7 +10894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &697
 GameObject:
   m_ObjectHideFlags: 0
@@ -14523,7 +14523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &931
 GameObject:
   m_ObjectHideFlags: 0
@@ -14618,7 +14618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &937
 GameObject:
   m_ObjectHideFlags: 0
@@ -73641,7 +73641,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: Made to emulate carpeting details, you can see that even the tassels
     are represented
   _sprites:
@@ -73771,7 +73770,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: A single row of Palm leaves.
   _sprites:
   - {fileID: 21300000, guid: 0a41fbfb7b371d44eaf02b1d41f2458e, type: 3}
@@ -74361,7 +74359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: A single row of Acanthus leaves, a must have for Corinthian columns.
   _sprites:
   - {fileID: 21300000, guid: cb06db23b18e9bf4487e79ad8eb7f7fd, type: 3}
@@ -75492,7 +75489,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: "German architect Gottfried Semper theorized about weaving\u2019s
     role at architecture\u2019s origin. His treatise \u201CDie Vier Elemente\u201D,
     explains such floors represent migration of patterns from textiles to stone."
@@ -76805,7 +76801,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Test
   _description: In classical architecture, the Corinthian order is the most ornate.
     This design is considered a simplified version, perfect for porches and domestic
     buildings.
@@ -78339,7 +78334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Test
   _description: "German architect Gottfried Semper theorized about weaving\u2019s
     role at architecture\u2019s origin. His treatise \u201CDie Vier Elemente\u201D,
     explains such floors represent migration of patterns from textiles to stone."
@@ -79047,7 +79041,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: 'This slab represents earlier development of architecture, while also
     representing Assyrian times. Emulating carpets, they were a precious good in Assyria. '
   _sprites:
@@ -79291,7 +79284,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: A standard Corinthian order has a square abacus with four concave
     sides curving outwardly. This column is the only Greek exception, using straight
     sides.
@@ -79398,7 +79390,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: Tap on the hotspots to learn about this cast.
   _sprites:
   - {fileID: 21300000, guid: ace174d0a32aa424a8d677b4fb1e2289, type: 3}
@@ -79746,7 +79737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Test
   _description: Made to emulate carpeting details, you can see that even the tassels
     are represented
   _sprites:
@@ -80492,7 +80482,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: Tap on the hotspots to learn about this cast.
   _sprites:
   - {fileID: 21300000, guid: b671960830dba5346b0769e29d4447ea, type: 3}
@@ -81249,7 +81238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: During 1300 AD - 1900 AD, a theory that Corinthian design came from
     a lost, ancient Egyptian style was prevalent. This example from the tower was
     considered the missing link connecting the two.
@@ -88445,7 +88433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Test
   _description: "In the tomb, the capitals were so far above the ground that it\u2019s
     ionic elements were exaggerated to be seen from below."
   _sprites:
@@ -88516,7 +88503,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: Tap on the hotspots to learn about this cast.
   _sprites:
   - {fileID: 21300000, guid: a62a524017f64c348bdf485780f642be, type: 3}
@@ -88619,7 +88605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: This Ionic column was one of 36 that bounded the building's 411 pft
     perimeter.
   _sprites:
@@ -88690,7 +88675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5f75225dd0174fb70a0a0e7171a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Hotspot 2
   _description: The design of this sima includes lion heads with palmette and honeysuckle
     ornaments in between.
   _sprites:
@@ -91294,7 +91278,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1497514187
 MonoBehaviour:
   m_ObjectHideFlags: 0

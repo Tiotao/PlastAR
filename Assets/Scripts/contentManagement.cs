@@ -31,7 +31,7 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("GuideView");
         InitializeScreen("BuildingView");
         InitializeScreen("NavigationView");
-        LoadData();
+        // LoadData();
 
 
 
