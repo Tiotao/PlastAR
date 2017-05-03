@@ -47,7 +47,6 @@ namespace Plastar
         private void AddBundle_Click(object sender, System.EventArgs e)
         {
             //AccessData();
-            //Response.Write("<script>alert('第四种方式，有白屏！')</script>");
             Response.Redirect("~/");
         }
 
@@ -119,7 +118,7 @@ namespace Plastar
 
             string snapshot = button.CommandArgument;
 
-            string con = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\TangoProject\\sample\\recognize\\backEnd\\Plastar\\Plastar\\App_Data\\PlastarDB.mdf;Integrated Security=True";
+            string con = "Data Source=128.2.238.5;Initial Catalog=plastar;User ID=plastar;Password=husiyuan";
             SqlConnection myCon = new SqlConnection(con);
             SqlCommand cmd = new SqlCommand("delete from dbo.AssetsBundle where Snapshot = @snapshot", myCon);
             cmd.Parameters.AddWithValue(@"snapshot", snapshot);
