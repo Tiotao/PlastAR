@@ -10,7 +10,7 @@ public class BuildingOnboardingController : MonoBehaviour {
 
 	public GameObject _renderToggle;
 
-	void Start () {
+	void OnEnable () {
 		_onboardingA.SetActive(true);
 		_onboardingB.SetActive(false);
 		_renderToggle.SetActive(false);

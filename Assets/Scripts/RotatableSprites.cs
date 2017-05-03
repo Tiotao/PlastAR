@@ -56,7 +56,11 @@ public class RotatableSprites : MonoBehaviour {
 
     public GameObject _UIController;
 
+    public GameObject _HotspotToggle;
+
     public bool _isInHotspot = false;
+
+    public Sprite[] _toggleHandleSprites;
 
     // Use this for initialization
     void Awake()
@@ -71,6 +75,10 @@ public class RotatableSprites : MonoBehaviour {
     void Start() {
         // _HotSpotSprites = transform.parent.FindChild("HotSpotSprites").gameObject;
         // _UIController = GameObject.FindGameObjectWithTag("UIController");
+        
+    }
+    void OnEnable() {
+        ResetToggle();
     }
     void Update() {
         if (Input.touchCount <= 0)
@@ -172,8 +180,8 @@ public class RotatableSprites : MonoBehaviour {
     void UpdateHotSpot() {
         for (int i=1; i < _hotspotsInfo.Length; i++) {
             Vector3 screenPos = _cam.WorldToScreenPoint(_hotspotsInfo[i].gameObject.transform.position);
-            screenPos.y = (screenPos.y) / 2 * 1.05f - 250 - 70;
-            screenPos.x = (screenPos.x) / 2 * 1.05f - 400;
+            screenPos.y = (screenPos.y) / 1200 * 400;
+            screenPos.x = (screenPos.x) / 1200 * 400 + 230;
             _HotSpotsSpritesTransform[i].GetComponent<RectTransform>().anchoredPosition = screenPos;
             // enable the hotspot of it is visiable
             _HotSpotsSpritesTransform[i].gameObject.SetActive(_hotspotsInfo[i].CheckVisibility(_cam));
@@ -186,6 +194,25 @@ public class RotatableSprites : MonoBehaviour {
         float rotation = factor * 20f;
         _currentCastModel.transform.rotation = Quaternion.Euler(0, rotation, 0);
     }
+
+    public void ToggleHotspotView() {
+        _HotSpotSprites.SetActive(!_HotSpotSprites.activeSelf);
+        Image toggleHanlde = _HotspotToggle.transform.FindChild("Handle Slide Area/Handle").GetComponent<Image>();
+        if (_HotSpotSprites.activeSelf) {
+            toggleHanlde.sprite = _toggleHandleSprites[0];
+        } else {
+            toggleHanlde.sprite = _toggleHandleSprites[1];
+        }
+
+    }
+
+    public void ResetToggle() {
+        Image toggleHanlde = _HotspotToggle.transform.FindChild("Handle Slide Area/Handle").GetComponent<Image>();
+        toggleHanlde.sprite = _toggleHandleSprites[0];
+        _HotspotToggle.GetComponentInChildren<Slider>().value = 0;
+    }
+
+    
 
     
 
@@ -201,14 +228,20 @@ public class RotatableSprites : MonoBehaviour {
 
             if (hotspotID == 0) {
 
-                if (_HotSpotSprites.activeSelf) {
+                Image toggleHanlde = _HotspotToggle.transform.FindChild("Handle Slide Area/Handle").GetComponent<Image>();
+
+                if (_HotSpotSprites.activeSelf && toggleHanlde.sprite == _toggleHandleSprites[0]) {
                     // Debug.Log(_HotSpotSprites.activeSelf);
-                    
+                    ResetToggle();
                     _UIController.GetComponent<MenuClick>().Exit();
                     
+                } else if (!_HotSpotSprites.activeSelf && toggleHanlde.sprite == _toggleHandleSprites[1]) {
+                    ResetToggle();
+                    _UIController.GetComponent<MenuClick>().Exit();
                 }
 
                 _HotSpotSprites.SetActive(true);
+                _HotspotToggle.SetActive(true);
 
                 // _HotSpotsPanel.SetActive(false);
                 _HotSpotDescription.text = "Tap on the hotspots to learn about this cast.";
@@ -241,6 +274,7 @@ public class RotatableSprites : MonoBehaviour {
                 // update text description
 
                 _HotSpotSprites.SetActive(false);
+                _HotspotToggle.SetActive(false);
                 
                 _HotSpotDescription.text = _hotspotsInfo[hotspotID]._description;
                 

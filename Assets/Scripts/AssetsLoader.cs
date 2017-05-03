@@ -19,68 +19,77 @@ public class AssetsLoader : MonoBehaviour {
 
     public int port = 6689;
 
+    public bool localContent = true;
+
+    public List<string> urls;
+
 	void Start() {
-        AccessData();
-		
+        // AccessData();
+        
+        if (localContent) {
+            markerManager.Init();
+        } else {
+            AccessData();
+            StartCoroutine(LoadAssets());
+            
+        }
 		// StartCoroutine(LoadAssets("markerb"));
 	}
 
 	// Use this for initialization
-	IEnumerator LoadAssets (string url) {
+	IEnumerator LoadAssets () {
 		// Debug.Log(bundleName);
 		// string url = "http://128.2.238.176:3000/assets/" + bundleName;
+        // url = "http://128.2.238.5:6689/AssetsBundle/AssetsBundle/marker.jpg";
         if(!connStarted) {
             connStarted = true;
         }
-		remainingConnection++;
-		Caching.CleanCache ();
+		
+        // urls.Clear();
+        // urls.Add("http://128.2.238.176:3000/assets/marker");
+		
 		// load asset bundle from remote
-		WWW www = WWW.LoadFromCacheOrDownload(url, 1);
-		yield return www;
-		if (www.error != null) {
-			var notificationParams = new NotificationParams
-                {
-                    Id = UnityEngine.Random.Range(0, int.MaxValue),
-                    Delay = TimeSpan.FromSeconds(5),
-                    Title = "Connection Failed",
-                    Message = "Message",
-                    Ticker = "Ticker",
-                    Sound = true,
-                    Vibrate = true,
-                    Light = true,
-                    SmallIcon = NotificationIcon.Heart,
-                    SmallIconColor = new Color(0, 0.5f, 0),
-                    LargeIcon = "app_icon"
-                };
+        foreach(string url in urls) {
+            Caching.CleanCache ();
+            remainingConnection++;
 
-            NotificationManager.SendCustom(notificationParams);
-			// markerManager.Init();
-		} else {
-			// load asset from bundle
-			AssetBundle bundle = www.assetBundle;
-			AssetBundleRequest request = bundle.LoadAssetAsync("Marker", typeof(GameObject));
-			yield return request;
-			// create cast model gameObject
-			GameObject MarkersPrefab = request.asset as GameObject;
-			GameObject Markers = Instantiate(MarkersPrefab) as GameObject;
-			Markers.transform.parent = markerManager.gameObject.transform.GetChild(0).transform;
-			// markerManager.Init();
-			// clear cache
-			bundle.Unload(false);
-			www.Dispose();
-		}
-		// Debug.Log(remainingConnection);
-        remainingConnection--;
-        if (remainingConnection == 0 && connStarted) {
-            markerManager.Init();
-            connStarted = false;
+            WWW www = WWW.LoadFromCacheOrDownload(url, 1);
+            yield return www;
+            if (www.error != null) {
+                
+                // markerManager.Init();
+            } else {
+                // load asset from bundle
+                AssetBundle bundle = www.assetBundle;
+                AssetBundleRequest request = bundle.LoadAssetAsync("Marker", typeof(GameObject));
+                yield return request;
+                // create cast model gameObject
+                GameObject MarkersPrefab = request.asset as GameObject;
+                GameObject Marker = Instantiate(MarkersPrefab) as GameObject;
+                Marker.transform.parent = markerManager.gameObject.transform.GetChild(0).transform;
+                Marker.transform.localPosition = Vector3.zero;
+                Marker.transform.localRotation = Quaternion.identity;
+                // markerManager.Init();
+                // clear cache
+                bundle.Unload(false);
+                www.Dispose();
+            }
+            // Debug.Log(remainingConnection);
+            remainingConnection--;
+            if (remainingConnection == 0 && connStarted) {
+                markerManager.Init();
+                connStarted = false;
+            }
+
         }
+        markerManager.Init();
 
 	}
 
 	private void AccessData()
         {
-
+            
+            Debug.Log("start access data");
             DataTable t = new System.Data.DataTable();
             string con = "Data Source=128.2.238.5;Initial Catalog=plastar;User ID=plastar;Password=husiyuan";
             try
@@ -96,8 +105,9 @@ public class AssetsLoader : MonoBehaviour {
                         Debug.Log(t.Rows.Count);
                         foreach (DataRow r in t.Rows)
                         {
-                            string url = "http://" + ipAddress + ":" + port.ToString() + "/" + (string) r["Path"];
-                            StartCoroutine(LoadAssets(url));
+                            
+                            string url = "http://" + ipAddress + ":" + port.ToString() + "" + (string) r["Path"];
+                            urls.Add(url);
                         }
 
                     }
@@ -110,6 +120,8 @@ public class AssetsLoader : MonoBehaviour {
             {
                 remainingConnection = 0;
                 connStarted = false;
+                Debug.Log(ex.Message);
+                // markerManager.Init();
             }
         }
 

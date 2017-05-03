@@ -51,32 +51,48 @@ public class MenuClick : MonoBehaviour
 
     GameObject SaveButton;
 
+    GameObject MenuButton;
+
+    GameObject ScanButton;
+
+    public Sprite[] renderingHandles;
+
+    public Sprite[] hotspotHandles;
+
+    
 
 
     public void Start() {
         DebugConsole = GameObject.Find("DebugConsole");
         DebugConsole.SetActive(false);
-        
         RefreshView();
-        
-        
+        ScanButton = FunctionView.transform.GetChild(1).gameObject;
+        MenuButton = FunctionView.transform.GetChild(2).gameObject;
+
         // toggle save button based on developer option
         
     }
 
     public void ToggleBuildingRendering() {
         // GlobalManagement.Building = currentBuilding;
-        RectTransform toggleTransform = BuildingRenderToggle.transform.GetChild(3).GetComponent<RectTransform>();
+        Image toggle = BuildingRenderToggle.transform.FindChild("Slider/Handle Slide Area/Handle").GetComponent<Image>();
+        Debug.Log(toggle);
+        
         if (GlobalManagement.Building != null) {
             bool isTransparentRenderMode = GlobalManagement.Building.GetComponent<manipulate>().ToggleRendering();
             Debug.Log(isTransparentRenderMode);
             if (isTransparentRenderMode) {
-                 toggleTransform.anchoredPosition = new Vector3(-56, -110, 0);
+                 toggle.sprite = renderingHandles[1];
             } else {
-                 toggleTransform.anchoredPosition = new Vector3(-56, -25, 0);
+                 toggle.sprite =  renderingHandles[0];
             }
             
         }
+    }
+
+    public void ScaleBuilding () {
+        Debug.Log(GlobalManagement.Building.GetComponent<manipulate>());
+        GlobalManagement.Building.GetComponent<manipulate>().UpdateScale();
     }
 
     void RefreshView(){
@@ -98,6 +114,7 @@ public class MenuClick : MonoBehaviour
         // sub buttons
         MapView = GlobalManagement.MapView;
         SaveButton = FunctionView.transform.GetChild(0).gameObject;
+        
 
     }
 
@@ -106,14 +123,26 @@ public class MenuClick : MonoBehaviour
         MapView.SetActive(!MapView.activeSelf);
     }
 
+    
+    public void ToggleMenuButton(bool isVisible) {
+        if (isVisible) {
+            MenuButton.SetActive(true);
+            ScanButton.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(-100, -15, 0);
+        } else {
+            MenuButton.SetActive(false);
+            ScanButton.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(-15, -15, 0);
+        }
+       
+    }
+
 
     
 
     public void ToBuiding()
     {
         // switch scene index
-        
-        
+        BuildingView.SetActive(false);
+
         RefreshView();
 
         // BuildingOnboarding.SetActive(true);
@@ -139,6 +168,7 @@ public class MenuClick : MonoBehaviour
         GuideView.SetActive(false);
         // BuildingOnboarding.SetActive(true);
         NavigationView.SetActive(false);
+        ToggleMenuButton(true);
 
     }
 
@@ -151,6 +181,8 @@ public class MenuClick : MonoBehaviour
         
         // disable active screen overlay
         CastView.SetActive(true);
+        Debug.Log(CastView);
+        Debug.Log(CastView.activeSelf);
         CastView.GetComponentInChildren<RotatableSprites>().InitializeContent(false);
         HomeView.SetActive(false);
         try {
@@ -172,6 +204,12 @@ public class MenuClick : MonoBehaviour
         GuideView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
         NavigationView.SetActive(false);
+        ToggleMenuButton(true);
+
+        Debug.Log(CastView);
+        Debug.Log(CastView.activeSelf);
+
+        CastView.SetActive(true);
 
     }
 
@@ -206,12 +244,15 @@ public class MenuClick : MonoBehaviour
         GuideView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
         NavigationView.SetActive(false);
+        ToggleMenuButton(true);
+        
 
     }
 
     public void ToScanning() {
         ToLanding(false, true);
         FunctionView.SetActive(false);
+        
     }
 
     public void ToLanding(bool maintainMenu = true, bool fromMenu = false){
@@ -264,6 +305,8 @@ public class MenuClick : MonoBehaviour
         }
 
         GuidingLine.SetActive(false);
+
+        ToggleMenuButton(false);
     }
     
     

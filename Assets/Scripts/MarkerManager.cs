@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MarkerManager : MonoBehaviour {
 
-	Marker[] _markers;
+	public Marker[] _markers;
 
 	int _currentMarkerID;
 
@@ -42,8 +42,14 @@ public class MarkerManager : MonoBehaviour {
 	}
 
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.K)) {
+		if (Input.GetKeyDown(KeyCode.Alpha1)) {
 			Refresh(0);
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha2)) {
+			Refresh(1);
+		}
+		if (Input.GetKeyDown(KeyCode.Alpha3)) {
+			Refresh(2);
 		}
 	}
 
@@ -62,6 +68,8 @@ public class MarkerManager : MonoBehaviour {
 		SetCurrentMarker(-1);
 		Refresh(0);
 		SetCurrentMarker(-1);
+
+		
 		
 		// TEMP: replace building model  
 		// GlobalManagement.Building = GetBuildingModel();
@@ -182,7 +190,7 @@ public class MarkerManager : MonoBehaviour {
 		}
 
 		try {
-			Destroy(GlobalManagement.StoryView.transform.GetChild(5).gameObject);
+			Destroy(GlobalManagement.StoryView.transform.GetChild(4).gameObject);
 		} catch {
 
 		}

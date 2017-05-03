@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class manipulate : MonoBehaviour {
@@ -16,8 +17,12 @@ public class manipulate : MonoBehaviour {
 
     public bool isTransparent = false;
 
+    public GameObject scaleSlider;
+
+
 	// Use this for initialization
 	void Start () {
+        
         hotspots = GetComponentsInChildren<ParticleSystem>();
         foreach (ParticleSystem p in hotspots) {
             ParticleSystem.EmissionModule em = p.GetComponentInChildren<ParticleSystem>().emission;
@@ -30,7 +35,7 @@ public class manipulate : MonoBehaviour {
 
     void Update()
     {
-
+        
         if(Input.GetKeyDown(KeyCode.R)) {
             ToggleRendering();
         }
@@ -70,13 +75,30 @@ public class manipulate : MonoBehaviour {
                                     localScale.z + scaleFactor);
 
         //if (scale.x > 0.3f && scale.y > 0.3f && scale.z > 0.3f)
-        if (scale.x > 0f && scale.y > 0f && scale.z > 0f)
+        if (scale.x > 1f && scale.y > 1f && scale.z > 1f && scale.x < 4f && scale.y < 4f && scale.z < 4f)
         {
             transform.localScale = scale;
+            // update slider
+            scaleSlider.GetComponent<Slider>().value = scale.x;
         }
 
         oldTouch1 = newTouch1;
         oldTouch2 = newTouch2;
+    }
+
+    public void UpdateScale() {
+        
+        float scaleVal = scaleSlider.GetComponent<Slider>().value;
+        Debug.Log("update scale to: " + scaleVal.ToString());
+        Vector3 scale = new Vector3(scaleVal,
+                                    scaleVal,
+                                    scaleVal);
+
+        //if (scale.x > 0.3f && scale.y > 0.3f && scale.z > 0.3f)
+        if (scaleVal > 0f)
+        {
+            transform.localScale = scale;
+        }
     }
 
     public bool ToggleRendering() {

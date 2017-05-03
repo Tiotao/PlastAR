@@ -36,8 +36,12 @@ public class PostcardController : MonoBehaviour {
 	float _ZOOM_TIME = 1f;
 	float _ROTATE_TIME = 0.5f;
 
+	GameObject _CastName;
+
+	string _originalName;
+
 	
-	
+	List<PostcardController> _siblingCards = new List<PostcardController>(); 
 
 	// Use this for initialization
 	void Start () {
@@ -47,6 +51,7 @@ public class PostcardController : MonoBehaviour {
 		_Hotspots = _Back.transform.FindChild("Hotspots").gameObject;
 		_Divider = _Front.transform.FindChild("HotspotDescription/Divider").gameObject;
 		_DefocusButton = GlobalManagement.StoryView.transform.FindChild("DefocusButton").gameObject;
+		_CastName = GlobalManagement.StoryView.transform.FindChild("CastName").gameObject;
 		_FocusButton = _Back.transform.FindChild("FocusButton").gameObject;
 		_RotateBackButton = _Front.transform.FindChild("BackToFrontButton").gameObject;
 		_initialLocation = transform.localPosition;
@@ -58,6 +63,15 @@ public class PostcardController : MonoBehaviour {
 		_Front.SetActive(false);
 		_DefocusButton.SetActive(false);
 		_RotateBackButton.SetActive(false);
+		foreach (Transform child in transform.parent) 
+		{
+			if (child.GetInstanceID() != transform.GetInstanceID())
+			{
+				_siblingCards.Add(child.GetComponent<PostcardController>());
+				// work with child here
+			}
+		}
+		_originalName = _CastName.GetComponent<Text>().text;
 		// ToggleFocus();
 	}
 	
@@ -83,6 +97,11 @@ public class PostcardController : MonoBehaviour {
 			PostcardController.currentPostcard = gameObject.transform.parent.childCount - 1;
 			_isFocused = true;
 			StartCoroutine(Focus());
+			foreach (PostcardController sibling in _siblingCards) {
+				sibling.FadeOut(sibling.gameObject, _ZOOM_TIME);
+			}
+			
+			_CastName.GetComponent<Text>().text = _originalName + " (" + _Year.GetComponentInChildren<Text>().text + ")";
 			
 		}
 		
@@ -92,34 +111,34 @@ public class PostcardController : MonoBehaviour {
 		Debug.Log("defocusing");
 		try {
 			PostcardController[] postcards = GlobalManagement.StoryView.GetComponentsInChildren<PostcardController>();
+			
 			Debug.Log(postcards.Length);
 			Debug.Log(currentPostcard);
 			postcards[currentPostcard].DefocusThisCard();
 			// Debug.Log(currentPostcard);
 			PostcardController.currentPostcard = -1;
+			foreach (PostcardController sibling in _siblingCards) {
+				sibling.FadeIn(sibling.gameObject, _ZOOM_TIME);
+			}
+			_CastName.GetComponent<Text>().text = _originalName;
 		} catch {
 			Debug.Log("[POSTCARD] invalid id");
+			
 		}
 		
 	}
 
-	// public static void FocusCard(){
-	// 	try {
-	// 		PostcardController[] postcards = GlobalManagement.StoryView.GetComponentsInChildren<PostcardController>();
-	// 		postcards[currentPostcard].FocusThisCard();
-	// 	} catch {
-	// 		Debug.Log("[POSTCARD] invalid id");
-	// 	}
-	// }
 
 	public void DefocusThisCard() {
 		
 		if (_isFocused) {
 			_isFocused = false;
 			StartCoroutine(Defocus());
-			
+			_DefocusButton.GetComponent<Button>().onClick.RemoveAllListeners();
 		}
 	}
+	
+
 	
 
 	public void ToggleSides(int hotspotIndex) {
@@ -211,6 +230,10 @@ public class PostcardController : MonoBehaviour {
 		gameObject.transform.SetAsLastSibling();
 		_Hotspots.SetActive(true);
 		_DefocusButton.SetActive(true);
+		
+		_DefocusButton.GetComponent<Button>().onClick.AddListener(() =>{
+			DefocusCard();
+		});
 		FadeOut(_Year, _ZOOM_TIME);
 		FadeIn(_Hotspots, _ZOOM_TIME);
 		FadeIn(_DefocusButton, _ZOOM_TIME);

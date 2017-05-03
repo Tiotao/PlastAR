@@ -964,6 +964,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         newMarkObject = Instantiate(ObjectToInstant, planeCenter, Quaternion.identity) as GameObject;
         
         _SetUpARScript(newMarkObject);
+
+        newMarkObject.GetComponent<manipulate>().scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
         
         newMarkObject.GetComponent<manipulate>().enabled = true;
 
