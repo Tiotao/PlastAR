@@ -24,7 +24,6 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("MessageBox");
         InitializeScreen("EmailBox");
         InitializeScreen("StoryView");
-        InitializeScreen("GuidingLine");
         InitializeScreen("BuildingAppearFX");
         InitializeScreen("OnBoardingView");
         InitializeScreen("MapView");

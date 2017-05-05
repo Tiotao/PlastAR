@@ -27,8 +27,6 @@ public class MenuClick : MonoBehaviour
 
     public GameObject MessageBox;
 
-    public GameObject GuidingLine;
-
     public GameObject MapView;
 
     public GameObject GuideView;
@@ -42,6 +40,8 @@ public class MenuClick : MonoBehaviour
     public GameObject BuildingRenderToggle;
 
     public GameObject NavigationView;
+
+
 
     // public GameObject currentBuilding;
 
@@ -59,7 +59,11 @@ public class MenuClick : MonoBehaviour
 
     public Sprite[] hotspotHandles;
 
-    
+    bool isScrollingLeft;
+
+    bool isScrollingRight;
+
+    Transform navContent;
 
 
     public void Start() {
@@ -68,6 +72,9 @@ public class MenuClick : MonoBehaviour
         RefreshView();
         ScanButton = FunctionView.transform.GetChild(1).gameObject;
         MenuButton = FunctionView.transform.GetChild(2).gameObject;
+
+        navContent = NavigationView.transform.FindChild("Scroll View/Viewport/Content");
+        
 
         // toggle save button based on developer option
         
@@ -103,7 +110,6 @@ public class MenuClick : MonoBehaviour
         FunctionView = GlobalManagement.FunctionView;
         Building = GlobalManagement.Building;
         StoryView = GlobalManagement.StoryView;
-        GuidingLine = GlobalManagement.GuidingLine;
         OnBoardingView = GlobalManagement.OnBoardingView;
         GuideView = GlobalManagement.GuideView;
         NavigationView = GlobalManagement.NavigationView;
@@ -200,7 +206,7 @@ public class MenuClick : MonoBehaviour
             Debug.Log("No Building Present");
         }
 
-        GuidingLine.SetActive(false);
+
         GuideView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
         NavigationView.SetActive(false);
@@ -240,7 +246,7 @@ public class MenuClick : MonoBehaviour
             Debug.Log("No Building Present");
         }
 
-        GuidingLine.SetActive(false);
+
         GuideView.SetActive(false);
         GlobalManagement.ShootButton.SetActive(false);
         NavigationView.SetActive(false);
@@ -304,8 +310,6 @@ public class MenuClick : MonoBehaviour
             Debug.Log("No Building Present");
         }
 
-        GuidingLine.SetActive(false);
-
         ToggleMenuButton(false);
     }
     
@@ -342,6 +346,51 @@ public class MenuClick : MonoBehaviour
         DebugConsole.SetActive(GlobalManagement.developerMode);
         SaveButton.SetActive(GlobalManagement.developerMode);
     }
+
+    public void NavScrollLeft() {
+        isScrollingLeft = true;
+        isScrollingRight = false;
+    }
+
+    public void NavScrollRight() {
+        isScrollingLeft = false;
+        isScrollingRight = true;
+    }
+
+    public void NavScrollEnd() {
+        isScrollingLeft = false;
+        isScrollingRight = false;
+    }
+
+    public void OnNavScrollChange() {
+        Button leftButton = NavigationView.transform.FindChild("Scroller/Left").GetComponent<Button>();
+        Button rightButton = NavigationView.transform.FindChild("Scroller/Right").GetComponent<Button>();
+        RectTransform content = NavigationView.transform.FindChild("Scroll View/Viewport/Content").GetComponent<RectTransform>();
+        if (content.anchoredPosition.x < 600f - content.sizeDelta.x) {
+            leftButton.interactable = false;
+            rightButton.interactable = true;
+        } else if (content.anchoredPosition.x > 0) {
+            leftButton.interactable = true;
+            rightButton.interactable = false;
+        } else {
+            leftButton.interactable = true;
+            rightButton.interactable = true;
+        }
+    }
+
+    void Update(){
+        if (isScrollingLeft) {
+            Vector2 originalPos = navContent.GetComponent<RectTransform>().anchoredPosition;
+            navContent.GetComponent<RectTransform>().anchoredPosition = new Vector2(originalPos.x - 200 * Time.deltaTime, originalPos.y);
+        }
+
+        if (isScrollingRight) {
+            Vector2 originalPos = navContent.GetComponent<RectTransform>().anchoredPosition;
+            navContent.GetComponent<RectTransform>().anchoredPosition = new Vector2(originalPos.x + 200 * Time.deltaTime, originalPos.y);
+
+        }
+    }
+
 
     // public void ReadBuildingOnboarding() {
     //     // BuildingOnboarding.SetActive(false);

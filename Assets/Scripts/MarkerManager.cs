@@ -25,6 +25,8 @@ public class MarkerManager : MonoBehaviour {
 
 	GameObject _mapView;
 
+	GameObject _navigatioinView;
+
 
 	public GameObject _HotspotSpritePrefab;
 	public GameObject _FragmentPrefab;
@@ -32,6 +34,9 @@ public class MarkerManager : MonoBehaviour {
 	public GameObject _PostcardPrefab;
 	public GameObject _PostcardHotspotPrefab;
 
+	public GameObject _MarkerNavPrefab;
+
+	public GameObject _MarkerNavPlaceholderPrefab;
 
 
 	// Use this for initialization
@@ -61,8 +66,9 @@ public class MarkerManager : MonoBehaviour {
 		_homeView = GlobalManagement.HomeView;
 		_mapView = GlobalManagement.MapView;
 		_buildingView = GlobalManagement.BuildingView;
-		updateMarkerIcon();
-
+		_navigatioinView = GlobalManagement.NavigationView;
+		UpdateMarkerIcon();
+		UpdateMarkerNavList();
 		
 
 		SetCurrentMarker(-1);
@@ -75,7 +81,49 @@ public class MarkerManager : MonoBehaviour {
 		// GlobalManagement.Building = GetBuildingModel();
 	}
 
-	public void updateMarkerIcon() {
+	public void UpdateMarkerNavList(){
+		int maxIcon = 8;
+		point Navigator = GameObject.FindGameObjectWithTag("Navigator").GetComponent<point>();
+		int markerCount = _markers.Length;
+		GameObject navList = _navigatioinView.transform.FindChild("Scroll View/Viewport/Content").gameObject;
+		int navListWidth = 100 * markerCount;
+		if (markerCount < maxIcon) {
+			navListWidth = maxIcon * 100;
+		}
+		
+		navList.GetComponent<RectTransform>().sizeDelta = new Vector2(navListWidth, 200);
+		// clear nav list
+		foreach (Transform child in navList.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+		for (int i = 0; i < markerCount; i++ ){
+			Marker m = _markers[i];
+			GameObject NavIcon = Instantiate(_MarkerNavPrefab) as GameObject;
+			NavIcon.transform.parent = navList.transform;
+			NavIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(5+i*100, 0);
+			NavIcon.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			NavIcon.transform.FindChild("Background").GetComponent<Image>().sprite = m._icon;
+			NavIcon.transform.FindChild("Text").GetComponent<Text>().text = m._castName;
+			int markerIndex = i;
+			NavIcon.GetComponent<Button>().onClick.AddListener(
+				()=>{
+					Navigator.SetCurrentNavigation(markerIndex);
+				}
+			);
+			
+		}
+
+		if (_markers.Length < maxIcon) {
+			for (int i = markerCount; i < maxIcon; i++) {
+				GameObject NavIcon = Instantiate(_MarkerNavPlaceholderPrefab) as GameObject;
+				NavIcon.transform.parent = navList.transform;
+				NavIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(5+i*100, 0);
+				NavIcon.GetComponent<RectTransform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			}
+		}
+	}
+
+	public void UpdateMarkerIcon() {
 		List<Sprite> icons = new List<Sprite>();
 		foreach (Marker m in _markers) {
 			icons.Add(m._icon);

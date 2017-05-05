@@ -965,9 +965,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         
         _SetUpARScript(newMarkObject);
 
-        newMarkObject.GetComponent<manipulate>().scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
+        if (newMarkObject.GetComponent<manipulate>()) {
+            newMarkObject.GetComponent<manipulate>().enabled = true;
+            newMarkObject.GetComponent<manipulate>().scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
+        } else {
+             manipulate buildingCtrl = newMarkObject.AddComponent<manipulate>();
+             buildingCtrl.scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
+        }
+
+
         
-        newMarkObject.GetComponent<manipulate>().enabled = true;
 
         if (buildingOnBoardingA.activeSelf) {
             buildingOnBoardingA.SetActive(false);
