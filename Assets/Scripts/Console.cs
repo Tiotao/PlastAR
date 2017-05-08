@@ -127,7 +127,7 @@ public class Console : MonoBehaviour
 	/// <param name="type">Type of message (error, exception, warning, assert).</param>
 	void HandleLog (string message, string stackTrace, LogType type)
 	{
-		if (type == LogType.Log || type == LogType.Error) {
+		if (type == LogType.Log || type == LogType.Exception || type == LogType.Error) {
 			logs.Add(new Log() {
 				message = message,
 				stackTrace = stackTrace,

@@ -72,7 +72,6 @@ public class MenuClick : MonoBehaviour
         RefreshView();
         ScanButton = FunctionView.transform.GetChild(1).gameObject;
         MenuButton = FunctionView.transform.GetChild(2).gameObject;
-
         navContent = NavigationView.transform.FindChild("Scroll View/Viewport/Content");
         
 
@@ -150,6 +149,11 @@ public class MenuClick : MonoBehaviour
         BuildingView.SetActive(false);
 
         RefreshView();
+
+        if (!Building && GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building) {
+            ToLanding();
+            return;
+        }
 
         // BuildingOnboarding.SetActive(true);
         // BuildingRenderToggle.SetActive(false);

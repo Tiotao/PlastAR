@@ -238,7 +238,7 @@ public class point : MonoBehaviour {
                 iconToUpdate = defaultIcon;
             }
 
-            GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[selectedMarkerId].gameObject.GetComponent<Image>().sprite = iconToUpdate;
+             GlobalManagement.NavigationView.transform.FindChild("Scroll View").GetComponentsInChildren<Button>()[selectedMarkerId].gameObject.GetComponent<Image>().sprite = iconToUpdate;
 
             
         } else {
@@ -246,9 +246,9 @@ public class point : MonoBehaviour {
                 Debug.Log("Marker " + i);
                 if (i == id) {
                     markers[i].GetComponentInChildren<MeshRenderer>().enabled = true;
-                    GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = currentIcon;
+                     GlobalManagement.NavigationView.transform.FindChild("Scroll View").GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = currentIcon;
                     Debug.Log("Marker " + i + " set to current");
-                    // GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = currentIcon;
+                    //  GlobalManagement.NavigationView.transform.FindChild("Scroll View").GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = currentIcon;
                 } else {
                     Sprite iconToUpdate;
                     if (markers[i].GetComponent<recognize>().isVisited) {
@@ -256,7 +256,7 @@ public class point : MonoBehaviour {
                     } else {
                         iconToUpdate = defaultIcon;
                     }
-                    GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = iconToUpdate;
+                     GlobalManagement.NavigationView.transform.FindChild("Scroll View").GetComponentsInChildren<Button>()[i].gameObject.GetComponent<Image>().sprite = iconToUpdate;
                     markers[i].GetComponentInChildren<MeshRenderer>().enabled = false;
                     Debug.Log("Marker " + i + " set to visited/default");
                 }
@@ -269,7 +269,7 @@ public class point : MonoBehaviour {
     }
 
     public void SetVisitedIcon(int id) {
-        GlobalManagement.NavigationView.GetComponentsInChildren<Button>()[id].gameObject.GetComponent<Image>().sprite = visitedIcon;
+         GlobalManagement.NavigationView.transform.FindChild("Scroll View").GetComponentsInChildren<Button>()[id].gameObject.GetComponent<Image>().sprite = visitedIcon;
         GlobalManagement.Markers[id].GetComponent<recognize>().isVisited = true;
         // selectedMarkerId = -1;
     }

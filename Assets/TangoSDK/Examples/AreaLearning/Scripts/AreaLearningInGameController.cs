@@ -78,11 +78,12 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private GameObject buildingAppearFx;
 
-    private GameObject buildingOnBoardingA;
+    private GameObject buildingOnBoardingA, buildingOnBoardingC;
     private GameObject buildingOnBoardingB;
 
     private GameObject buildingRenderToggle;
     
+    public GameObject groundPrefab;
 
 #if UNITY_EDITOR
     /// <summary>
@@ -194,6 +195,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         buildingOnBoardingA = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._onboardingA;
         buildingOnBoardingB = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._onboardingB;
+        buildingOnBoardingC = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._onboardingC;
         buildingRenderToggle = GlobalManagement.BuildingView.GetComponent<BuildingOnboardingController>()._renderToggle;
     }
 
@@ -334,6 +336,9 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 {
                     return;
                 }
+
+                
+
                 if (m_selectedRect.Contains(guiPosition))
                 {
                 // do nothing, the button will handle it
@@ -353,8 +358,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         // add into global management
                         GlobalManagement.Building = newMarkObject;
                         // destroy guide lines and transparent symbol
-                        GlobalManagement.GuidingLine.SetActive(false);
-                        Debug.Log("Guiding Line Status: " + GlobalManagement.GuidingLine.activeSelf);
+                        // GlobalManagement.GuidingLine.SetActive(false);
+                        // Debug.Log("Guiding Line Status: " + GlobalManagement.GuidingLine.activeSelf);
                         StartCoroutine(_BuildingAppearEffect(buildingSymbol));
 
                     }
@@ -379,8 +384,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     if (_appearMode == (int) Configs.AppearMode.Grow) {
 
                         // prevent from ground elements getting transparent
+                        if (buildingSymbol.transform.FindChild("Ground") == null) {
+                            _buildingGround = Instantiate(groundPrefab);
+                            _buildingGround.name = "Ground";
+                            _buildingGround.transform.parent = buildingSymbol.transform;
+                        }
+
                         _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
                         _buildingGround.SetActive(false);
+
+
                         SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, disallowPlaceMat);
                         
                         if (!buildingOnBoardingA.activeSelf) {
@@ -391,9 +404,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                             buildingOnBoardingB.SetActive(false);
                             
                         }
-
-                        
-                        
                         
 
                     }
@@ -476,7 +486,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         MarkerManager.GetComponent<MarkerManager>().Refresh(m.GetComponent<ARMarker>().GetID());
                         GlobalManagement.HomeView.SetActive(true);
                         GlobalManagement.FunctionView.SetActive(true);
-                        GlobalManagement.GuideView.SetActive(false);
                         GlobalManagement.NavigationView.SetActive(false);
 
                     } else {
@@ -944,6 +953,10 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     }
 
     private void _SetUpARScript(GameObject obj) {
+        if (!obj.GetComponent<ARMarker>()) {
+            obj.AddComponent<ARMarker>();
+        }
+
         ARMarker markerScript = obj.GetComponent<ARMarker>();
 
         markerScript.m_type = m_currentMarkType;
@@ -961,19 +974,30 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private void _InstantiateBuilding (GameObject ObjectToInstant, Vector3 planeCenter) {
 
+        
+
         newMarkObject = Instantiate(ObjectToInstant, planeCenter, Quaternion.identity) as GameObject;
+
+        
         
         _SetUpARScript(newMarkObject);
+
+        if (newMarkObject.transform.FindChild("Ground") == null) {
+            _buildingGround = Instantiate(groundPrefab);
+            _buildingGround.name = "Ground";
+            _buildingGround.transform.parent = newMarkObject.transform;
+        }
 
         if (newMarkObject.GetComponent<manipulate>()) {
             newMarkObject.GetComponent<manipulate>().enabled = true;
             newMarkObject.GetComponent<manipulate>().scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
         } else {
              manipulate buildingCtrl = newMarkObject.AddComponent<manipulate>();
+             Debug.Log(buildingCtrl.highlightMat);
              buildingCtrl.scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
         }
 
-
+        
         
 
         if (buildingOnBoardingA.activeSelf) {
@@ -986,6 +1010,11 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
         if (!buildingRenderToggle.activeSelf) {
             buildingRenderToggle.SetActive(true);
+        }
+
+        if (!buildingOnBoardingC.activeSelf) {
+            buildingOnBoardingC.SetActive(true);
+            
         }
 
         Debug.Log("building instantiated");
@@ -1045,7 +1074,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             // Find the plane.
             Plane plane;
             bool hasPlane = m_pointCloud.FindPlane(cam, new Vector2(cam.pixelWidth/2, cam.pixelHeight/2), out planeCenter, out plane);
-            GameObject GuidingLine = GlobalManagement.GuidingLine;
+            // GameObject GuidingLine = GlobalManagement.GuidingLine;
 
 
             if (GlobalManagement.SceneIndex == (int) Configs.SceneIndex.Building && !_isPlacingBuilding) {

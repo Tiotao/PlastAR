@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ceead371c308d4f4eb5e7f402e0e8342
-timeCreated: 1493856024
+timeCreated: 1494082718
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2
@@ -8,6 +8,8 @@ MonoImporter:
   - overrideMat: {fileID: 2100000, guid: 5938ad8eb160883419389f9b50b16d0b, type: 2}
   - highlightMat: {fileID: 2100000, guid: aa2020180ca62a14d97c9e2741305c45, type: 2}
   - scaleSlider: {instanceID: 0}
+  - groundPrefab: {fileID: 1933138232527992, guid: f4344da4adab5bb4188acd316bae7833,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

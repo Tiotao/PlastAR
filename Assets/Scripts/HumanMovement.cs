@@ -7,26 +7,27 @@ using System.Collections.Generic;
 	SkinnedMeshRenderer[] _rends;
 	
 	public GameObject _waypointGroup;
-	List<Transform> _waypoints;
+	public List<Vector3> _waypoints;
 
 	public float _randomFactor;
 
 	
 
-	void Start() {
-		_waypoints = new List<Transform>();
+	void OnEnable() {
+		_waypoints = new List<Vector3>();
 
 		foreach (Transform w in _waypointGroup.transform) {
-			_waypoints.Add(w);
+			_waypoints.Add(w.position);
 		}
 		_rends = GetComponentsInChildren<SkinnedMeshRenderer>();
 		// Debug.Log(_rends.Length);
-		// StartAnimation();
+		//StartAnimation();
 	}
 
 	void Update() {
 		
 	}
+
 
 	Vector3 Randomize(Vector3 pos) {
 		pos = new Vector3(
@@ -38,17 +39,21 @@ using System.Collections.Generic;
 
 	public void StartWalking() {
 		List<Vector3> route = new List<Vector3>();
-		foreach (Transform t in _waypoints) {
-			route.Add(Randomize(t.position));
+		foreach (Vector3 t in _waypoints) {
+			route.Add(Randomize(t));
 		}
 		iTween.MoveTo(gameObject, iTween.Hash(
 			"path", route.ToArray(),
 			"orienttopath", true,
 			"movetopath", false,
+			"islocal", false,
 			"speed", Random.Range(0.04f, 0.045f),
 			"oncomplete", "ResetPosition",
 			"oncompletetarget", gameObject,
-			"easetype", iTween.EaseType.linear
+			"onupdate", "UpdatePercentage",
+
+			"easetype", iTween.EaseType.linear,
+			"axis", "y"
 		));
 	}
 

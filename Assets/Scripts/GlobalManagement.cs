@@ -20,7 +20,7 @@ public class GlobalManagement
 
     public static GameObject StoryView;
 
-    public static GameObject GuidingLine;
+    // public static GameObject GuidingLine;
 
     public static GameObject BuildingAppearFX;
 

@@ -62,6 +62,8 @@ public class RotatableSprites : MonoBehaviour {
 
     public Sprite[] _toggleHandleSprites;
 
+    public int _onboardingPhase = 0;
+
     // Use this for initialization
     void Awake()
     {
@@ -93,7 +95,11 @@ public class RotatableSprites : MonoBehaviour {
             int frameChange =  (_currentFrame + (int) (-deltaPos.x / 2)  + _frameAmount ) % _frameAmount;
             SetFrame(frameChange);
             if (_onboarding.activeSelf && !_isOnboardingFading) {
-                StartCoroutine(DisableOnboarding());
+                if (_onboarding.transform.GetChild(0).gameObject.activeSelf) {
+                    StartCoroutine(DisableOnboardingA());
+                } else {
+                    StartCoroutine(DisableOnboardingB());
+                }
             }            
             //transform.Rotate(Vector3.right * deltaPos.y, Space.World);
         }
@@ -115,12 +121,37 @@ public class RotatableSprites : MonoBehaviour {
 		})));
     }
 
-    IEnumerator DisableOnboarding() {
+    public void FadeIn(GameObject target, float time) {
+        iTween.ValueTo(gameObject, iTween.Hash("from", 0.0f, "to", 1.0f, "time", time, "easetype", "linear","onupdate", (Action<object>) (newAlpha => {
+			Image[] images = target.GetComponentsInChildren<Image>();
+         	foreach (Image mObj in images) {
+					mObj.color = new Color(
+					mObj.color.r, mObj.color.g, 
+					mObj.color.b, (float) newAlpha);
+			}
+		})));
+    }
+
+    IEnumerator DisableOnboardingA() {
         _isOnboardingFading = true;
-        FadeOut(_onboarding, 0.5f);
+        FadeOut(_onboarding.transform.GetChild(0).gameObject, 0.5f);
+        FadeIn(_onboarding.transform.GetChild(1).gameObject, 0.5f);
         yield return new WaitForSeconds(0.5f);
+        _onboarding.transform.GetChild(0).gameObject.SetActive(false);
+        _onboarding.transform.GetChild(1).gameObject.SetActive(true);
+        _isOnboardingFading = false;
+        // _onboarding.SetActive(false);
+    }
+
+    IEnumerator DisableOnboardingB() {
+        _isOnboardingFading = true;
+        FadeOut(_onboarding.transform.GetChild(1).gameObject, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        _onboarding.transform.GetChild(1).gameObject.SetActive(false);
+        _isOnboardingFading = false;
         _onboarding.SetActive(false);
     }
+
 
     public void InitializeContent(bool isRemote) {
         string objectName;
@@ -220,7 +251,7 @@ public class RotatableSprites : MonoBehaviour {
     public void ToggleHotSpotInfo(int hotspotID){
         Debug.Log("toggled");
         if (!_isOnboardingFading && _onboarding.activeSelf && hotspotID > 0) {
-            StartCoroutine(DisableOnboarding());
+            _onboarding.SetActive(false);
         }
         
         if (hotspotID < _hotspotsInfo.Length && hotspotID >= 0) {

@@ -11,13 +11,14 @@ public class BirdRandomMovement : MonoBehaviour {
     public float _moveTimeLowRange = 0.5f;
     public float _moveTimeHighRange = 1f;
 
-	public List<Transform> _waypoints;
+	public List<Vector3> _waypoints;
 
 	public GameObject _routes;
 
 
     // Use this for initialization
     void Start () {
+        // StartAnimation();
     }
 	
 	public void StartAnimation() {
@@ -38,23 +39,30 @@ public class BirdRandomMovement : MonoBehaviour {
         // {
         //     _moveRange = _moveRangeMax;
         // }
-
+        
 	}
 
 	void GlobalMovement() {
+        _waypoints.Clear();
 		foreach (Transform waypoint in _routes.transform) {
-			_waypoints.Add(waypoint);
+			_waypoints.Add(waypoint.localPosition);
+            // Debug.Log(waypoint.localPosition);
 		}
+
+        
+        
 		float time = Random.Range(15f, 20f);
 		iTween.MoveTo(transform.parent.gameObject, iTween.Hash(
-				"path", _waypoints.ToArray(),
-				"orienttopath", true,
-				// "movetopath", true,
-				"time", time,
-				"oncomplete", "GlobalMovement",
-				"oncompletetarget", gameObject,
-				"easetype", iTween.EaseType.linear
-			));
+            "path", _waypoints.ToArray(),
+            "orienttopath", true,
+            "islocal", true,
+            "movetopath", false,
+            "time", time,
+            "oncomplete", "GlobalMovement",
+            "oncompletetarget", gameObject,
+            "easetype", iTween.EaseType.linear,
+            "axis", "y"
+        ));
 	}
 
     void moveCompleted()
