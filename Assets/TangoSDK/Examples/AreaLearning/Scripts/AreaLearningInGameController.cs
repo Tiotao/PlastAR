@@ -279,10 +279,13 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         _isPlacingBuilding = false;
         Debug.Log("End placing buildings");
 
+        if (!buildingOnBoardingC.activeSelf) {
+            buildingOnBoardingC.SetActive(true);
+            
+        }
 
     }
 
-    
 
     public void Update()
     {
@@ -1012,10 +1015,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             buildingRenderToggle.SetActive(true);
         }
 
-        if (!buildingOnBoardingC.activeSelf) {
-            buildingOnBoardingC.SetActive(true);
-            
-        }
 
         Debug.Log("building instantiated");
 

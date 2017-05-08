@@ -21078,6 +21078,92 @@ Prefab:
       propertyPath: _cam
       value: 
       objectReference: {fileID: 3630}
+    - target: {fileID: 23140826593961858, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212556217889008790, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212563500205158892, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212739853728770278, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212569053272412836, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114152677953957090, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: _description
+      value: A single row of Palm leaves.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114368955966768014, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: _description
+      value: A single row of Acanthus leaves, a must have for Corinthian columns.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114530981490499806, guid: 9d8df48c315442a40974f162b5d29a14,
+        type: 2}
+      propertyPath: _description
+      value: A standard Corinthian order has a square abacus with four concave sides
+        curving outwardly. This column is the only Greek exception, using straight
+        sides.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573072330675182, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.651
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573072330675182, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.849
+      objectReference: {fileID: 0}
+    - target: {fileID: 4573072330675182, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.915
+      objectReference: {fileID: 0}
+    - target: {fileID: 4333221414763082, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 4333221414763082, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.243
+      objectReference: {fileID: 0}
+    - target: {fileID: 4333221414763082, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.682
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290829534225304, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290829534225304, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.019
+      objectReference: {fileID: 0}
+    - target: {fileID: 4290829534225304, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.731
+      objectReference: {fileID: 0}
+    - target: {fileID: 4263217696802730, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808976311615344, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9d8df48c315442a40974f162b5d29a14, type: 2}
   m_IsPrefabParent: 0
