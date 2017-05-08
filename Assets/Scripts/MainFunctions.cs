@@ -130,12 +130,14 @@ public class MainFunctions : MonoBehaviour {
     // Send email
     public void SendEmail(string emailAddress)
     {
+        var template = Resources.Load("template") as TextAsset;
+        string text = template.text;
         System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(@Application.persistentDataPath + "/Screenshot.png");
-        var thread = new System.Threading.Thread(() => SendEmailWithSubThread(emailAddress, attachment));
+        var thread = new System.Threading.Thread(() => SendEmailWithSubThread(emailAddress, attachment, text));
         thread.Start();
     }
 
-    public void SendEmailWithSubThread(string emailAddress, System.Net.Mail.Attachment attachment)
+    public void SendEmailWithSubThread(string emailAddress, System.Net.Mail.Attachment attachment, string template)
     {
         // Debug.Log("has email address");
 
@@ -153,8 +155,8 @@ public class MainFunctions : MonoBehaviour {
             mail.From = new MailAddress("etcplastar@gmail.com");
             mail.To.Add(emailAddress);
             mail.Subject = "Plastar Photo";
-            mail.Body = "This is a gift from Plastar";
-            //System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment(@Application.persistentDataPath + "/Screenshot.png");
+            mail.Body = template;
+            mail.IsBodyHtml = true;
             mail.Attachments.Add(attachment);
 
             SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
