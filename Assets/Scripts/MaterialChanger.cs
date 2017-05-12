@@ -21,15 +21,23 @@ public class MaterialChanger {
 		this._obj = obj;
 		this._overrideMat = overrideMat;
 		this._highlightMat = highlightMat;
-		Debug.Log(obj.transform.parent.transform);
 		this._ground = obj.transform.parent.transform.FindChild("Ground").gameObject;
 		this._animation = obj.transform.parent.transform.FindChild("Animation").gameObject;
+		Debug.Log(this._animation);
 	}
 
 	public void Change<T>() where T: Renderer{
-		Debug.Log(this._obj.GetComponentsInChildren<T>().Length);
 		_ground.SetActive(false);
-		_animation.SetActive(false);
+		
+		
+
+		try {
+			_animation.SetActive(false);
+		} catch {
+			this._animation = this._obj.transform.parent.transform.FindChild("Animation").gameObject;
+			_animation.SetActive(false);
+		}
+		
 		foreach (T m in this._obj.GetComponentsInChildren<T>()) {
             Material[] mats = new Material[m.materials.Length];
             for (int j = 0; j < m.materials.Length; j++) {
@@ -46,8 +54,12 @@ public class MaterialChanger {
 
 	public void Revert<T>() where T: Renderer{
 		_ground.SetActive(true);
-		_animation.SetActive(true);
-		Debug.Log(this._obj.GetComponentsInChildren<T>().Length);
+		try {
+			_animation.SetActive(true);
+		} catch {
+			this._animation = this._obj.transform.parent.transform.FindChild("Animation").gameObject;
+			_animation.SetActive(true);
+		}
 		int index = 0;
 		foreach (T m in this._obj.GetComponentsInChildren<T>()) {
             Material[] mats = new Material[m.materials.Length];

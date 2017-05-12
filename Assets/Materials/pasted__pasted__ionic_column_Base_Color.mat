@@ -7,9 +7,9 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: pasted__pasted__ionic_column_Base_Color
-  m_Shader: {fileID: 4800000, guid: 27f25e268d1376844a7d1f813f76d397, type: 3}
-  m_ShaderKeywords: _EMISSION
-  m_LightmapFlags: 1
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -92,9 +92,6 @@ Material:
         name: _GlossyReflections
       second: 1
     - first:
-        name: _Glow
-      second: 1.13
-    - first:
         name: _Metallic
       second: 0
     - first:
@@ -120,15 +117,6 @@ Material:
       second: 0
     - first:
         name: _ZWrite
-      second: 1
-    - first:
-        name: _factor
-      second: -1
-    - first:
-        name: _maxHeight
-      second: 0.006
-    - first:
-        name: _threshold
       second: 1
     m_Colors:
     - first:

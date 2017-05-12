@@ -130,6 +130,9 @@ Material:
     - first:
         name: _ZWrite
       second: 0
+    - first:
+        name: _maxHeight
+      second: 0.006
     m_Colors:
     - first:
         name: _Color

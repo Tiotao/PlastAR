@@ -36,6 +36,7 @@ public class MarkerManager : MonoBehaviour {
 
 	public GameObject _MarkerNavPrefab;
 
+
 	public GameObject _MarkerNavPlaceholderPrefab;
 
 
@@ -190,7 +191,12 @@ public class MarkerManager : MonoBehaviour {
 				GameObject hotspot = Instantiate(_PostcardHotspotPrefab);
 				hotspot.transform.parent = hotspots.transform;
 				HotspotStory content = hotspot.GetComponent<HotspotStory>();
-				content._coolFact = hotspotInfo._coolFact;
+				if (hotspotInfo._coolFact.Length > 0) {
+					content._coolFact = "Cool Fact: " + hotspotInfo._coolFact;
+				} else {
+					content._coolFact = "";
+				}
+				
 				content._description = hotspotInfo._description;
 				content._sprite = hotspotInfo._sprite;
 				hotspot.GetComponent<RectTransform>().anchoredPosition = hotspotInfo._position;

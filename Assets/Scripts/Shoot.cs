@@ -30,5 +30,6 @@ public class Shoot : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         MainFunction.GetComponent<MainFunctions>().Shoot();
+        
     }
 }

@@ -36,7 +36,7 @@ public class EmailController : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void OnEnable () {
 		_sendPill.SetActive(true);
 		_successPill.SetActive(false);
 		_statusPill.SetActive(false);

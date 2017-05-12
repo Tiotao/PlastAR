@@ -85,6 +85,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     
     public GameObject groundPrefab;
 
+    public GameObject animationPrefab;
+
 #if UNITY_EDITOR
     /// <summary>
     /// Handles GUI text input in Editor where there is no device keyboard.
@@ -172,6 +174,8 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
     private GameObject _buildingGround;
 
     public GameObject _markerPrefab;
+
+    
     
 
 
@@ -220,7 +224,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private void SetRendererActive<T> (GameObject obj, bool isActive) where T: Renderer  {
         Debug.Log("Send Renderer Active");
-        Debug.Log(obj);
         foreach (T m in obj.GetComponentsInChildren<T>()) {
              m.enabled = isActive;
         }
@@ -237,10 +240,16 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         _isPlacingBuilding = true;
         Destroy(buildingSymbol);
         buildingSymbol = null;
+
+
         SetRendererActive<MeshRenderer>(newMarkObject, true);
         SetRendererActive<SkinnedMeshRenderer>(newMarkObject, true);
+
+        Debug.Log("bird count: " + newMarkObject.GetComponentsInChildren<BirdRandomMovement>().Length);
+
         // if has bird
         foreach (BirdRandomMovement bird in newMarkObject.GetComponentsInChildren<BirdRandomMovement>()){
+            
             bird.StartAnimation();
         }
 
@@ -248,8 +257,11 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             human.StartAnimation();
         }
 
+        Debug.Log(_buildingGround);
 
-        // _buildingGround.SetActive(true);
+        _buildingGround.SetActive(true);
+
+        Debug.Log("Meshrenderer Open: " + _buildingGround.GetComponent<MeshRenderer>().enabled);
         
         if (_appearMode == (int) Configs.AppearMode.Grow) {
             Debug.Log("Start placing buildings");
@@ -257,6 +269,7 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
             while (w < 1) {
                 foreach (MeshRenderer m in newMarkObject.GetComponentsInChildren<MeshRenderer>()) {
                     if (m.gameObject.CompareTag("Ground")) {
+                        
                         m.material.SetColor("_Color", new Color(m.material.color.r, m.material.color.g, m.material.color.b, w));
                     } else {
                         foreach (Material mat in m.materials) {
@@ -289,6 +302,49 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     public void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.B)) {
+            buildingSymbol = Instantiate(MarkerManager.GetComponent<MarkerManager>().GetBuildingModel()) as GameObject;
+            buildingAppearFx = Instantiate(GlobalManagement.BuildingAppearFX) as GameObject;
+
+            // if (buildingSymbol.transform.FindChild("Ground") == null) {
+            //     Debug.Log("instantiate ground");
+            //     _buildingGround = Instantiate(groundPrefab);
+            //     _buildingGround.name = "Ground";
+            //     _buildingGround.transform.parent = buildingSymbol.transform;
+            // }
+
+            if (buildingSymbol.transform.Find("Ground")) {
+                _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
+                _buildingGround.SetActive(false);
+            }
+
+            
+
+
+            SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, disallowPlaceMat);
+            
+            if (!buildingOnBoardingA.activeSelf) {
+                buildingOnBoardingA.SetActive(true);
+            }
+
+            if (buildingOnBoardingB.activeSelf) {
+                buildingOnBoardingB.SetActive(false);
+                
+            }
+
+
+            SetCurrentMarkType((int) Configs.MarkerType.Building);
+            GameObject ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
+            _InstantiateBuilding(ObjectToInstant, new Vector3(1, 0, 1));
+            // buildingAppearFx.GetComponent<BuildingGenAnimation>().StartAnimation();
+            // add into global management
+            GlobalManagement.Building = newMarkObject;
+            // destroy guide lines and transparent symbol
+            // GlobalManagement.GuidingLine.SetActive(false);
+            // Debug.Log("Guiding Line Status: " + GlobalManagement.GuidingLine.activeSelf);
+            StartCoroutine(_BuildingAppearEffect(buildingSymbol));
+        }
        
         
         if (m_saveThread != null && m_saveThread.ThreadState != ThreadState.Running)
@@ -355,7 +411,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     ObjectToInstant = MarkerManager.GetComponent<MarkerManager>().GetBuildingModel();
                     // _planeCenter will be zero if no plane found
                     if (_planeCenter != Vector3.zero) {
-                        Debug.Log("Plane is good and placing buildings");
                         _InstantiateBuilding(ObjectToInstant, _planeCenter);
                         buildingAppearFx.GetComponent<BuildingGenAnimation>().StartAnimation();
                         // add into global management
@@ -387,14 +442,18 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     if (_appearMode == (int) Configs.AppearMode.Grow) {
 
                         // prevent from ground elements getting transparent
-                        if (buildingSymbol.transform.FindChild("Ground") == null) {
-                            _buildingGround = Instantiate(groundPrefab);
-                            _buildingGround.name = "Ground";
-                            _buildingGround.transform.parent = buildingSymbol.transform;
-                        }
+                        
+                        // if (buildingSymbol.transform.FindChild("Ground") == null) {
+                        //     Debug.Log("instantiate ground");
+                        //     _buildingGround = Instantiate(groundPrefab);
+                        //     _buildingGround.name = "Ground";
+                        //     _buildingGround.transform.parent = buildingSymbol.transform;
+                        // }
 
-                        _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
-                        _buildingGround.SetActive(false);
+                        if (buildingSymbol.transform.Find("Ground")) {
+                            _buildingGround = buildingSymbol.transform.Find("Ground").gameObject;
+                            _buildingGround.SetActive(false);
+                        }
 
 
                         SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, disallowPlaceMat);
@@ -459,7 +518,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                     
                 } else {
                     if (GlobalManagement.developerMode) {
-                        Debug.Log("find plane...");
                         StartCoroutine(_WaitForDepthAndFindPlane(t.position));
                     }
                 }
@@ -977,30 +1035,49 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
 
     private void _InstantiateBuilding (GameObject ObjectToInstant, Vector3 planeCenter) {
 
-        
+        Debug.Log("start instantiate building");
 
         newMarkObject = Instantiate(ObjectToInstant, planeCenter, Quaternion.identity) as GameObject;
 
-        
+        Debug.Log("animation child count: " + newMarkObject.transform.FindChild("Animation").childCount);
+
+        if (newMarkObject.transform.FindChild("Animation").childCount == 0) {
+            Debug.Log("remove empty animation");
+            Destroy(newMarkObject.transform.FindChild("Animation").gameObject);
+            Debug.Log("Instantiate animation");
+            GameObject ani = Instantiate(animationPrefab);
+            ani.name = "Animation";
+            ani.transform.parent = newMarkObject.transform;
+            ani.transform.localPosition = Vector3.zero;
+        }
+
+        if (newMarkObject.transform.FindChild("Animation") == null) {
+            Debug.Log("Instantiate animation");
+            GameObject ani = Instantiate(animationPrefab);
+            ani.name = "Animation";
+            ani.transform.parent = newMarkObject.transform;
+            ani.transform.localPosition = Vector3.zero;
+        }
         
         _SetUpARScript(newMarkObject);
 
         if (newMarkObject.transform.FindChild("Ground") == null) {
+            Debug.Log("instantiate ground from InstantBuilding");
             _buildingGround = Instantiate(groundPrefab);
             _buildingGround.name = "Ground";
             _buildingGround.transform.parent = newMarkObject.transform;
+            _buildingGround.transform.localPosition = Vector3.zero;
+            _buildingGround.SetActive(false);
         }
 
         if (newMarkObject.GetComponent<manipulate>()) {
             newMarkObject.GetComponent<manipulate>().enabled = true;
             newMarkObject.GetComponent<manipulate>().scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
+            
         } else {
              manipulate buildingCtrl = newMarkObject.AddComponent<manipulate>();
-             Debug.Log(buildingCtrl.highlightMat);
              buildingCtrl.scaleSlider = buildingRenderToggle.transform.FindChild("SizeSlider").gameObject;
         }
-
-        
         
 
         if (buildingOnBoardingA.activeSelf) {
@@ -1081,7 +1158,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                 {
                     buildingSymbol.transform.position = planeCenter;
                     
-                    Debug.Log(planeCenter);
                     
                     if (_appearMode == (int) Configs.AppearMode.Grow) {
                         SetMaterial<MeshRenderer>(buildingSymbol.transform.Find("BuildingModel").gameObject, allowPlaceMat);
@@ -1089,8 +1165,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         // GuidingLine.SetActive(true);
                         buildingAppearFx.transform.position = planeCenter; 
                         buildingAppearFx.SetActive(true);
-
-                        Debug.Log("change to on boardjing B");
 
                         if (buildingOnBoardingA.activeSelf) {
                             buildingOnBoardingA.SetActive(false);
@@ -1100,7 +1174,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                             buildingOnBoardingB.SetActive(true);
                         }
 
-                        Debug.Log("FINISH change to on boardjing B");
 
                         
                     }
@@ -1115,8 +1188,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         // GuidingLine.SetActive(false);
                         buildingAppearFx.SetActive(false);
 
-                        Debug.Log("change to on boardjing A");
-
                         if (!buildingOnBoardingA.activeSelf) {
                             buildingOnBoardingA.SetActive(true);
                         }
@@ -1124,7 +1195,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
                         if (buildingOnBoardingB.activeSelf) {
                             buildingOnBoardingB.SetActive(false);
                         }
-                        Debug.Log("FINISH change to on boardjing A");
                     }
 
                     _planeCenter = Vector3.zero;
@@ -1134,7 +1204,6 @@ public class AreaLearningInGameController : MonoBehaviour, ITangoPose, ITangoEve
         }
 
         
-       Debug.Log("set is looking for plane false");
         _isLookingForPlane = false;
         
         // end of the process
