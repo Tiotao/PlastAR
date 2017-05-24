@@ -140,6 +140,7 @@ public class AreaDescriptionPicker : MonoBehaviour, ITangoLifecycle
         m_guiController.enabled = true;
         m_gameControlPanel.SetActive(true);
         GlobalManagement.OnBoardingView.SetActive(true);
+        
     }
 
     /// <summary>

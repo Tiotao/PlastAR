@@ -32,7 +32,7 @@ public class contentManagement : MonoBehaviour {
         InitializeScreen("NavigationView");
         // LoadData();
 
-
+        
 
     }
 

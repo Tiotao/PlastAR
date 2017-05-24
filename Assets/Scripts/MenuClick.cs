@@ -73,6 +73,7 @@ public class MenuClick : MonoBehaviour
         ScanButton = FunctionView.transform.GetChild(1).gameObject;
         MenuButton = FunctionView.transform.GetChild(2).gameObject;
         navContent = NavigationView.transform.FindChild("Scroll View/Viewport/Content");
+        SaveButton.SetActive(false);
         
 
         // toggle save button based on developer option
